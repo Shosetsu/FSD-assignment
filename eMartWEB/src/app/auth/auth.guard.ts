@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router, CanActivateChild } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SessionControllerService } from '../service/session/session-controller.service';
-import { Constans } from '../constans/constans';
+import { Constants } from '../constans/constans';
 import { Location } from '@angular/common';
 
 @Injectable({
@@ -24,8 +24,8 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       this.router.navigate(['403']);
       return false;
     }
-    let role = Constans.routeAuthLevel[next.routeConfig.path];
-    console.log("#Auth Gurad Ready - " + next.routeConfig.path + " : " + role);
+    let role = Constants.routeAuthLevel[next.routeConfig.path];
+    if (Constants.debugMode) console.log("#Auth Gurad Ready - " + next.routeConfig.path + " : " + role);
 
     if (role && role.indexOf(accountType) == -1) {
       this.location.back();

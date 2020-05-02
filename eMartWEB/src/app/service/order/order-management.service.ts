@@ -4,6 +4,7 @@ import { Message } from 'src/app/bean/message';
 import { OrderDetail } from 'src/app/bean/OrderDetail';
 import { OrderInfo } from 'src/app/bean/OrderInfo';
 import { MessageService } from '../message/message.service';
+import { Constants } from 'src/app/constans/constans';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class OrderManagementService {
   constructor(private msgService: MessageService) { }
 
   getOrderList(accountId: string, sessionKey: string): OrderInfo[] {
-    console.log("#Get account Order list " + accountId);
+    if (Constants.debugMode) console.log("#Get account Order list " + accountId);
     //TODO connect server
 
     return [
@@ -26,7 +27,7 @@ export class OrderManagementService {
   }
 
   getOrderDetail(accountId: string, sessionKey: string, oid: string): OrderDetail {
-    console.log("#Get Order Detail " + oid + " for" + accountId);
+    if (Constants.debugMode) console.log("#Get Order Detail " + oid + " for" + accountId);
     //TODO connect server
 
     return new OrderDetail("O-5332222", "Buyer01", accountId, "TestSell002", ["Category1", "Category2"], "Bbr", 1100, 7, 7700, new Date(2020, 4, 1, 12, 55, 32, 111), "100000")
@@ -53,12 +54,12 @@ export class OrderManagementService {
 
     return 1;
   }
-  purchase(){
+  purchase() {
 
-    
+
     this.clearPurchaseList();
   }
-  
+
   clearPurchaseList() {
     this.purchaseList.splice(0);
   }

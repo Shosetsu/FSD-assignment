@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DirectMessage } from 'src/app/bean/DirectMessage';
+import { Constants } from 'src/app/constans/constans';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class DirectMessageService {
   constructor() { }
 
   getMessageList(accountId, sessionKey): DirectMessage[] {
-    console.log("#Get account DM list " + accountId);
+    if (Constants.debugMode) console.log("#Get account DM list " + accountId);
     //TODO connect server
 
 
@@ -19,7 +20,7 @@ export class DirectMessageService {
   }
 
   sendMessage(msg: DirectMessage): number {
-    console.log("#Send DM to " + msg.sendTo);
+    if (Constants.debugMode) console.log("#Send DM to " + msg.sendTo);
     //TODO connect server
 
     return 1;

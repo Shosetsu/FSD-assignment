@@ -1,4 +1,5 @@
-export const Constans = Object.freeze({
+export const Constants = Object.freeze({
+    debugMode: true,
     routeAuthLevel: {
         'account': 'BSM',
         'detail/:uid': 'BSM',

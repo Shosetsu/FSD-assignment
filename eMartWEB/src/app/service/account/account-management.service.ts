@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CustomerDetail } from 'src/app/bean/CustomerDetail';
 import { SessionControllerService } from '../session/session-controller.service';
 import { CustomerInfo } from 'src/app/bean/CustomerInfo';
+import { Constants } from 'src/app/constans/constans';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class AccountManagementService {
     GSTIN: string,
     bankDetail: string
   }) {
-    console.log('#Regsit user ' + formData.userId);
+    if (Constants.debugMode) console.log('#Regsit user ' + formData.userId);
     //TODO connect server
 
     // regist new session info
@@ -33,7 +34,7 @@ export class AccountManagementService {
   }
 
   unregist(userId: string, sessionKey: string, password: string): number {
-    console.log('#Unregsit user ' + userId + '|' + sessionKey);
+    if (Constants.debugMode) console.log('#Unregsit user ' + userId + '|' + sessionKey);
     //TODO connect server
 
     localStorage['_ssid'] = "";
@@ -42,7 +43,7 @@ export class AccountManagementService {
   }
 
   findAccount(mail: string): number {
-    console.log("#Find Account " + mail);
+    if (Constants.debugMode) console.log("#Find Account " + mail);
     //TODO connect server
 
     return 0;
@@ -50,7 +51,7 @@ export class AccountManagementService {
 
 
   getAccountDetail(accountId: string): CustomerDetail {
-    console.log("#Get account detail " + accountId);
+    if (Constants.debugMode) console.log("#Get account detail " + accountId);
     //TODO connect server
 
 
@@ -59,7 +60,7 @@ export class AccountManagementService {
   }
 
   updateAccountDetail(customerDetail: CustomerDetail, sessionKey: string, password: string): { status: number, newDetail?: CustomerDetail } {
-    console.log("#Update account detail " + customerDetail.accountId);
+    if (Constants.debugMode) console.log("#Update account detail " + customerDetail.accountId);
     //TODO connect server
 
     // regist new session info

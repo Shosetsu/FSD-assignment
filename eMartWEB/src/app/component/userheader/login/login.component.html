@@ -5,11 +5,13 @@
   <form *ngIf="!findAccountFlag && !processed" (ngSubmit)="login(form)" #form="ngForm">
     <p class="form-row">
       <label class="col-3 col-form-label" for="userId">User Id</label>
-      <input class="col-9 form-control" [(ngModel)]="userId" name="userId" id="userId" required type="text">
+      <input class="col-9 form-control" [(ngModel)]="userId" name="userId" id="userId" required type="text"
+        autocomplete="username">
     </p>
     <p class="form-row">
       <label class="col-3 col-form-label" for="password">Password</label>
-      <input class="col-9 form-control" [(ngModel)]="password" name="password" id="password" required type="password">
+      <input class="col-9 form-control" [(ngModel)]="password" name="password" id="password" required type="password"
+        autocomplete="current-password">
     </p>
     <hr>
     <button class="btn {{form.form.valid?'btn-outline-success':'btn-outline-secondary'}} btn-lg btn-block"

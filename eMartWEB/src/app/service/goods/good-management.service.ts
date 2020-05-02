@@ -3,6 +3,7 @@ import { GoodInfo } from '../../bean/GoodInfo';
 import { SessionControllerService } from '../session/session-controller.service';
 import { Message } from 'src/app/bean/message';
 import { MessageService } from '../message/message.service';
+import { Constants } from 'src/app/constans/constans';
 
 @Injectable({
   providedIn: 'root'
@@ -65,7 +66,7 @@ export class GoodManagementService {
       this.cartList.push(targetGood);
     }
 
-    console.log("#add cart: " + good.id + " x" + count);
+    if (Constants.debugMode) console.log("#add cart: " + good.id + " x" + count);
     //this.msgService.addMsg(new Message("primary", "Added " + good.name + " (x " + count + ") to Cart."));
     this.updateCartListToServer();
     return;
@@ -73,7 +74,7 @@ export class GoodManagementService {
 
   private selectCartListFromServer(): GoodInfo[] {
     this.sessionService.getSessionKey();
-    console.log("#load cartlist: " + this.sessionService.getAccountId());
+    if (Constants.debugMode) console.log("#load cartlist: " + this.sessionService.getAccountId());
 
     //TODO server connect
     return [];
@@ -86,7 +87,7 @@ export class GoodManagementService {
 
   private selectCategoryListFromServer(): string[] {
     this.sessionService.getSessionKey();
-    console.log("#load categorylist");
+    if (Constants.debugMode) console.log("#load categorylist");
 
     //TODO server connect
     return ['category1', 'category2', 'category3'];
@@ -94,7 +95,7 @@ export class GoodManagementService {
 
   private selectManufacturerListFromServer(): string[] {
     this.sessionService.getSessionKey();
-    console.log("#load manufacturerList");
+    if (Constants.debugMode) console.log("#load manufacturerList");
 
     //TODO server connect
     return ['manufacturer4', 'manufacturer5', 'manufacturer6'];
@@ -112,7 +113,7 @@ export class GoodManagementService {
   }
 
   queryGood(id: string): GoodInfo {
-    console.log("#Query Item-" + id);
+    if (Constants.debugMode) console.log("#Query Item-" + id);
     //TODO server connect
 
     return new GoodInfo(id, "Item1", "NO-1(tm)",
@@ -121,7 +122,7 @@ export class GoodManagementService {
   }
 
   setBlockStatus(auth_ssKey: string, goodId: string, blockStatus: boolean): string {
-    console.log("#Change id[" + goodId + "] block status to " + (blockStatus ? 'block' : 'non-block'));
+    if (Constants.debugMode) console.log("#Change id[" + goodId + "] block status to " + (blockStatus ? 'block' : 'non-block'));
     //TODO server connect
 
     return "success";

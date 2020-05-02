@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CustomerInfo } from 'src/app/bean/CustomerInfo';
 import { SessionControllerService } from './session-controller.service';
+import { Constants } from 'src/app/constans/constans';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class SessionManagementService {
 
 
   login(id, password): string {
-    console.log("#Log in " + id);
+    if (Constants.debugMode) console.log("#Log in " + id);
 
     //TODO connect server
 
@@ -23,7 +24,7 @@ export class SessionManagementService {
   }
 
   logout(id, sessionKey) {
-    console.log("#Log out " + id);
+    if (Constants.debugMode) console.log("#Log out " + id);
     localStorage['_ssid'] = "";
     this.sessionControllerService.clearSession();
 
@@ -33,7 +34,7 @@ export class SessionManagementService {
 
   checkLoginStatus(sessionKey): CustomerInfo {
     let result = new CustomerInfo('B', 'Setsu', sessionKey);
-    console.log("#Auto Log in " + result.accountId);
+    if (Constants.debugMode) console.log("#Auto Log in " + result.accountId);
 
     //TODO connect server
 
