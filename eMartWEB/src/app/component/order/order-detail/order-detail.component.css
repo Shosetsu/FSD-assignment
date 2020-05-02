@@ -1,5 +1,6 @@
 .container-sm {
     background: #fff3c6;
+    padding: 1em 5em;
 }
 
 .detail-container {
@@ -22,7 +23,7 @@
 }
 
 .detail-content {
-    padding: 1em;
+    padding: 1em 0;
     margin-top: 0.5em;
     border-top: 1.5px dotted slategray;
 }

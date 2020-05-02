@@ -14,8 +14,6 @@ export class MessageComponent {
 
   dmList: DirectMessage[];
 
-  window: Window;
-
   newMessage: DirectMessage;
   sendFlag: boolean;
 
@@ -50,7 +48,6 @@ export class MessageComponent {
 
   ngOnInit() {
     this.dmList = this.dmService.getMessageList(this.sessionService.getAccountId(), this.sessionService.getSessionKey());
-    this.window = window;
   }
 
   back() {

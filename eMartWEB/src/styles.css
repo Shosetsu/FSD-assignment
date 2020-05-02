@@ -40,3 +40,30 @@ body#body {
     background-color: #E2B2A3;
     border-color: #E2B0A0;
 }
+
+app-signup, app-login, app-sellergoodeditor, app-mart-detail, .modal-window {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: .15s linear;
+    z-index: 100;
+}
+
+app-signup .modal-backdrop, app-login .modal-backdrop, app-sellergoodeditor .modal-backdrop, app-mart-detail .modal-backdrop, .modal-window .modal-backdrop {
+    z-index: 200;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+app-signup .modal, app-login .modal, app-sellergoodeditor .modal, app-mart-detail .modal, .modal-window .modal {
+    display: block;
+    z-index: 201;
+    background: #fff3c6;
+    border-radius: 0.5em;
+    padding: 3em 5em;
+    height: auto;
+    position: relative;
+    top: 75px;
+    margin: auto;
+}

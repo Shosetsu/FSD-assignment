@@ -2,7 +2,6 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GoodInfo } from 'src/app/bean/GoodInfo';
-import { Message } from 'src/app/bean/message';
 import { GoodManagementService } from 'src/app/service/goods/good-management.service';
 import { MessageService } from 'src/app/service/message/message.service';
 import { OrderManagementService } from 'src/app/service/order/order-management.service';
@@ -15,7 +14,7 @@ import { SessionControllerService } from 'src/app/service/session/session-contro
   styleUrls: ['./mart-detail.component.css']
 })
 
-export class MartDetailComponent implements OnInit {
+export class MartDetailComponent {
 
   count: number = 1;
 
@@ -38,36 +37,6 @@ export class MartDetailComponent implements OnInit {
     route.params.subscribe(para => {
       this.goodInfo = this.goodService.queryGood(para['gid']);
     });
-  }
-
-  ngOnInit() {
-    setTimeout(() => {
-      this.setModalAxis(true);
-    }, 500);
-  }
-
-  setModalAxis(once: boolean = false) {
-    let modal: HTMLElement = document.querySelector(".modal.good-detail");
-    let axis = modal.getBoundingClientRect();
-    modal.style.top = (window.innerHeight - axis.height) / 2 - 50 + "px";
-    modal.style.left = (window.innerWidth - axis.width) / 2 + "px";
-
-    if ((window.innerHeight - axis.height) / 2 - 50 < 20) {
-      modal.style.top = "20px";
-      modal.classList.add('scroll-bar');
-    } else {
-      modal.classList.remove('scroll-bar');
-    }
-
-    if (once) {
-      setTimeout(() => {
-        modal.classList.add('animation');
-        modal.style.opacity = "1";
-      }, 100);
-      setTimeout(() => {
-        modal.classList.remove('animation');
-      }, 500);
-    }
   }
 
   public isRole(role: string): boolean {

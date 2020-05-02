@@ -4,6 +4,7 @@ import { CommonHeaderModule } from 'src/app/common-header.module';
 import { SellerComponent } from './seller.component';
 import { SellerRoutes } from './seller.routing';
 import { FormsModule } from '@angular/forms';
+import { SellerGoodEditorComponent } from './SellerGoodEditor/SellerGoodEditor.component';
 
 @NgModule({
   imports: [
@@ -12,6 +13,9 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     SellerRoutes
   ],
-  declarations: [SellerComponent]
+  declarations: [
+    SellerComponent,
+    SellerGoodEditorComponent
+  ]
 })
 export class SellerModule { }

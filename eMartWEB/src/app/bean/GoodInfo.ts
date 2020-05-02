@@ -26,4 +26,13 @@ export class GoodInfo {
         }
         return this;
     }
+
+    equals(other: GoodInfo) {
+        for (let key in other) {
+            if (this[key] !== other[key]) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

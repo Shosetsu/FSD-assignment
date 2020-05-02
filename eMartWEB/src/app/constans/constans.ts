@@ -13,8 +13,8 @@ export const Constants = Object.freeze({
         'purchase': 'BS',
         'seller': 'S',
         'seller/:sid': 'SM',
-        'seller/edit/:gid': 'S',
-        'seller/new': 'S',
+        'edit/:gid': 'S',
+        'new': 'S',
         'message': 'BSM'
     },
     goodStatus:[

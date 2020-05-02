@@ -50,21 +50,6 @@ button.menu {
     background-color: inherit;
 }
 
-app-signup, app-login {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    transition: .15s linear;
-    z-index: -1;
-    opacity: 0;
-}
-app-signup.show, app-login.show {
-    z-index: 1050;
-    opacity: 1;
-}
-
 .navi-menu {
     position: absolute;
     opacity: 0;

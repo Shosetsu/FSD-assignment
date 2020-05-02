@@ -17,17 +17,16 @@
     </p>
   </div>
 </div>
-<div *ngIf="sendFlag">
+<div *ngIf="sendFlag" class="modal-window">
   <div class="modal-backdrop" (click)="back()"></div>
-  <div class="modal border dm-send-box" #modal (window:resize)="0"
-    [style.top]="(window.innerHeight - modal.getBoundingClientRect().height) / 2 - 75 + 'px'"
-    [style.left]="(window.innerWidth - modal.getBoundingClientRect().width) / 2 + 'px'">
+  <div class="modal border dm-send-box">
     <form (ngSubmit)="send()" #ndmForm="ngForm">
       <div class="modal-header">
         <h5>Send to {{newMessage.sendTo}}</h5>
       </div>
       <div class="p-3">
-        <textarea name="text" [(ngModel)]="newMessage.text" required class="form-control" placeholder="Typing your message text..."></textarea>
+        <textarea name="text" rows="10" [(ngModel)]="newMessage.text" required class="form-control"
+          placeholder="Typing your message text..."></textarea>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-outline-secondary float-right" (click)="back()">Back</button>

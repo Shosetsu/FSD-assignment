@@ -127,7 +127,7 @@ export class GoodManagementService {
     //TODO server connect
 
     return new GoodInfo(goodId, "Item1", "NO-1(tm)",
-      ["test", "No1"], "first good, asdf asdfasdf asdf asdfasdf asdfasdfasdf asdfasdf asdfasdfasdf",
+      ["category2", "category3"], "first good, asdf asdfasdf asdf asdfasdf asdfasdfasdf asdfasdf asdfasdfasdf",
       56800.66, 99, "Seller1", new Date(2020, 3, 23, 12, 6, 54));
   }
 }
