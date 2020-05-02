@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { GoodInfo } from 'src/app/bean/GoodInfo';
-import { SessionControllerService } from 'src/app/service/session/session-controller.service';
-import { GoodManagementService } from 'src/app/service/goods/good-management.service';
 import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OrderManagementService } from 'src/app/service/order/order-management.service';
-import { MessageService } from 'src/app/service/message/message.service';
+import { GoodInfo } from 'src/app/bean/GoodInfo';
 import { Message } from 'src/app/bean/message';
+import { GoodManagementService } from 'src/app/service/goods/good-management.service';
+import { MessageService } from 'src/app/service/message/message.service';
+import { OrderManagementService } from 'src/app/service/order/order-management.service';
+import { SellerManagementService } from 'src/app/service/seller/seller-management.service';
+import { SessionControllerService } from 'src/app/service/session/session-controller.service';
 
 @Component({
   selector: 'app-mart-detail',
@@ -27,14 +28,15 @@ export class MartDetailComponent implements OnInit {
 
   constructor(
     private sessionSerivce: SessionControllerService,
-    private goodSerivce: GoodManagementService,
+    private goodService: GoodManagementService,
+    private sellerService: SellerManagementService,
     private location: Location,
     private route: ActivatedRoute,
     private router: Router,
     private orderService: OrderManagementService,
     private msgService: MessageService) {
     route.params.subscribe(para => {
-      this.goodInfo = this.goodSerivce.queryGood(para['gid']);
+      this.goodInfo = this.goodService.queryGood(para['gid']);
     });
   }
 
@@ -77,26 +79,35 @@ export class MartDetailComponent implements OnInit {
   }
 
   addCart() {
-    if (!this.count) {
-      this.msgService.addMsg(new Message("warning", "Cannot add 0 items to the cart."));
-      return;
-    }
-    this.goodSerivce.addCart(this.goodInfo, this.count);
+    this.goodService.addCart(this.goodInfo, this.count);
   }
 
   buy() {
-    if (!this.count) {
-      this.msgService.addMsg(new Message("warning", "Cannot purchase 0 items."));
-      return;
-    }
     if (this.orderService.addPurchase(this.goodInfo, this.sessionSerivce.getAccountId(), this.count)) {
       this.router.navigate(['purchase']);
     }
   }
 
+  edit() {
+    this.router.navigate(['/seller/edit/' + this.goodInfo.id]);
+  }
+
   changeBlockStatus() {
-    this.goodSerivce.setBlockStatus(this.sessionSerivce.getSessionKey(), this.goodInfo.id, !this.goodInfo.blockFlag);
-    this.goodInfo.blockFlag = !this.goodInfo.blockFlag;
+    if (this.goodInfo.status === 0) {
+      this.goodInfo.status = 1;
+    } else if (this.goodInfo.status === 1) {
+      this.goodInfo.status = 0;
+    }
+    this.sellerService.setStatus(this.sessionSerivce.getSessionKey(), this.goodInfo.id, this.goodInfo.status);
+  }
+
+  changeArchiveStatus() {
+    if (this.goodInfo.status === 0) {
+      this.goodInfo.status = 2;
+    } else if (this.goodInfo.status === 2) {
+      this.goodInfo.status = 0;
+    }
+    this.sellerService.setStatus(this.sessionSerivce.getSessionKey(), this.goodInfo.id, this.goodInfo.status);
   }
 
   sendDM() {

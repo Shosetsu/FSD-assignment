@@ -5,6 +5,7 @@ import { OrderDetail } from 'src/app/bean/OrderDetail';
 import { OrderInfo } from 'src/app/bean/OrderInfo';
 import { MessageService } from '../message/message.service';
 import { Constants } from 'src/app/constans/constans';
+import { SessionControllerService } from '../session/session-controller.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,9 @@ export class OrderManagementService {
 
   purchaseList: OrderDetail[] = [];
 
-  constructor(private msgService: MessageService) { }
+  constructor(
+    private msgService: MessageService,
+    private session: SessionControllerService) { }
 
   getOrderList(accountId: string, sessionKey: string): OrderInfo[] {
     if (Constants.debugMode) console.log("#Get account Order list " + accountId);
@@ -37,6 +40,14 @@ export class OrderManagementService {
 
   addPurchase(good: GoodInfo, accountId: string, count: number = 1): number {
     //check
+    if (good.owner === this.session.getAccountId()) {
+      this.msgService.addMsg(new Message("warning", "Cannot purchase own item."));
+      return;
+    }
+    if (!count) {
+      this.msgService.addMsg(new Message("warning", "Cannot purchase 0 item."));
+      return 0;
+    }
     if (good.stock < 1) {
       this.msgService.addMsg(new Message("warning", "Sold out. Cannot to purchase."));
       return 0;

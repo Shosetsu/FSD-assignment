@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { GoodInfo } from '../../bean/GoodInfo';
-import { SessionControllerService } from '../session/session-controller.service';
 import { Message } from 'src/app/bean/message';
-import { MessageService } from '../message/message.service';
 import { Constants } from 'src/app/constans/constans';
+import { GoodInfo } from '../../bean/GoodInfo';
+import { MessageService } from '../message/message.service';
+import { SessionControllerService } from '../session/session-controller.service';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +39,16 @@ export class GoodManagementService {
 
   addCart(good: GoodInfo, count: number = 1) {
     //check
+    if(good.owner===this.sessionService.getAccountId()){
+      this.msgService.addMsg(new Message("warning", "Cannot add own item to cart."));
+      return;
+    }
+
+    if (!count) {
+      this.msgService.addMsg(new Message("warning", "Cannot add 0 item to the cart."));
+      return;
+    }
+
     if (good.stock < 1) {
       this.msgService.addMsg(new Message("warning", "Sold out. Cannot add to cart."));
       return;
@@ -112,19 +122,12 @@ export class GoodManagementService {
     new GoodInfo("100002", "Item3", "last company", ["tool", "food"], "3rd good", 999.75, 4, "Setsu", new Date(2020, 3, 25, 18, 6, 58))];
   }
 
-  queryGood(id: string): GoodInfo {
-    if (Constants.debugMode) console.log("#Query Item-" + id);
+  queryGood(goodId: string): GoodInfo {
+    if (Constants.debugMode) console.log("#Query Item-" + goodId);
     //TODO server connect
 
-    return new GoodInfo(id, "Item1", "NO-1(tm)",
+    return new GoodInfo(goodId, "Item1", "NO-1(tm)",
       ["test", "No1"], "first good, asdf asdfasdf asdf asdfasdf asdfasdfasdf asdfasdf asdfasdfasdf",
       56800.66, 99, "Seller1", new Date(2020, 3, 23, 12, 6, 54));
-  }
-
-  setBlockStatus(auth_ssKey: string, goodId: string, blockStatus: boolean): string {
-    if (Constants.debugMode) console.log("#Change id[" + goodId + "] block status to " + (blockStatus ? 'block' : 'non-block'));
-    //TODO server connect
-
-    return "success";
   }
 }

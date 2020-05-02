@@ -33,11 +33,10 @@ export class SessionManagementService {
   }
 
   checkLoginStatus(sessionKey): CustomerInfo {
-    let result = new CustomerInfo('B', 'Setsu', sessionKey);
+    let result = new CustomerInfo('S', 'Setsu', sessionKey);
     if (Constants.debugMode) console.log("#Auto Log in " + result.accountId);
 
     //TODO connect server
-
 
     this.sessionControllerService.init(result);
     return result;

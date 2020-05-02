@@ -15,7 +15,7 @@ export class AccountDetailComponent {
   constructor(private route: ActivatedRoute, private accountService: AccountManagementService, private sessionService: SessionControllerService) {
     this.route.params.subscribe(para => {
       let id = para['uid'] ? "" + para['uid'] : sessionService.getAccountId();
-      this.customerDetail = this.accountService.getAccountDetail(id);
+      this.customerDetail = this.accountService.getAccountDetail(id, sessionService.getSessionKey());
     });
     this.changedDetail = new CustomerDetail();
   }

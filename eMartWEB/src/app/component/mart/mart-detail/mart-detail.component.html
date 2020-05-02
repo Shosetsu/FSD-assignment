@@ -2,7 +2,7 @@
 <div class="modal container-md border good-detail" (window:resize)="setModalAxis()">
   <a class="close-btn" type="button" (click)="close()"></a>
   <app-messageheader></app-messageheader>
-  <div class="">
+  <div>
     <div class="float-left">
       <img class="rounded" [src]='"../../../../assets/good/"+goodInfo.id+".jpg"' alt="img-{{goodInfo.id}}" width="350">
     </div>
@@ -17,13 +17,15 @@
         </div>
         <div class="col-6">
           <div class="ml-3 float-right link-btn-group" *ngIf="isOwner()||isRole('M')">
-            <a href="javascript:;" (click)="editFlag=true;" *ngIf="isOwner()">Edit</a>
-            <a href="javascript:;" (click)="changeBlockStatus()"
-              *ngIf="isRole('M')">{{goodInfo.blockFlag?"Unblock":"Block"}}</a>
+            <button type="button" class="btn btn-link" (click)="edit()" *ngIf="isOwner()">Edit</button>
+            <button type="button" class="btn btn-link" (click)="changeBlockStatus()"
+              *ngIf="isRole('M')&&goodInfo.status!==2">{{goodInfo.status===1?"Unblock":"Block"}}</button>
+            <button type="button" class="btn btn-link" (click)="changeArchiveStatus()"
+              *ngIf="isOwner()&&goodInfo.status!==1">{{goodInfo.status===2?"Restore":"Archive"}}</button>
           </div>
-          <a href="javascript:;" class="float-right m-auto" (click)="sendDM()">Owner:{{goodInfo.owner}}
-            <img src="../../../../assets/dm.svg" height="20">
-          </a>
+          <button type="button" class="btn btn-link float-right m-auto" (click)="sendDM()" [disabled]="isOwner()" >Owner:{{goodInfo.owner}}
+            <img src="../../../../assets/dm.svg" height="20" *ngIf="!isOwner()">
+          </button>
         </div>
       </div>
       <div class="row">

@@ -1,5 +1,5 @@
 <div class="container-sm p-4 rounded border">
-  <app-messageheader></app-messageheader>
+  <router-outlet></router-outlet>
   <button class="btn btn-outline-secondary mb-3" (click)="back()">Back</button>
   <div *ngFor="let orderDetail of orderDetailList" class="detail-content">
     <div class="float-left">
@@ -47,7 +47,7 @@
       </div>
       <div class="row mt-2 ml-3" *ngIf="!purchaseFlag">
         <div class="col-12"><button type="button" class="btn btn-link"
-            routerLink="/mart/detail/{{orderDetail.goodId}}">Refer Detail</button></div>
+            routerLink="./{{orderDetail.goodId}}">Refer Detail</button></div>
       </div>
     </div>
   </div>

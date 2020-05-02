@@ -12,6 +12,12 @@ export const Constants = Object.freeze({
         'order/detail/:oid': 'BS',
         'purchase': 'BS',
         'seller': 'S',
+        'seller/:sid': 'SM',
+        'seller/edit/:gid': 'S',
+        'seller/new': 'S',
         'message': 'BSM'
-    }
+    },
+    goodStatus:[
+        'normal','blocked','archived'
+    ]
 });

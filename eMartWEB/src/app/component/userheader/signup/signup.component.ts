@@ -12,7 +12,7 @@ export class SignupComponent implements OnInit {
 
   @Output() closer = new EventEmitter();
 
-  userId: string;
+  accountId: string;
   password: string;
   rePassword: string;
   email: string;
@@ -36,7 +36,7 @@ export class SignupComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     let result = this.accountManagementService.regist({
-      userId: this.userId,
+      accountId: this.accountId,
       password: this.password,
       rePassword: this.rePassword,
       email: this.email,

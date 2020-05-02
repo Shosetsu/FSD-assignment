@@ -20,6 +20,7 @@ import { MessageService } from './service/message/message.service';
 import { OrderManagementService } from './service/order/order-management.service';
 import { SessionControllerService } from './service/session/session-controller.service';
 import { ForbiddenComponent } from './component/common/forbidden.component';
+import { SellerManagementService } from './service/seller/seller-management.service';
 
 @NgModule({
    declarations: [
@@ -47,7 +48,8 @@ import { ForbiddenComponent } from './component/common/forbidden.component';
       { provide: 'GoodManagementService', useClass: GoodManagementService },
       { provide: 'MessageService', useClass: MessageService },
       { provide: 'DirectMessageService', useClass: DirectMessageService },
-      { provide: 'OrderManagementService', useClass: OrderManagementService }
+      { provide: 'OrderManagementService', useClass: OrderManagementService },
+      { provide: 'SellerManagementService', useClass: SellerManagementService }
    ],
    bootstrap: [
       AppComponent

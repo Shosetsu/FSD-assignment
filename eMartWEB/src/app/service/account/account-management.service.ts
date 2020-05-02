@@ -12,7 +12,7 @@ export class AccountManagementService {
   constructor(private sessionService: SessionControllerService) { }
 
   regist(formData: {
-    userId: string,
+    accountId: string,
     password: string,
     rePassword: string,
     email: string,
@@ -23,18 +23,18 @@ export class AccountManagementService {
     GSTIN: string,
     bankDetail: string
   }) {
-    if (Constants.debugMode) console.log('#Regsit user ' + formData.userId);
+    if (Constants.debugMode) console.log('#Regsit user ' + formData.accountId);
     //TODO connect server
 
     // regist new session info
     let newSessionKey = new Date().toLocaleString() + "_0";
     localStorage['_ssid'] = newSessionKey;
-    this.sessionService.init(new CustomerInfo(formData.asSeller ? "S" : "B", formData.userId, newSessionKey));
+    this.sessionService.init(new CustomerInfo(formData.asSeller ? "S" : "B", formData.accountId, newSessionKey));
     return 0;
   }
 
-  unregist(userId: string, sessionKey: string, password: string): number {
-    if (Constants.debugMode) console.log('#Unregsit user ' + userId + '|' + sessionKey);
+  unregist(accountId: string, sessionKey: string, password: string): number {
+    if (Constants.debugMode) console.log('#Unregsit user ' + accountId + '|' + sessionKey);
     //TODO connect server
 
     localStorage['_ssid'] = "";
@@ -49,8 +49,22 @@ export class AccountManagementService {
     return 0;
   }
 
+  getSellerCreateDate(accountId: string, sessionKey: string): Date {
+    if (Constants.debugMode) console.log("#Get account seller date " + accountId);
+    //TODO connect server
 
-  getAccountDetail(accountId: string): CustomerDetail {
+    return new Date(2019, 5, 6, 22, 12, 54);
+  }
+
+  getSellerOverviewInDate(accountId: string, sessionKey: string, range: string = 'all'): { count: number, amount: number } {
+    if (Constants.debugMode) console.log("#Get account sales info in " + range);
+    //TODO connect server
+
+    return { count: Math.round(Math.random() * 100), amount: Math.round(Math.random() * 5000) }
+  }
+
+
+  getAccountDetail(accountId: string, sessionKey: string): CustomerDetail {
     if (Constants.debugMode) console.log("#Get account detail " + accountId);
     //TODO connect server
 

@@ -1,6 +1,9 @@
 export class GoodInfo {
     public count: number;
-
+    /**
+     * 
+     * @param status 0:normal,1:blocked,2.archived
+     */
     constructor(
         public id?: string,
         public name?: string,
@@ -11,7 +14,7 @@ export class GoodInfo {
         public stock?: number,
         public owner?: string,
         public createdDate?: Date,
-        public blockFlag?: boolean) { }
+        public status: number = 0) { }
 
     clone(): GoodInfo {
         return new GoodInfo().init(this);

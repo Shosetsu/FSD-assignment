@@ -1,0 +1,50 @@
+.sales-header div, .sales-item div {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.sales-header {
+    border: 1px solid #AAA;
+    border-top: none;
+    padding: 0 0.3em;
+    margin: 0 2em;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+    background: linear-gradient(to bottom, #e1eec3BB, #f05053AA);
+}
+
+.sales-header .custom-select.filter-month {
+    box-shadow: none;
+    background-color: inherit;
+    border: none;
+    padding: 0;
+    width: 100px;
+    font-weight: 600;
+    height: auto;
+}
+
+.sales-header .content {
+    padding: 0 1rem 1rem;
+    margin: 0;
+}
+
+.sales-item {
+    padding: 0.5em 0;
+    min-height: calc(75px + 1em);
+}
+
+.sales-item.new-item {
+    cursor: pointer;
+}
+
+.sales-item.new-item:hover {
+    background-color: wheat;
+}
+
+.sales-item:not(:last-child) {
+    border-bottom: 2px dotted #dddddd;
+}
+
+.sales-item.archived, .sales-item.blocked {
+    background-color: #DDDD;
+}
