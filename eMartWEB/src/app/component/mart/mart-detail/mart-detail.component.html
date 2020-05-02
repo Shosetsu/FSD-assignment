@@ -53,6 +53,10 @@
         <button type="button" class="btn {{isOwner()?'btn-secondary':'btn-primary'}}" [disabled]="isOwner()"
           (click)="buy()">Buy</button>
       </div>
+      <div class="row detail-button-group mt-2" *ngIf="!isRole('BSM')">
+        <button type="button" class="btn btn-success" (click)="redirectLogin()">Add to Cart</button>
+        <button type="button" class="btn btn-primary" (click)="redirectLogin()">Buy</button>
+      </div>
     </div>
   </div>
   <hr>

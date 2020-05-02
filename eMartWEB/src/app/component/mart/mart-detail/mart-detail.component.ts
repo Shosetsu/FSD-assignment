@@ -32,9 +32,9 @@ export class MartDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private orderService: OrderManagementService,
-    private msgService:MessageService) {
+    private msgService: MessageService) {
     route.params.subscribe(para => {
-      this.goodInfo = this.goodSerivce.queryGood(para['id']);
+      this.goodInfo = this.goodSerivce.queryGood(para['gid']);
     });
   }
 
@@ -77,7 +77,7 @@ export class MartDetailComponent implements OnInit {
   }
 
   addCart() {
-    if(!this.count){
+    if (!this.count) {
       this.msgService.addMsg(new Message("warning", "Cannot add 0 items to the cart."));
       return;
     }
@@ -85,7 +85,7 @@ export class MartDetailComponent implements OnInit {
   }
 
   buy() {
-    if(!this.count){
+    if (!this.count) {
       this.msgService.addMsg(new Message("warning", "Cannot purchase 0 items."));
       return;
     }
@@ -98,13 +98,18 @@ export class MartDetailComponent implements OnInit {
     this.goodSerivce.setBlockStatus(this.sessionSerivce.getSessionKey(), this.goodInfo.id, !this.goodInfo.blockFlag);
     this.goodInfo.blockFlag = !this.goodInfo.blockFlag;
   }
-  
+
   sendDM() {
     this.router.navigate(['/message'], {
       queryParams: {
         s: this.goodInfo.owner
       }
     });
+  }
+
+  redirectLogin() {
+    let loginBtn: HTMLLinkElement = document.querySelector('#login-btn');
+    loginBtn.click();
   }
 
   close() {

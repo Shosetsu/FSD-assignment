@@ -19,7 +19,6 @@ export class GoodInfo {
 
     init(other: GoodInfo): GoodInfo {
         for (let key in other) {
-            console.log(key);
             this[key] = other[key];
         }
         return this;

@@ -1,14 +1,16 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AccountManagementService } from 'src/app/service/account/account-management.service';
+import { SessionControllerService } from 'src/app/service/session/session-controller.service';
 import { SessionManagementService } from 'src/app/service/session/session-management.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnDestroy {
 
   @Output() loginUper = new EventEmitter();
 
@@ -21,13 +23,14 @@ export class LoginComponent implements OnInit {
 
   email: string;
 
-
-
   constructor(
     private accountManagementService: AccountManagementService,
-    private sessionManagementService: SessionManagementService) { }
+    private sessionManagementService: SessionManagementService,
+    private sessionControllerService: SessionControllerService,
+    private router: Router) { }
 
-  ngOnInit() {
+  ngOnDestroy() {
+    this.processed = false;
   }
 
   login(form: NgForm) {
@@ -37,7 +40,15 @@ export class LoginComponent implements OnInit {
         this.loginUper.emit(response);
         this.processed = true;
 
-        setTimeout('document.querySelector(".modal-backdrop").click()', 500);
+        setTimeout(() => {
+          let shadow: HTMLDivElement = document.querySelector(".modal-backdrop");
+          shadow.click();
+        }, 500);
+
+        let redirectUrl = this.sessionControllerService.getRedirectUrl();
+        if (redirectUrl) {
+          this.router.navigateByUrl(redirectUrl);
+        }
       } else {
         //...
       }
@@ -54,6 +65,5 @@ export class LoginComponent implements OnInit {
 
   close() {
     this.loginUper.emit(false);
-    this.processed = false;
   }
 }

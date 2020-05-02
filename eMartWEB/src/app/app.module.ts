@@ -6,10 +6,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CommonHeaderModule } from './common-header.module';
 import { AccountModule } from './component/account/account.module';
+import { NotFoundComponent } from './component/common/not-found.component';
 import { MartModule } from './component/mart/mart.module';
 import { MessageComponent } from './component/message/message.component';
 import { OrderModule } from './component/order/order.module';
-import { SellerComponent } from './component/seller/seller.component';
+import { SellerModule } from './component/seller/seller.module';
 import { LoginComponent } from './component/userheader/login/login.component';
 import { SignupComponent } from './component/userheader/signup/signup.component';
 import { UserheaderComponent } from './component/userheader/userheader.component';
@@ -18,18 +19,17 @@ import { DirectMessageService } from './service/message/direct-message.service';
 import { MessageService } from './service/message/message.service';
 import { OrderManagementService } from './service/order/order-management.service';
 import { SessionControllerService } from './service/session/session-controller.service';
-
-
-
+import { ForbiddenComponent } from './component/common/forbidden.component';
 
 @NgModule({
    declarations: [
       AppComponent,
       UserheaderComponent,
-      SellerComponent,
       MessageComponent,
       SignupComponent,
-      LoginComponent
+      LoginComponent,
+      NotFoundComponent,
+      ForbiddenComponent
    ],
    imports: [
       CommonHeaderModule,
@@ -38,6 +38,7 @@ import { SessionControllerService } from './service/session/session-controller.s
       MartModule,
       AccountModule,
       OrderModule,
+      SellerModule,
       AppRoutingModule,
       NgbModule
    ],

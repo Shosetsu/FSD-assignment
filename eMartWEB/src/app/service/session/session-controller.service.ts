@@ -1,13 +1,23 @@
 import { Injectable } from '@angular/core';
 import { CustomerInfo } from 'src/app/bean/CustomerInfo';
-import { SessionManagementService } from './session-management.service';
-import { CustomerDetail } from 'src/app/bean/CustomerDetail';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionControllerService {
   private customerInfomation: CustomerInfo;
+
+  private redirectUrl: string;
+
+  setRedirectUrl(url: string) {
+    this.redirectUrl = url;
+  }
+
+  getRedirectUrl(): string {
+    let url = this.redirectUrl;
+    this.redirectUrl = null;
+    return url;
+  }
 
   constructor() {
     this.init(new CustomerInfo);
@@ -20,7 +30,7 @@ export class SessionControllerService {
       this.customerInfomation.init(customerInfomation);
     }
   }
-  
+
   public getSessionKey(): string {
     return this.customerInfomation.sessionKey;
   }

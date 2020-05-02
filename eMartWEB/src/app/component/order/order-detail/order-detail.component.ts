@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderDetail } from 'src/app/bean/OrderDetail';
 import { OrderManagementService } from 'src/app/service/order/order-management.service';
@@ -10,7 +10,7 @@ import { SessionControllerService } from 'src/app/service/session/session-contro
   templateUrl: './order-detail.component.html',
   styleUrls: ['./order-detail.component.css']
 })
-export class OrderDetailComponent {
+export class OrderDetailComponent implements OnDestroy {
 
   orderDetailList: OrderDetail[];
   accountId: string;
@@ -30,25 +30,32 @@ export class OrderDetailComponent {
     if (route.routeConfig.path === 'purchase') {
       this.orderDetailList = orderService.getPurchaseList();
       if (this.orderDetailList.length == 0) {
-        router.navigate(["404"]);
+        router.navigate(['']);
       }
       this.purchaseFlag = true;
 
     } else {
       route.params.subscribe(para => {
-        this.orderDetailList = [orderService.getOrderDetail(session.getAccountId(), session.getSessionKey(), para['oid'])];
+        let orderDetail = orderService.getOrderDetail(session.getAccountId(), session.getSessionKey(), para['oid']);
+        if (orderDetail) {
+          this.orderDetailList = [orderDetail];
+        } else {
+          router.navigate(['404']);
+        }
       });
+    }
+  }
+  ngOnDestroy(): void {
+    if (this.purchaseFlag) {
+      this.orderService.clearPurchaseList();
     }
   }
 
   back() {
-    if (this.purchaseFlag) {
-      this.orderService.clearPurchaseList();
-    }
     this.location.back();
   }
 
-  purchase(){    
+  purchase() {
     this.orderService.purchase();
   }
 }
