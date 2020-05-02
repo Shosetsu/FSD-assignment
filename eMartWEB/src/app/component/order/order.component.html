@@ -1,0 +1,25 @@
+<div class="container-sm p-4">
+  <app-messageheader></app-messageheader>
+  <button class="btn btn-outline-warning mb-3" (click)="back()">Back</button>
+  <div class="order-header row">
+    <div class="col-1">Type</div>
+    <div class="col-6">Item</div>
+    <div class="col-1">Count</div>
+    <div class="col-2">Amount</div>
+    <div class="col-2">Date</div>
+  </div>
+  <div *ngIf="orderList.length==0" class="row text-center">No Order.</div>
+  <div *ngFor="let od of orderList" class="order-item row" (click)="openDetail(od)" >
+    <div class="col-1">{{od.seller == id?'Sold':od.buyer == id?'Buy':'Observer'}}</div>
+    <div class="col-2">
+      <img class="rounded" [src]='"../../../assets/good/"+od.goodId+".jpg"' alt="img-{{od.goodId}}" height="72" width="72">
+    </div>
+    <div class="col-4">
+      {{od.manufacturer}}<br>
+      {{od.name}}
+    </div>
+    <div class="col-1">{{od.count}}</div>
+    <div class="col-2">{{od.seller == id?'+':od.buyer == id?'-':''}}&nbsp;{{od.amount | priceFormat}}</div>
+    <div class="col-2">{{od.timestamp | date:'yyyy/M/d hh:mm:ss'}}</div>
+  </div>
+</div>

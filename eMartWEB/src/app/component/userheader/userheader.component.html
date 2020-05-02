@@ -1,0 +1,33 @@
+<nav class="navbar" id="header">
+  <div>
+    <button type="menu" class="menu" #menuB>
+      <div role='img' svgicon="menu" class="mat-icon" (click)="menuOpen=!menuOpen"><svg focusable="false"
+          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+        </svg></div>
+    </button>
+    <a class="navbar-brand" routerLink="/">eMart</a>
+    <span class="navbar-text" *ngIf="isRole('BSM')">Welcome {{getAccountId()}}!</span>
+  </div>
+
+  <div class="navbar-link">
+    <li *ngIf="isRole('BS')"><a routerLink="order">Order</a></li>
+    <li *ngIf="isRole('S')"><a routerLink="seller">Seller Center</a></li>
+    <li *ngIf="isRole('BS')"><a routerLink="cart">Cart</a></li>
+    <li *ngIf="isRole('BSM')"><a routerLink="message">Message</a></li>
+    <li *ngIf="isRole('A')"><a (click)="signUp(true)" href="javascript:;">Sign up</a></li>
+    <li *ngIf="isRole('B')"><a (click)="openAccountInfo();" href="javascript:;">Update to Seller!</a></li>
+    <li *ngIf="isRole('A')"><a (click)="login(true)" href="javascript:;">Log in</a></li>
+    <li *ngIf="isRole('BSM')"><a (click)="logout()" href="/">Log out</a></li>
+  </div>
+  <!--/.nav-collapse -->
+</nav>
+<div [class.show]="menuOpen" class="navi-menu btn-group-vertical"
+  [style.left]="menuB.getBoundingClientRect().left+'px'">
+  <button type="menu" *ngIf="isRole('BSM')" class="btn account-info" (click)="openAccountInfo();menuOpen=false">User
+    Information</button>
+  <button type="menu" *ngFor="let category of getCategoryList()" class="btn"
+    (click)="filter(category);menuOpen=false">{{category}}</button>
+</div>
+<app-signup *ngIf="this.signUpFlag" [class.show]="this.signUpFlag" (closer)='signUp($event)'></app-signup>
+<app-login *ngIf="this.loginFlag" [class.show]="this.loginFlag" (loginUper)='login($event)'></app-login>

@@ -1,0 +1,71 @@
+<h4 class="mt-3 p-2">Account Info</h4>
+<hr>
+<form (ngSubmit)="changeDetail(changeInfoForm)" #changeInfoForm="ngForm" [class.was-validated]="submited">
+  <div class="row">
+    <div class="col-4">Account Id</div>
+    <div class="col-8"><span>{{customerDetail.accountId}}</span></div>
+  </div>
+  <div class="row">
+    <div class="col-4">Account Type</div>
+    <div class="col-8">
+      <span>{{(changedDetail.accountType | emptyFormat:customerDetail.accountType) | accountTypeFormat}}</span></div>
+  </div>
+  <div class="row" *ngIf="isRole('BS')">
+    <div class="col-4">Mail Address</div>
+    <div class="col-8" *ngIf="!changeFlag"><span>{{customerDetail.email}}</span></div>
+    <div class="col-8" *ngIf="changeFlag"><input class="form-control" name="email" [(ngModel)]="changedDetail.email"
+        [placeholder]="customerDetail.email" type="email" required></div>
+  </div>
+  <div class="row" *ngIf="isRole('BS')">
+    <div class="col-4">Phone Number</div>
+    <div class="col-8" *ngIf="!changeFlag"><span>{{customerDetail.telNumber | emptyFormat}}</span></div>
+    <div class="col-8" *ngIf="changeFlag"><input class="form-control" name="telNumber" [required]="isRole('B')"
+        [(ngModel)]="changedDetail.telNumber" [placeholder]="customerDetail.telNumber" type="tel"></div>
+  </div>
+  <div class="row" *ngIf="isRole('S')">
+    <div class="col-4">Address</div>
+    <div class="col-8" *ngIf="!changeFlag"><span>{{customerDetail.postalAddr}}</span></div>
+    <div class="col-8" *ngIf="changeFlag"><input class="form-control" name="postalAddr"
+        [(ngModel)]="changedDetail.postalAddr" [placeholder]="customerDetail.postalAddr" type="text" required></div>
+  </div>
+  <div class="row" *ngIf="isRole('S')">
+    <div class="col-4">Conpany Name</div>
+    <div class="col-8" *ngIf="!changeFlag"><span>{{customerDetail.coName}}</span></div>
+    <div class="col-8" *ngIf="changeFlag"><input class="form-control" name="coName" [(ngModel)]="changedDetail.coName"
+        [placeholder]="customerDetail.coName" type="text" required></div>
+  </div>
+  <div class="row" *ngIf="isRole('S')">
+    <div class="col-4">Banking Information</div>
+    <div class="col-8" *ngIf="!changeFlag">
+      <span>{{customerDetail.bankDetail | bankInfoFormat:customerDetail.GSTIN}}</span></div>
+    <div class="col-8 d-inline-flex" *ngIf="changeFlag">
+      <input class="form-control col-3" name="gstin" [(ngModel)]="changedDetail.GSTIN" type="text"
+        [required]="customerDetail.accountType==='B'"
+        [placeholder]="customerDetail.accountType==='S'?'Typing to change':'GSTIN'">&nbsp;&nbsp;
+      <input class="form-control" name="bankDetail" [(ngModel)]="changedDetail.bankDetail" type="text"
+        [required]="customerDetail.accountType==='B'"
+        [placeholder]="customerDetail.accountType==='S'?'Typing to change':'Bank Detail'">
+    </div>
+  </div>
+  <div class="row" *ngIf="changeFlag">
+    <div class="col-4">New Password</div>
+    <div class="col-8"><input type="password" class="form-control" [(ngModel)]="newPassword" name="newPass"
+        placeholder="Typing to change"></div>
+  </div>
+  <div class="row" *ngIf="changeFlag">
+    <div class="col-4">Old Password</div>
+    <div class="col-8"><input type="password" class="form-control" [(ngModel)]="oldPassword" name="oldPass"
+        placeholder="Confirm your current password" required minlength="4"></div>
+  </div>
+  <div class="row mb-3" *ngIf="isOwner()||isRole('M')">
+    <div class="col-12">
+      <button type="button" class="btn btn-secondary float-right" (click)="openChange()"
+        *ngIf="!changeFlag">Change</button>
+      <button type="button" class="btn btn-primary float-right mr-3" *ngIf="!changeFlag&&isRole('B')"
+        (click)="openChange();changedDetail.accountType='S'">Update to Seller!</button>
+      <button type="submit" class="btn btn-primary float-right" *ngIf="changeFlag">Confirm</button>
+      <button type="button" class="btn btn-secondary float-right mr-3" (click)="discard(changeInfoForm)"
+        *ngIf="changeFlag">Discard</button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,26 @@
+.account-info-navi {
+    padding: 0;
+    display: block;
+}
+
+.account-info-navi .btn {
+    height: 8em;
+    border: 1px solid #DDD;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+}
+
+.account-info-navi .btn.actived {
+    background-color: antiquewhite;
+}
+
+.account-info-navi .btn:hover {
+    background-color: ivory;
+}
+
+.main-box {
+    border: 1px solid #DDD;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}

@@ -1,0 +1,62 @@
+<div class="container-sm p-4 rounded border">
+  <app-messageheader></app-messageheader>
+  <button class="btn btn-outline-secondary mb-3" (click)="back()">Back</button>
+  <div *ngFor="let orderDetail of orderDetailList" class="detail-content">
+    <div class="float-left">
+      <img class="rounded" [src]='"../../../../assets/good/"+orderDetail.goodId+".jpg"' alt="img-{{orderDetail.goodId}}"
+        width="350">
+    </div>
+    <div class="detail-container">
+      <div class="row header">
+        <div class="category col-9">
+          <span class='category-item' *ngFor="let category of orderDetail.category">
+            {{category}}
+          </span>
+        </div>
+      </div>
+      <div class="row header">
+        <div class="ml-4 manufacturer col-9">{{orderDetail.manufacturer}}</div>
+      </div>
+      <div class="row">
+        <div class="col-3">Name</div>
+        <div class="col-9">{{orderDetail.name}}</div>
+      </div>
+      <div class="row">
+        <div class="col-3">Price</div>
+        <div class="col-9">{{orderDetail.price | priceFormat}}</div>
+      </div>
+      <div class="row">
+        <div class="col-3">Count</div>
+        <div class="col-9">{{orderDetail.count}}</div>
+      </div>
+      <div class="row">
+        <div class="col-3">Amount</div>
+        <div class="col-9">{{orderDetail.amount | priceFormat}}</div>
+      </div>
+      <div class="row" *ngIf="!purchaseFlag">
+        <div class="col-3">Timstamp</div>
+        <div class="col-9">{{orderDetail.timestamp | date:'yyyy/M/d hh:mm:ss'}}</div>
+      </div>
+      <div class="row" *ngIf="orderDetail.buyer!==accountId">
+        <div class="col-3">Buyer</div>
+        <div class="col-9">{{orderDetail.buyer}}</div>
+      </div>
+      <div class="row" *ngIf="orderDetail.seller!==accountId">
+        <div class="col-3">Seller</div>
+        <div class="col-9">{{orderDetail.seller}}</div>
+      </div>
+      <div class="row mt-2 ml-3" *ngIf="!purchaseFlag">
+        <div class="col-12"><button type="button" class="btn btn-link"
+            routerLink="/mart/detail/{{orderDetail.goodId}}">Refer Detail</button></div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="purchaseFlag">
+    <hr>
+    <div class="row">
+      <div class="col-5"></div>
+      <button type="button" class="btn m-auto col-2 btn-purchase">Purchase</button>
+      <div class="col-5"></div>
+    </div>
+  </div>
+</div>

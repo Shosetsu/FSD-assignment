@@ -1,0 +1,21 @@
+.modal-backdrop {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.modal.container {
+    display: block;
+    z-index: 1050;
+    margin: auto;
+    margin-top: 135px;
+    background: #fff3c6;
+    background: linear-gradient(to bottom, #FFFFFF, #c6ffdd, #f9dc9a);
+    border-radius: 2.5em;
+    padding: 3em 5em;
+    height: auto;
+    position: relative;
+    max-width: 572px;
+}
+
+.form-row{
+    margin-right: 0;
+}

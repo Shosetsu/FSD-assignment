@@ -1,0 +1,13 @@
+.row {
+    padding: 0 1em;
+    height: 2em;
+}
+
+.row:not(:first-child) {
+    margin-top: 1.2em;
+}
+
+.row div {
+    margin-top: auto;
+    margin-bottom: auto;
+}

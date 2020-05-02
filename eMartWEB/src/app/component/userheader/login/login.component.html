@@ -1,0 +1,46 @@
+<div class="modal-backdrop" (click)="close()"></div>
+<div class="modal container border login">
+  <h4>{{findAccountFlag?"Find Account":"Log In"}}</h4>
+  <hr>
+  <form *ngIf="!findAccountFlag && !processed" (ngSubmit)="login(form)" #form="ngForm">
+    <p class="form-row">
+      <label class="col-3 col-form-label" for="userId">User Id</label>
+      <input class="col-9 form-control" [(ngModel)]="userId" name="userId" id="userId" required type="text">
+    </p>
+    <p class="form-row">
+      <label class="col-3 col-form-label" for="password">Password</label>
+      <input class="col-9 form-control" [(ngModel)]="password" name="password" id="password" required type="password">
+    </p>
+    <hr>
+    <button class="btn {{form.form.valid?'btn-outline-success':'btn-outline-secondary'}} btn-lg btn-block"
+      [disabled]="form.form.invalid">Login</button>
+    <hr>
+    <a href="javascript:" (click)="findAccountFlag=true;form.form.reset();"><img
+        src="../../../../assets/questionMark.svg" height="16" width="16">forgot your account info...</a>
+  </form>
+  <form *ngIf="findAccountFlag && !processed" (ngSubmit)="findAccount(form2)" #form2="ngForm">
+    <p class="form-row">
+      <input class="col form-control" [(ngModel)]="email" name="email" id="email" required type="email" (keyup)="0"
+        placeholder="Press your Mail Address">
+    </p>
+    <hr>
+    <div style="float: right;" class="btn-group" role="group">
+      <button type="button" class="btn btn-outline-secondary"
+        (click)="findAccountFlag=false;form2.form.reset();">Back</button>
+      <button class="btn {{form2.form.valid?'btn-outline-info':'btn-outline-secondary'}}"
+        [disabled]="form2.form.invalid">Find</button></div>
+  </form>
+  <div *ngIf="processed && findAccountFlag">
+    <div class="row">
+      <img src="../../../../assets/mail.svg" height="64" width="64" class="col-3">
+      <span class="col-9">Your account ID and changed password will be sent to {{email}}.</span>
+    </div>
+    <hr>
+    <button type="button" class="btn btn-outline-info btn-lg btn-block"
+      (click)="findAccountFlag=false;processed=false;">Back</button>
+  </div>
+  <div *ngIf="processed && !findAccountFlag" class="row">
+    <img src="../../../../assets/success.svg" height="64" width="64" class="col-3">
+    <span class="col-9"><br>Welcome back! {{userId}}.</span>
+  </div>
+</div>

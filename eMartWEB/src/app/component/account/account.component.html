@@ -1,0 +1,16 @@
+<div class="container-md">
+  <app-messageheader></app-messageheader>
+  <div class="row mb-3">
+    <div class="col-2 btn-group-vertical account-info-navi">
+      <button type="button" class="btn btn-light" routerLink="./detail" routerLinkActive="actived">Account Info</button>
+      <button type="button" class="btn btn-light" routerLink="/order" *ngIf="isRole('BS')">Order</button>
+      <button type="button" class="btn btn-light" routerLink="/seller" *ngIf="isRole('S')">Seller Center</button>
+      <button type="button" class="btn btn-light" routerLink="./delete" routerLinkActive="actived" *ngIf="isRole('BS')">Delete Account</button>
+      <button type="button" class="btn btn-light" routerLink="./block" routerLinkActive="actived" *ngIf="isRole('M')">Block List</button>
+      <button type="button" class="btn btn-light" routerLink="./list" routerLinkActive="actived" *ngIf="isRole('M')">Account List</button>
+    </div>
+    <div class="col-9 main-box">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

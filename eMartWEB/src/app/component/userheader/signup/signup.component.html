@@ -1,0 +1,56 @@
+<div class="modal-backdrop" (click)="close()"></div>
+<div class="modal container border" [class.seller]="asSeller">
+    <h4>Sign Up as the {{asSeller?"Seller":"Buyer"}}</h4>
+    <hr>
+    <form (ngSubmit)="onSubmit(signForm)" #signForm="ngForm">
+        <p class="form-row">
+            <label class="col-5 col-form-label" for="userId">User Id</label>
+            <input class="col-7 form-control" [(ngModel)]="userId" name="userId" id="userId" required type="text">
+        </p>
+        <p class="form-row">
+            <label class="col-5 col-form-label" for="password">Password</label>
+            <input class="col-7 form-control" [(ngModel)]="password" name="password" id="password" #passwordI required
+                minlength="4" autocomplete="new-password" type="password">
+        </p>
+        <p class="form-row">
+            <label class="col-5 col-form-label" for="rePassword">Confirm Password</label>
+            <input class="col-7 form-control" [(ngModel)]="rePassword" name="rePassword" id="rePassword" required
+                pattern="{{passwordI.value}}" minlength="4" autocomplete="new-password" type="password">
+        </p>
+        <p class="form-row">
+            <label class="col-5 col-form-label" for="email">E-Mail</label>
+            <input class="col-7 form-control" [(ngModel)]="email" name="email" id="email" required type="email"
+                autocomplete="email">
+        </p>
+        <p class="form-row">
+            <label class="col-5 col-form-label" for="telnumber">Phone Number</label>
+            <input class="col-7 form-control" [(ngModel)]="telNumber" name="telnumber" id="telnumber"
+                [required]="!asSeller" type="tel">
+        </p>
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="asSeller" [(ngModel)]="asSeller" name="asSeller">
+            <label for="asSeller" class="custom-control-label">as the Seller</label>
+        </div>
+        <p class="form-row" *ngIf="asSeller">
+            <label class="col-5 col-form-label" for="coName">Company Name</label>
+            <input class="col-7 form-control" [(ngModel)]="coName" name="coName" id="coName" required type="text">
+        </p>
+        <p class="form-row" *ngIf="asSeller">
+            <label class="col-5 col-form-label" for="postalAddr">Postal Address</label>
+            <input class="col-7 form-control" [(ngModel)]="postalAddr" name="postalAddr" id="postalAddr" required
+                type="text">
+        </p>
+        <p class="form-row" *ngIf="asSeller">
+            <label class="col-5 col-form-label" for="GSTIN">GSTIN</label>
+            <input class="col-7 form-control" [(ngModel)]="GSTIN" name="GSTIN" id="GSTIN" required type="text">
+        </p>
+        <p class="form-row" *ngIf="asSeller">
+            <label class="col-5 col-form-label" for="bankDetail">Bank Detail</label>
+            <input class="col-7 form-control" [(ngModel)]="bankDetail" name="bankDetail" id="bankDetail" required
+                type="text">
+        </p>
+        <hr>
+        <button class="btn {{signForm.form.invalid?'btn-outline-secondary':'btn-outline-info'}} btn-lg btn-block"
+            [disabled]="signForm.form.invalid">Submit</button>
+    </form>
+</div>

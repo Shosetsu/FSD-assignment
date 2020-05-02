@@ -1,0 +1,38 @@
+<div class="container">
+  <app-messageheader></app-messageheader>
+  <h4>Cart</h4>
+  <hr>
+  <div id="good-list">
+    <div *ngIf="!(cartList.length>0)">
+      The cart is blank.
+    </div>
+    <div *ngFor="let good of cartList" class="row">
+      <div class="col-1 img"><a href="javascript:;" (click)="openDetail(good)">
+          <img class="rounded" [src]='"../../../../assets/good/"+good.id+".jpg"' alt="img-{{good.id}}" height="72"
+            width="72">
+        </a></div>
+      <div class="col-4 info m-auto">
+        <div class="name">
+          <a href="javascript:;" (click)="openDetail(good)">{{good.name}}</a>
+        </div>
+      </div>
+      <div class="col-2 price m-auto">{{good.price | priceFormat}}</div>
+      <div class="col-2 count m-auto">
+        <input type="number" class="form-control w-50 m-auto" [(ngModel)]="good.count" (change)="checkNumber(good)" min="0" [max]="good.stock" >
+      </div>
+      <div class="col-2 price m-auto">{{good.price*good.count | priceFormat}}</div>
+      <div class="col-1 remove"><a class="close-btn" type="button" (keyup)="0" (click)="remove(good)"></a></div>
+    </div>
+  </div><!-- good-list -->
+  <hr *ngIf="cartList.length>0">
+  <div class="row text-center" *ngIf="cartList.length>0">
+    <div class="col-9 info"></div>
+    <div class="col-2 price m-auto">{{getAllPrice() | priceFormat}}</div>
+    <div class="col-1"></div>
+  </div>
+  <hr>
+  <div class="m-lg-4 float-right">
+    <button type="button" class="mr-3 btn btn-outline-secondary" (click)="back()">Back</button>
+    <button type="button" class="btn btn-success" [disabled]="!(cartList.length>0)" (click)="purchase()">Purchase</button>
+  </div>
+</div>

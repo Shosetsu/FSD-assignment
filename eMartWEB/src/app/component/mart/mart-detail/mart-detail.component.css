@@ -1,0 +1,82 @@
+.modal-backdrop {
+    z-index: 200;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.modal {
+    display: block;
+    z-index: 201;
+    background: #fff3c6;
+    border-radius: 0.5em;
+    padding: 3em 5em;
+    height: auto;
+    opacity: 0;
+}
+
+.modal.good-detail.animation {
+    transition: 0.5s all;
+}
+
+.modal.scroll-bar {
+    overflow-y: auto;
+    height: calc(100% - 4em);
+}
+
+.close-btn {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    width: 24px;
+    height: 24px;
+    opacity: 0.3;
+}
+
+.close-btn:hover {
+    opacity: 1;
+}
+
+.close-btn:before, .close-btn:after {
+    position: absolute;
+    left: 11px;
+    content: ' ';
+    height: 25px;
+    width: 2px;
+    background-color: #333;
+}
+
+.close-btn:before {
+    transform: rotate(45deg);
+}
+
+.close-btn:after {
+    transform: rotate(-45deg);
+}
+
+.detail-container {
+    width: calc(100% - 400px);
+    margin-left: 400px;
+}
+
+.detail-container .row {
+    margin-top: 0.2em;
+    height: 3em;
+}
+
+.detail-container .row>div {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.link-btn-group a:not(:first-child) {
+    margin-left: 0.5em;
+}
+
+/*
+.detail-button-group {
+    padding: 0 4em 0 8em;
+}*/
+
+.detail-button-group button {
+    width: 150px;
+    margin: auto;
+}

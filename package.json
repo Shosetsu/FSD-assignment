@@ -1,0 +1,19 @@
+{
+  "name": "fsd-assignment",
+  "version": "1.0.0",
+  "description": "an assignment for FSD course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shosetsu/FSD-assignment.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shosetsu/FSD-assignment/issues"
+  },
+  "homepage": "https://github.com/Shosetsu/FSD-assignment#readme"
+}

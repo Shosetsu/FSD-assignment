@@ -1,0 +1,17 @@
+.row {
+    padding: 0 1em;
+    height: 2.4em;
+}
+
+.row:not(:first-child) {
+    margin-top: 1.2em;
+}
+
+.row div {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.row div span {
+    padding-left: 0.75rem;
+}

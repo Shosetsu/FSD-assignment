@@ -1,0 +1,38 @@
+<div class="container-sm p-4">
+  <button class="btn btn-outline-warning mb-3" (click)="back()">Back</button>
+  <div *ngIf="dmList.length==0" class="row text-center">No message.</div>
+  <div *ngFor="let dm of dmList" class="mb-3 message-box">
+    <p>
+      <span class="send">{{dm.sendby}}</span>
+      <button type="button" class="btn btn-link reply float-md-right"
+        (click)="sendMessageTo(dm.sendby)">>>Reply</button>
+    </p>
+    <p>
+      <span class="text pl-5">
+        {{dm.text}}
+      </span>
+      <span class="date float-md-right">
+        {{dm.timestamp | date:'yyyy/M/d hh:mm' }}
+      </span>
+    </p>
+  </div>
+</div>
+<div *ngIf="sendFlag">
+  <div class="modal-backdrop" (click)="back()"></div>
+  <div class="modal border dm-send-box" #modal (window:resize)="0"
+    [style.top]="(window.innerHeight - modal.getBoundingClientRect().height) / 2 - 75 + 'px'"
+    [style.left]="(window.innerWidth - modal.getBoundingClientRect().width) / 2 + 'px'">
+    <form (ngSubmit)="send()" #ndmForm="ngForm">
+      <div class="modal-header">
+        <h5>Send to {{newMessage.sendTo}}</h5>
+      </div>
+      <div class="p-3">
+        <textarea name="text" [(ngModel)]="newMessage.text" required class="form-control" placeholder="Typing your message text..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-secondary float-right" (click)="back()">Back</button>
+        <button type="submit" class="btn btn-outline-primary float-right" [disabled]="ndmForm.invalid">Send</button>
+      </div>
+    </form>
+  </div>
+</div>

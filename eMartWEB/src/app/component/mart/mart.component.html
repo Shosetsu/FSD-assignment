@@ -1,0 +1,76 @@
+<div class="container">
+  <router-outlet></router-outlet>
+  <div id="search-bar">
+    <div class="row">
+      <div class="search-input col-9">
+        <input [(ngModel)]="searchKey" type="text" class="form-control" placeholder="search...">
+      </div>
+      <div class="btn-group col-3 pl-0">
+        <button class="btn btn-info" type="button" #filterbtn (click)="filterDisplay=!filterDisplay;">Filter</button>
+        <button class="btn btn-primary" type="button">Search
+          <!--img src="../../../assets/search.svg" height="28"
+            width="28"--></button>
+      </div>
+    </div>
+    <div class="filter" *ngIf="filterDisplay" (window:resize)="0" [class.show]="filterDisplay"
+      [style.top]="filterbtn.getBoundingClientRect().bottom +'px'"
+      [style.left]="filterbtn.getBoundingClientRect().right-380 +'px'">
+      <div class="form-row">
+        <span class="col-4 mt-auto mb-auto">Category</span>
+        <select class="custom-select col-8" [(ngModel)]="filter_category">
+          <option value="">&lt;Not selected&gt;</option>
+          <option *ngFor="let category of categoryList" [value]="category">{{category}}</option>
+        </select>
+      </div>
+      <div class="form-row mt-2" *ngIf="isRole('BSM')">
+        <span class="col-4 mt-auto mb-auto">Price</span>
+        <input class="form-control col-3" type="number" placeholder="From" [(ngModel)]="filter_price_from">
+        <span class="col-2 m-auto">~</span>
+        <input class="form-control col-3" type="number" placeholder="To" [(ngModel)]="filter_price_to">
+      </div>
+      <div class="form-row mt-2" *ngIf="isRole('BSM')">
+        <span class="col-4 mt-auto mb-auto">Manufacturer</span>
+        <select class="custom-select col-8" [(ngModel)]="filter_manufacturer">
+          <option value="">&lt;Not selected&gt;</option>
+          <option *ngFor="let manufacturer of manufacturerList" [value]="manufacturer">{{manufacturer}}</option>
+        </select>
+      </div>
+      <div class="mt-2 float-right">
+        <button type="button" class="btn btn-secondary mr-2" (click)="filterDisplay=false">Cancel</button>
+        <button type="button" class="btn btn-info" (click)="filterDisplay=false;filter()">OK</button>
+      </div>
+    </div>
+  </div>
+  <div id="good-list">
+    <div *ngFor="let good of goodList" class="row">
+      <div class="col-1 img"><a href="javascript:;" (click)="openDetail(good)">
+          <img class="rounded" [src]='"../../../assets/good/"+good.id+".jpg"' alt="img-{{good.id}}" height="72"
+            width="72">
+        </a></div>
+      <div class="col-2 info">
+        <div class="manufacturer">
+          {{good.manufacturer}}
+        </div>
+        <div class="name">
+          <a href="javascript:;" (click)="openDetail(good)">{{good.name}}</a>
+        </div>
+        <div class="category">
+          <span class='category-item' *ngFor="let category of good.category">
+            {{category}}
+          </span>
+        </div>
+      </div>
+      <div class="col-3 detail"><span>{{good.detail | detailFormat}}</span></div>
+      <div class="col-2 price">{{good.price | priceFormat}}</div>
+      <div class="col-2 stock">{{good.stock | stockAmount}}</div>
+      <div class="col-2 command-block">
+        <div class="date">{{good.createdDate | date:"yyyy-M-d"}}</div>
+        <div class="link-btn-group" *ngIf="isRole('BS');">
+          <a class="cart" herf="#" (click)="addCart(good)"><img src="../../../assets/addcart.svg" alt="Add to cart"
+              height="16" width="16"></a>
+          <a class="buy" routerLink="/purchase" (click)="purchase(good)"><img src="../../../assets/buy.svg" alt="Buy"
+              height="24" width="32"></a>
+        </div>
+      </div>
+    </div><!-- good-list -->
+  </div>

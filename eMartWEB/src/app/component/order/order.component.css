@@ -1,0 +1,27 @@
+.order-header div, .order-item div {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.order-header {
+    padding-bottom: 0.5em;
+    border-bottom: 2px solid #dddddd;
+}
+
+.order-item {
+    padding: 0.5em 0;
+    height: calc(75px + 1em);
+    background-color: beige;
+    cursor: pointer;
+}
+
+.order-item:nth-child(even) {
+    background-color: cornsilk;
+}
+
+.order-item:hover {
+    background-color: salmon;
+}
+.order-item:not(:last-child) {
+    border-bottom: 2px dotted #dddddd;
+}

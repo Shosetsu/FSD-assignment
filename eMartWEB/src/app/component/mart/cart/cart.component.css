@@ -1,0 +1,30 @@
+@import url(../mart.component.css);
+.close-btn {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    width: 24px;
+    height: 24px;
+    opacity: 0.3;
+}
+
+.close-btn:hover {
+    opacity: 1;
+}
+
+.close-btn:before, .close-btn:after {
+    position: absolute;
+    left: 11px;
+    content: ' ';
+    height: 25px;
+    width: 2px;
+    background-color: #333;
+}
+
+.close-btn:before {
+    transform: rotate(45deg);
+}
+
+.close-btn:after {
+    transform: rotate(-45deg);
+}

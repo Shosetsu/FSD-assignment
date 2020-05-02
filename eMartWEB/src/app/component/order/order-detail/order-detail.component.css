@@ -1,0 +1,28 @@
+.container-sm {
+    background: #fff3c6;
+}
+
+.detail-container {
+    width: calc(100% - 400px);
+    margin-left: 400px;
+}
+
+.detail-container .row {
+    margin-top: 0.2em;
+    height: 3em;
+}
+
+.detail-container .row.header {
+    height: 2em;
+}
+
+.detail-container .row>div {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.detail-content {
+    padding: 1em;
+    margin-top: 0.5em;
+    border-top: 1.5px dotted slategray;
+}

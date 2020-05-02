@@ -1,0 +1,5 @@
+<div>
+  <div class="alert alert-{{msg.type}} mb-0" role="alert" *ngFor="let msg of msgList" (click)="closeMsg(msg)">
+    {{msg.message}}
+  </div>
+</div>
