@@ -2,66 +2,65 @@
 <div class="modal container-md border good-detail">
   <a class="close-btn" type="button" (click)="close()"></a>
   <app-messageheader></app-messageheader>
-  <div>
-    <div class="float-left">
-      <img class="rounded" [src]='"../../../../assets/good/"+goodInfo.id+".jpg"' alt="img-{{goodInfo.id}}" width="350">
+  <div class="img-container">
+    <img class="rounded img-preview" [src]='"../../../../assets/good/"+goodInfo.id+".jpg"' alt="img-{{goodInfo.id}}">
+  </div>
+  <div class="detail-container">
+    <div class="row">
+      <div class="col-6">
+        <div class="category">
+          <span class='category-item' *ngFor="let category of goodInfo.category">
+            {{category}}
+          </span>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="ml-3 float-right link-btn-group" *ngIf="isOwner()||isRole('M')">
+          <button type="button" class="btn btn-link" (click)="edit()" *ngIf="isOwner()">Edit</button>
+          <button type="button" class="btn btn-link" (click)="changeBlockStatus()"
+            *ngIf="isRole('M')&&goodInfo.status!==2">{{goodInfo.status===1?"Unblock":"Block"}}</button>
+          <button type="button" class="btn btn-link" (click)="changeArchiveStatus()"
+            *ngIf="isOwner()&&goodInfo.status!==1">{{goodInfo.status===2?"Restore":"Archive"}}</button>
+        </div>
+        <button type="button" class="btn btn-link float-right m-auto" (click)="sendDM()"
+          [disabled]="isOwner()">Owner:{{goodInfo.owner}}
+          <img src="../../../../assets/dm.svg" height="20" *ngIf="!isOwner()">
+        </button>
+      </div>
     </div>
-    <div class="detail-container">
-      <div class="row">
-        <div class="col-6">
-          <div class="category">
-            <span class='category-item' *ngFor="let category of goodInfo.category">
-              {{category}}
-            </span>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="ml-3 float-right link-btn-group" *ngIf="isOwner()||isRole('M')">
-            <button type="button" class="btn btn-link" (click)="edit()" *ngIf="isOwner()">Edit</button>
-            <button type="button" class="btn btn-link" (click)="changeBlockStatus()"
-              *ngIf="isRole('M')&&goodInfo.status!==2">{{goodInfo.status===1?"Unblock":"Block"}}</button>
-            <button type="button" class="btn btn-link" (click)="changeArchiveStatus()"
-              *ngIf="isOwner()&&goodInfo.status!==1">{{goodInfo.status===2?"Restore":"Archive"}}</button>
-          </div>
-          <button type="button" class="btn btn-link float-right m-auto" (click)="sendDM()" [disabled]="isOwner()" >Owner:{{goodInfo.owner}}
-            <img src="../../../../assets/dm.svg" height="20" *ngIf="!isOwner()">
-          </button>
-        </div>
+    <div class="row">
+      <div class="col-5 ml-4 manufacturer">{{goodInfo.manufacturer}}</div>
+    </div>
+    <div class="row">
+      <div class="col-3">Name</div>
+      <div class="col-9">{{goodInfo.name}}</div>
+    </div>
+    <div class="row">
+      <div class="col-3">Price</div>
+      <div class="col-9">{{goodInfo.price | priceFormat}}</div>
+    </div>
+    <div class="row">
+      <div class="col-3">Stock</div>
+      <div class="col-9">{{goodInfo.stock}}</div>
+    </div>
+    <div class="row" *ngIf="isRole('BS')">
+      <div class="col-3">Count</div>
+      <div class="col-9">
+        <input type="number" class="form-control w-25" [(ngModel)]="count" [disabled]="isOwner()">
       </div>
-      <div class="row">
-        <div class="col-5 ml-4 manufacturer">{{goodInfo.manufacturer}}</div>
-      </div>
-      <div class="row">
-        <div class="col-3">Name</div>
-        <div class="col-9">{{goodInfo.name}}</div>
-      </div>
-      <div class="row">
-        <div class="col-3">Price</div>
-        <div class="col-9">{{goodInfo.price | priceFormat}}</div>
-      </div>
-      <div class="row">
-        <div class="col-3">Stock</div>
-        <div class="col-9">{{goodInfo.stock}}</div>
-      </div>
-      <div class="row" *ngIf="isRole('BS')">
-        <div class="col-3">Count</div>
-        <div class="col-9">
-          <input type="number" class="form-control w-25" [(ngModel)]="count" [disabled]="isOwner()">
-        </div>
-      </div>
-      <div class="row detail-button-group mt-2" *ngIf="isRole('BS')">
-        <button type="button" class="btn {{isOwner()?'btn-secondary':'btn-success'}}" [disabled]="isOwner()"
-          (click)="addCart()">Add to Cart</button>
-        <button type="button" class="btn {{isOwner()?'btn-secondary':'btn-primary'}}" [disabled]="isOwner()"
-          (click)="buy()">Buy</button>
-      </div>
-      <div class="row detail-button-group mt-2" *ngIf="!isRole('BSM')">
-        <button type="button" class="btn btn-success" (click)="redirectLogin()">Add to Cart</button>
-        <button type="button" class="btn btn-primary" (click)="redirectLogin()">Buy</button>
-      </div>
+    </div>
+    <div class="row detail-button-group mt-5" *ngIf="isRole('BS')">
+      <button type="button" class="btn {{isOwner()?'btn-secondary':'btn-success'}}" [disabled]="isOwner()"
+        (click)="addCart()">Add to Cart</button>
+      <button type="button" class="btn {{isOwner()?'btn-secondary':'btn-primary'}}" [disabled]="isOwner()"
+        (click)="buy()">Buy</button>
+    </div>
+    <div class="row detail-button-group mt-5" *ngIf="!isRole('BSM')">
+      <button type="button" class="btn btn-success" (click)="redirectLogin()">Add to Cart</button>
+      <button type="button" class="btn btn-primary" (click)="redirectLogin()">Buy</button>
     </div>
   </div>
-  <hr>
+  <hr class="mt-4 mb-4">
   <div class="p-3 detail">
     {{goodInfo.detail}}
   </div>

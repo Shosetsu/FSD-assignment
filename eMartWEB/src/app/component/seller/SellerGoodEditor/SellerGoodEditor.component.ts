@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { GoodInfo } from 'src/app/bean/GoodInfo';
 import { GoodManagementService } from 'src/app/service/goods/good-management.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SellerManagementService } from 'src/app/service/seller/seller-management.service';
 import { SessionControllerService } from 'src/app/service/session/session-controller.service';
 import { NgForm } from '@angular/forms';
@@ -30,16 +30,22 @@ export class SellerGoodEditorComponent {
     private session: SessionControllerService
   ) {
     this.categoryList = goodService.getCategoryList();
-    route.params.subscribe(pram => {
-      let gid = pram['gid'];
-      if (gid) {
+    if (route.routeConfig.path === "edit/:gid") {
+      route.params.subscribe(pram => {
+        let gid = pram['gid'];
         this.oldInfo = goodService.queryGood(gid);
         this.goodInfo = this.oldInfo.clone();
         this.updateFlag = true;
-      } else {
-        this.goodInfo = new GoodInfo();
-      }
-    });
+      });
+    } else {
+      this.goodInfo = new GoodInfo();
+    }
+
+    //check owner
+    if (this.goodInfo.owner && this.goodInfo.owner !== session.getAccountId()) {
+      location.back();
+    }
+
   }
 
   loadImg(input: HTMLInputElement): SafeUrl {

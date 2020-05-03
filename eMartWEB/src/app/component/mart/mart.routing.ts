@@ -4,6 +4,8 @@ import { CartComponent } from './cart/cart.component';
 import { MartDetailComponent } from './mart-detail/mart-detail.component';
 import { MartComponent } from './mart.component';
 import { AuthGuard } from 'src/app/auth/auth.guard';
+import { SellerGoodEditorComponent } from '../seller/SellerGoodEditor/SellerGoodEditor.component';
+import { SellerCenterGuard } from 'src/app/auth/seller-center.guard';
 
 const routes: Routes = [
   {

@@ -1,43 +1,7 @@
-/*
 .modal-backdrop {
     z-index: 202;
 }
 
 .modal {
     z-index: 203;
-}
-*/
-
-.img-container {
-    display: inline-block;
-    width: 400px;
-}
-
-.img-preview {
-    max-height: 400px;
-}
-
-.img-input {
-    overflow-x: hidden;
-}
-
-.detail-container {
-    display: inline-block;
-    width: calc(100% - 400px);
-}
-
-.detail-container .row {
-    margin-top: 0.4em;
-    height: auto;
-    min-height: 3em;
-}
-
-.detail-container .row>div {
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.detail-button-group button {
-    width: 150px;
-    margin: auto;
 }

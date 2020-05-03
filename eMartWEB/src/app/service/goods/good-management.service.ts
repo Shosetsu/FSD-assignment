@@ -117,7 +117,7 @@ export class GoodManagementService {
     }
     //TODO server connect
 
-    return [new GoodInfo("100000", "Item1", "NO-1(tm)", ["test", "No1"], "first good, asdf asdfasdf asdf asdfasdf asdfasdfasdf asdfasdf asdfasdfasdf", 56800.66, 99, "Seller1", new Date(2020, 3, 23, 12, 6, 54)),
+    return [new GoodInfo("100000", "Item1", "NO-1(tm)", ["test", "No1"], "first good, asdf asdfasdf asdf asdfasdf asdfasdfasdf asdfasdf asdfasdfasdf", 56800.66, 99, "Setsu", new Date(2020, 3, 23, 12, 6, 54)),
     new GoodInfo("100001", "Item2", "last company", ["test", "tool"], "2nd good, etcetcetcetcetcetcetcetcetce tcetcetcetcetcetcet cetcetcetcetcetcetcetcetcetc", 8993.50, 0, "Seller2", new Date(2020, 3, 23, 18, 6, 56)),
     new GoodInfo("100002", "Item3", "last company", ["tool", "food"], "3rd good", 999.75, 4, "Setsu", new Date(2020, 3, 25, 18, 6, 58))];
   }
@@ -128,6 +128,6 @@ export class GoodManagementService {
 
     return new GoodInfo(goodId, "Item1", "NO-1(tm)",
       ["category2", "category3"], "first good, asdf asdfasdf asdf asdfasdf asdfasdfasdf asdfasdf asdfasdfasdf",
-      56800.66, 99, "Seller1", new Date(2020, 3, 23, 12, 6, 54));
+      56800.66, 99, "Setsu", new Date(2020, 3, 23, 12, 6, 54));
   }
 }
