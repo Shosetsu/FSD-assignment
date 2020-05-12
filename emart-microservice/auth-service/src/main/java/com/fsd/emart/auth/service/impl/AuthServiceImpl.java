@@ -13,8 +13,8 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.fsd.emart.auth.bean.LoginInfo;
 import com.fsd.emart.auth.constants.AuthConstants;
-import com.fsd.emart.auth.controller.LoginResult;
 import com.fsd.emart.auth.service.AuthService;
 import com.fsd.emart.common.dao.AuthDao;
 import com.fsd.emart.common.dao.CustomerDao;
@@ -41,8 +41,8 @@ public class AuthServiceImpl implements AuthService {
 	private SessionDao sessionDao;
 
 	@Override
-	public LoginResult login(AuthInfo info) {
-		LoginResult result = new LoginResult();
+	public LoginInfo login(AuthInfo info) {
+		LoginInfo result = new LoginInfo();
 		Optional<AuthInfo> referInfo = authDao.findById(info.getId().toLowerCase());
 
 		if(!referInfo.isPresent()) {

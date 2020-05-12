@@ -5,7 +5,7 @@ import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class SignupContainer implements Serializable {
+public class SignupForm implements Serializable {
 
 	/** UID */
 	private static final long serialVersionUID = 69213144390736757L;

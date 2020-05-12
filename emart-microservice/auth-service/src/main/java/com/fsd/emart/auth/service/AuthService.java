@@ -1,6 +1,6 @@
 package com.fsd.emart.auth.service;
 
-import com.fsd.emart.auth.controller.LoginResult;
+import com.fsd.emart.auth.bean.LoginInfo;
 import com.fsd.emart.common.entity.AuthInfo;
 import com.fsd.emart.common.entity.SessionInfo;
 
@@ -12,7 +12,7 @@ public interface AuthService {
 	 * @param AuthInfo
 	 * @return SessionInfo
 	 */
-	LoginResult login(AuthInfo info);
+	LoginInfo login(AuthInfo info);
 
 	/**
 	 * Logout

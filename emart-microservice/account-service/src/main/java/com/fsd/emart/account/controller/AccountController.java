@@ -29,7 +29,7 @@ public class AccountController {
 	private AccountService accountService;
 
 	@PostMapping("/register")
-	public JsonResponse register(@RequestBody SignupContainer info) {
+	public JsonResponse register(@RequestBody SignupForm info) {
 		JsonResponse result = new JsonResponse();
 
 		CustomerInfo processedInfo = new CustomerInfo();

@@ -18,7 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.fsd.emart.auth.controller.LoginResult;
+import com.fsd.emart.auth.bean.LoginInfo;
 import com.fsd.emart.common.dao.AuthDao;
 import com.fsd.emart.common.dao.CustomerDao;
 import com.fsd.emart.common.dao.SessionDao;
@@ -89,7 +89,7 @@ class AuthServiceImplTest {
 		value.setPassword("{auth_a}" + bc.encode("SSS12345"));
 		when(authDao.findById(anyString())).thenReturn(Optional.of(value));
 		errMsg = "";
-		LoginResult result = sut.login(info);
+		LoginInfo result = sut.login(info);
 
 		assertEquals("Setsu", result.getAccountId());
 		assertNotNull(result.getSessionKey());

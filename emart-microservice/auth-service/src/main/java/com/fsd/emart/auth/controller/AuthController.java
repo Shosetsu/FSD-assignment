@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fsd.emart.auth.bean.LoginInfo;
 import com.fsd.emart.auth.service.AuthService;
 import com.fsd.emart.common.bean.JsonResponse;
 import com.fsd.emart.common.constans.Constants;
@@ -57,7 +58,7 @@ public class AuthController {
 
 		result.setStatus(Constants.SUCCESS);
 
-		LoginResult data = new LoginResult();
+		LoginInfo data = new LoginInfo();
 		data.setAccountId(tempInfo[1]);
 		data.setAccountType(authService.getAccountType(tempInfo[1]));
 		data.setSessionKey(tempInfo[0]);
