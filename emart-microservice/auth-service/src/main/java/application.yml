@@ -3,6 +3,7 @@ server:
 spring:
   application:
     name: server-auth
+    open-in-view: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:10047/emart_a?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
@@ -11,7 +12,6 @@ spring:
   jpa:
     database: MYSQL
     show-sql: true
-    open-in-view: true
 auth:
     type : auth_a
     session-key.length : 16

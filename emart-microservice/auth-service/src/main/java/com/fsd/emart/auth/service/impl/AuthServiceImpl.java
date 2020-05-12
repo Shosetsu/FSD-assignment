@@ -86,7 +86,7 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public String getAccountType(String accountId) {
-		return customerDao.getOne(accountId).getType();
+		return customerDao.getOne(accountId.toLowerCase()).getType();
 	}
 
 }
