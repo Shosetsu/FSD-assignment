@@ -25,7 +25,7 @@ export class AccountDeleteComponent {
       return;
     }
 
-    let result = this.accountService.unregist(this.sessionService.getAccountId(), this.sessionService.getSessionKey(), this.password);
+    let result = this.accountService.unregist(this.sessionService.getAccountId(), this.password);
     this.router.navigate([""]);
     localStorage['_ssid'] = "";
     this.sessionService.clearSession();

@@ -57,7 +57,7 @@ export class AccountDetailComponent {
       return;
     }
 
-    let result = this.accountService.updateAccountDetail(this.changedDetail, this.sessionService.getSessionKey(), this.oldPassword);
+    let result = this.accountService.updateAccountDetail(this.changedDetail, this.oldPassword);
     if (result.status == 0) {
       this.customerDetail = result.newDetail;
       this.discard(form);

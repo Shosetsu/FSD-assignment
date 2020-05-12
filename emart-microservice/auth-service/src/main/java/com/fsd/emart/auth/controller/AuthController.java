@@ -1,6 +1,7 @@
 package com.fsd.emart.auth.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,18 +11,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fsd.emart.auth.entity.AuthInfo;
-import com.fsd.emart.auth.entity.SessionInfo;
 import com.fsd.emart.auth.service.AuthService;
 import com.fsd.emart.common.bean.JsonResponse;
 import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.entity.AuthInfo;
+import com.fsd.emart.common.entity.SessionInfo;
 import com.fsd.emart.common.exception.BizException;
 
 @CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST }, origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-	@Autowired
+	@Resource
 	private AuthService authService;
 
 	@PostMapping("/login")
@@ -29,7 +30,6 @@ public class AuthController {
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);
 		result.setData(authService.login(info));
-
 		return result;
 	}
 

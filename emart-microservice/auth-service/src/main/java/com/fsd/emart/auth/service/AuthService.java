@@ -1,8 +1,8 @@
 package com.fsd.emart.auth.service;
 
 import com.fsd.emart.auth.controller.LoginResult;
-import com.fsd.emart.auth.entity.AuthInfo;
-import com.fsd.emart.auth.entity.SessionInfo;
+import com.fsd.emart.common.entity.AuthInfo;
+import com.fsd.emart.common.entity.SessionInfo;
 
 public interface AuthService {
 

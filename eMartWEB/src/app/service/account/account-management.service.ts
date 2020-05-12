@@ -11,10 +11,9 @@ export class AccountManagementService {
 
   constructor(private sessionService: SessionControllerService) { }
   
-  regist(formData: {
+  register(formData: {
     accountId: string,
     password: string,
-    rePassword: string,
     email: string,
     telNumber: string,
     asSeller: boolean,
@@ -23,7 +22,7 @@ export class AccountManagementService {
     GSTIN: string,
     bankDetail: string
   }) {
-    if (Constants.debugMode) console.log('#Regsit user ' + formData.accountId);
+    if (Constants.debugMode) console.log('#Register user ' + formData.accountId);
     //TODO connect server
 
     // regist new session info
@@ -33,8 +32,8 @@ export class AccountManagementService {
     return 0;
   }
 
-  unregist(accountId: string, sessionKey: string, password: string): number {
-    if (Constants.debugMode) console.log('#Unregsit user ' + accountId + '|' + sessionKey);
+  unregist(accountId: string, password: string): number {
+    if (Constants.debugMode) console.log('#Unregsit user ' + accountId);
     //TODO connect server
 
     localStorage['_ssid'] = "";
@@ -56,14 +55,6 @@ export class AccountManagementService {
     return new Date(2019, 5, 6, 22, 12, 54);
   }
 
-  getSellerOverviewInDate(accountId: string, sessionKey: string, range: string = 'all'): { count: number, amount: number } {
-    if (Constants.debugMode) console.log("#Get account sales info in " + range);
-    //TODO connect server
-
-    return { count: Math.round(Math.random() * 100), amount: Math.round(Math.random() * 5000) }
-  }
-
-
   getAccountDetail(accountId: string, sessionKey: string): CustomerDetail {
     if (Constants.debugMode) console.log("#Get account detail " + accountId);
     //TODO connect server
@@ -73,7 +64,7 @@ export class AccountManagementService {
 
   }
 
-  updateAccountDetail(customerDetail: CustomerDetail, sessionKey: string, password: string): { status: number, newDetail?: CustomerDetail } {
+  updateAccountDetail(customerDetail: CustomerDetail, password: string): { status: number, newDetail?: CustomerDetail } {
     if (Constants.debugMode) console.log("#Update account detail " + customerDetail.accountId);
     //TODO connect server
 

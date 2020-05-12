@@ -19,12 +19,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.fsd.emart.auth.controller.LoginResult;
-import com.fsd.emart.auth.dao.AuthDao;
-import com.fsd.emart.auth.dao.CustomerDao;
-import com.fsd.emart.auth.dao.SessionDao;
-import com.fsd.emart.auth.entity.AuthInfo;
-import com.fsd.emart.auth.entity.CustomerInfo;
-import com.fsd.emart.auth.entity.SessionInfo;
+import com.fsd.emart.common.dao.AuthDao;
+import com.fsd.emart.common.dao.CustomerDao;
+import com.fsd.emart.common.dao.SessionDao;
+import com.fsd.emart.common.entity.AuthInfo;
+import com.fsd.emart.common.entity.CustomerInfo;
+import com.fsd.emart.common.entity.SessionInfo;
 import com.fsd.emart.common.exception.BizException;
 
 @SpringBootTest

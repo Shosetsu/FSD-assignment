@@ -1,4 +1,4 @@
-package com.fsd.emart.auth.entity;
+package com.fsd.emart.common.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

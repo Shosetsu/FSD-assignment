@@ -37,6 +37,7 @@ export class SessionManagementService {
       this.sessionControllerService.init(result);
     }).catch((err) => {
       if (Constants.debugMode) console.error(err);
+      processResult = 'failure';
       this.messageService.addMsg(new Message("danger", "System Error"));
     });
 

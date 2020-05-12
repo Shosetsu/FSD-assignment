@@ -50,6 +50,13 @@ export class SellerManagementService {
     return 1;
   }
 
+  getSellerOverviewInDate(accountId: string, sessionKey: string, range: string = 'all'): { count: number, amount: number } {
+    if (Constants.debugMode) console.log("#Get account sales info in " + range);
+    //TODO connect server
+
+    return { count: Math.round(Math.random() * 100), amount: Math.round(Math.random() * 5000) }
+  }
+
   async downloadSalesReport() {
     //TODO server connect
   }

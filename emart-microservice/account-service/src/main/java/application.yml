@@ -1,8 +1,8 @@
 server:
-  port: 10048  
+  port: 10049
 spring:
   application:
-    name: server-auth
+    name: server-account
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:10047/emart_a?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
@@ -11,6 +11,3 @@ spring:
   jpa:
     database: MYSQL
     show-sql: true
-auth:
-    type : auth_a
-    session-key.length : 16

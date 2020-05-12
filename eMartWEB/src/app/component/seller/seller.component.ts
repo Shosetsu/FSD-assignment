@@ -56,7 +56,7 @@ export class SellerComponent {
   }
 
   refreshData() {
-    let result = this.accountService.getSellerOverviewInDate(this.session.getAccountId(), this.session.getSessionKey(), this.filterMonth);
+    let result = this.sellerService.getSellerOverviewInDate(this.session.getAccountId(), this.session.getSessionKey(), this.filterMonth);
     this.soldCount = result['count'];
     this.salesAmount = result['amount'];
   }

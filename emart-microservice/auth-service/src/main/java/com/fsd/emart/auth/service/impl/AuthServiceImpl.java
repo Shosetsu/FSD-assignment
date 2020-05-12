@@ -4,7 +4,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.codec.Hex;
 import org.springframework.security.crypto.keygen.KeyGenerators;
@@ -14,12 +15,12 @@ import org.springframework.stereotype.Service;
 
 import com.fsd.emart.auth.constants.AuthConstants;
 import com.fsd.emart.auth.controller.LoginResult;
-import com.fsd.emart.auth.dao.AuthDao;
-import com.fsd.emart.auth.dao.CustomerDao;
-import com.fsd.emart.auth.dao.SessionDao;
-import com.fsd.emart.auth.entity.AuthInfo;
-import com.fsd.emart.auth.entity.SessionInfo;
 import com.fsd.emart.auth.service.AuthService;
+import com.fsd.emart.common.dao.AuthDao;
+import com.fsd.emart.common.dao.CustomerDao;
+import com.fsd.emart.common.dao.SessionDao;
+import com.fsd.emart.common.entity.AuthInfo;
+import com.fsd.emart.common.entity.SessionInfo;
 import com.fsd.emart.common.exception.BizException;
 
 @Service
@@ -30,13 +31,13 @@ public class AuthServiceImpl implements AuthService {
 	@Value("${auth.session-key.length}")
 	private int session_key_length;
 
-	@Autowired
+	@Resource
 	private AuthDao authDao;
 
-	@Autowired
+	@Resource
 	private CustomerDao customerDao;
 
-	@Autowired
+	@Resource
 	private SessionDao sessionDao;
 
 	@Override

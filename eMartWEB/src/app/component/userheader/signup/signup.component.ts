@@ -35,10 +35,9 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    let result = this.accountManagementService.regist({
+    let result = this.accountManagementService.register({
       accountId: this.accountId,
       password: this.password,
-      rePassword: this.rePassword,
       email: this.email,
       telNumber: this.telNumber,
       asSeller: this.asSeller,

@@ -1,4 +1,4 @@
-package com.fsd.emart.auth.entity;
+package com.fsd.emart.common.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -12,18 +12,18 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "t_session")
-public class SessionInfo implements Serializable {
+@Table(name = "t_auth")
+public class AuthInfo implements Serializable {
 
 	/** UID */
-	private static final long serialVersionUID = 2514589262873053104L;
+	private static final long serialVersionUID = 8874383918901366170L;
 
 	@Id
 	@Column
 	private String id;
 	@Column
-	private String sessionKey;
+	private String password;
 	@Column
-	private Timestamp lastLoginTime;
+	private Timestamp updateTime;
 
 }
