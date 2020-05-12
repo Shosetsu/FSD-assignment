@@ -10,7 +10,7 @@ import { Constants } from 'src/app/constans/constans';
 export class AccountManagementService {
 
   constructor(private sessionService: SessionControllerService) { }
-
+  
   regist(formData: {
     accountId: string,
     password: string,

@@ -35,25 +35,25 @@ export class LoginComponent implements OnDestroy {
 
   login(form: NgForm) {
     if (form.form.valid) {
-      let response = this.sessionManagementService.login(this.userId, this.password);
-      if (response == "success") {
-        this.loginUper.emit(response);
-        this.processed = true;
+      this.sessionManagementService.login(this.userId, this.password).then(response => {
+        if (response === "success") {
+          this.loginUper.emit(response);
+          this.processed = true;
 
-        setTimeout(() => {
-          let shadow: HTMLDivElement = document.querySelector(".modal-backdrop");
-          shadow.click();
-        }, 500);
+          setTimeout(() => {
+            let shadow: HTMLDivElement = document.querySelector(".modal-backdrop");
+            shadow.click();
+          }, 500);
 
-        let redirectUrl = this.sessionControllerService.getRedirectUrl();
-        if (redirectUrl) {
-          this.router.navigateByUrl(redirectUrl);
+          let redirectUrl = this.sessionControllerService.getRedirectUrl();
+          if (redirectUrl) {
+            this.router.navigateByUrl(redirectUrl);
+          }
+        } else {
+          //...
         }
-      } else {
-        //...
-      }
-
-      form.reset();
+        form.reset();
+      });
     }
   }
 

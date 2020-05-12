@@ -11,18 +11,12 @@ import { SessionControllerService } from './service/session/session-controller.s
 export class AppComponent {
   title = 'eMartWEB';
 
-  loginInfo: CustomerInfo;
-
-
   constructor(private sessionControllerService: SessionControllerService, private sessionManagementService: SessionManagementService) {
-    this.loginInfo = new CustomerInfo();
-    let sessionKey = localStorage['_ssid'];
-    if (sessionKey) {
-      let loginInfo = this.sessionManagementService.checkLoginStatus(sessionKey);
-      if (loginInfo.accountType) {
-        this.loginInfo = loginInfo;
-      }
+    let ssid = localStorage['_ssid'];
+    if (ssid && ssid.indexOf("|") > -1) {
+      this.sessionManagementService.checkLoginStatus(ssid);
+    } else {
+      this.sessionControllerService.init(new CustomerInfo());
     }
-    this.sessionControllerService.init(this.loginInfo);
   }
 }

@@ -17,7 +17,13 @@ export const Constants = Object.freeze({
         'new': 'S',
         'message': 'BSM'
     },
-    goodStatus:[
-        'normal','blocked','archived'
-    ]
+    goodStatus: [
+        'normal', 'blocked', 'archived'
+    ],
+    fetchAddress: 'http://localhost:10048',
+    fetchHeader: {
+        'Access-Control-Allow-Origin': 'http://localhost:4200',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',        
+    }
 });

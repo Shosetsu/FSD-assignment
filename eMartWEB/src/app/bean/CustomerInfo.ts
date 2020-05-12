@@ -9,7 +9,7 @@ export class CustomerInfo {
         return this.accountType ? role ? role.indexOf(this.accountType) != -1 : true : false;
     }
 
-    init(other: CustomerInfo) {
+    init(other) {
         for (let key in other) {
             this[key] = other[key];
         }
