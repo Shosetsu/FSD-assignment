@@ -8,9 +8,9 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	
-	<artifactId>purchase-service</artifactId>
-	<name>Purchase Service</name>
-	<description>Purchase System</description>
+	<artifactId>direct-message-service</artifactId>
+	<name>Direct Message System</name>
+	<description>Direct Message System</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
