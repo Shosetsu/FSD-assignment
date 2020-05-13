@@ -43,7 +43,7 @@ public class AuthController {
 	}
 
 	@GetMapping("/login")
-	public JsonResponse getSessionType(@RequestParam(name = "ssId") String ssId) {
+	public JsonResponse getSessionType(@RequestParam("ssId") String ssId) {
 		JsonResponse result = new JsonResponse();
 
 		// Is valid Session Param?

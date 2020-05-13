@@ -6,11 +6,12 @@ import java.util.Date;
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,7 +53,7 @@ public class AccountController {
 		return result;
 	}
 
-	@DeleteMapping("/unregister")
+	@PostMapping("/unregister")
 	public JsonResponse unregister(@RequestParam("accountId") String accountId,
 			@RequestParam("password") String password) {
 		JsonResponse result = new JsonResponse();
@@ -73,27 +74,27 @@ public class AccountController {
 		return result;
 	}
 
-	@PostMapping("/query/{accountId}/sellerDate")
+	@GetMapping("/query/{accountId}/sellerDate")
 	public JsonResponse getSellerCreateTime(@PathVariable("accountId") String accountId,
-			@RequestParam("sessionKey") String sessionKey) {
+			@RequestHeader("sessionKey") String sessionKey) {
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);
 		result.setData(accountService.getSellerCreateTime(accountId));
 		return result;
 	}
 
-	@PostMapping("/query/{accountId}")
+	@GetMapping("/query/{accountId}")
 	public JsonResponse getAccountDetail(@PathVariable("accountId") String accountId,
-			@RequestParam("sessionKey") String sessionKey) {
+			@RequestHeader("sessionKey") String sessionKey) {
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);
 		result.setData(accountService.getAccountDetail(accountId));
 		return result;
 	}
 
-	@PutMapping("/update")
+	@PutMapping("/update/{accountId}")
 	public JsonResponse updateAccountDetail(@PathVariable("accountId") String accountId,
-			@RequestParam("sessionKey") String sessionKey) {
+			@RequestHeader("sessionKey") String sessionKey) {
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);
 		result.setData(accountService.getAccountDetail(accountId));

@@ -2,11 +2,21 @@ package com.fsd.emart.account.service.impl;
 
 import java.sql.Timestamp;
 
+import javax.annotation.Resource;
+
 import com.fsd.emart.account.service.AccountService;
+import com.fsd.emart.common.dao.AuthDao;
+import com.fsd.emart.common.dao.CustomerDao;
 import com.fsd.emart.common.entity.CustomerInfo;
 
 public class AccountServiceImpl implements AccountService {
-
+	
+	@Resource
+	private AuthDao authDao;
+	
+	@Resource
+	private CustomerDao customerDao;
+	
 	@Override
 	public void register(CustomerInfo info, String newPassword) {
 		// TODO
