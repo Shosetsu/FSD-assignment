@@ -15,7 +15,7 @@ import com.fsd.emart.common.constans.Constants;
 import com.fsd.emart.purchase.bean.PurchaseItemInfo;
 import com.fsd.emart.purchase.service.PurchaseService;
 
-@CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST }, origins = "http://localhost:4200")
+@CrossOrigin(methods = RequestMethod.POST, origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/")
 public class PurchaseController {
@@ -23,13 +23,13 @@ public class PurchaseController {
 	private PurchaseService purchaseService;
 
 	@PostMapping("/purchase")
-	public JsonResponse getCartList(@RequestBody PurchaseItemInfo[] purchaseList, @RequestHeader("sessionKey") String sessionKey) {
+	public JsonResponse getCartList(@RequestBody PurchaseItemInfo[] purchaseList,
+			@RequestHeader("sessionKey") String sessionKey) {
 		purchaseService.purchase(purchaseList);
-		
+
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);
 		return result;
 	}
-
 
 }

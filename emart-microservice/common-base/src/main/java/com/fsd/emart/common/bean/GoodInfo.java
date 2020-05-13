@@ -1,4 +1,4 @@
-package com.fsd.emart.mart.query.bean;
+package com.fsd.emart.common.bean;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.fsd.emart.common.bean.GoodInfo;
 import com.fsd.emart.common.dao.CategoryDao;
 import com.fsd.emart.common.dao.ItemDao;
 import com.fsd.emart.common.dao.ManufacturerDao;
 import com.fsd.emart.mart.query.bean.FilterConditions;
-import com.fsd.emart.mart.query.bean.GoodInfo;
 import com.fsd.emart.mart.query.service.MartQueryService;
 
 public class MartQueryServiceImpl implements MartQueryService {

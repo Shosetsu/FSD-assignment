@@ -33,6 +33,7 @@
 		<module>purchase-service</module>
 		<module>direct-message-service</module>
 		<module>order-service</module>
+		<module>seller-center-service</module>
 	</modules>
 
 	<dependencies>

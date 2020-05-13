@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.lang.Nullable;
 
+import com.fsd.emart.common.bean.GoodInfo;
 import com.fsd.emart.mart.query.bean.FilterConditions;
-import com.fsd.emart.mart.query.bean.GoodInfo;
 
 public interface MartQueryService {
 
