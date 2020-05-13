@@ -67,6 +67,7 @@ export class OrderManagementService {
   }
   purchase() {
 
+    //TODO connect server
 
     this.clearPurchaseList();
   }

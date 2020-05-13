@@ -29,6 +29,8 @@
 		<module>auth-service</module>
 		<module>account-service</module>
 		<module>mart-query-service</module>
+		<module>cart-service</module>
+		<module>purchase-service</module>
 	</modules>
 
 	<dependencies>
