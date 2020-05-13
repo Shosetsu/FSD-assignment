@@ -1,4 +1,4 @@
-package com.fsd.emart.account.controller;
+package com.fsd.emart.account.bean;
 
 import java.io.Serializable;
 

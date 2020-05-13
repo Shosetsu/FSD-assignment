@@ -16,7 +16,7 @@ import com.fsd.emart.common.bean.JsonResponse;
 import com.fsd.emart.common.constans.Constants;
 import com.fsd.emart.mart.cart.service.MartCartService;
 
-@CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST }, origins = "http://localhost:4200")
+@CrossOrigin(methods = { RequestMethod.GET, RequestMethod.PUT }, origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/mart")
 public class MartCartController {

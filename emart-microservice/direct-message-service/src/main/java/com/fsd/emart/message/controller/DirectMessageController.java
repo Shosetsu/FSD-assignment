@@ -21,19 +21,19 @@ import com.fsd.emart.message.service.DirectMessageService;
 @RequestMapping("/message")
 public class DirectMessageController {
 	@Resource
-	private DirectMessageService directMessageService;
+	private DirectMessageService dmService;
 
 	@GetMapping("/{id}")
 	public JsonResponse getMessageList(@PathVariable("id") String accountId) {
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);
-		result.setData(directMessageService.getMessageList(accountId));
+		result.setData(dmService.getMessageList(accountId));
 		return result;
 	}
 
 	@PostMapping
 	public JsonResponse getManufacturerList(@RequestBody DirectMessageInfo newMessage) {
-		directMessageService.postMessage(newMessage);
+		dmService.postMessage(newMessage);
 
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);

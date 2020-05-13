@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fsd.emart.account.bean.SignupForm;
 import com.fsd.emart.account.service.AccountService;
 import com.fsd.emart.common.bean.JsonResponse;
 import com.fsd.emart.common.constans.Constants;
 import com.fsd.emart.common.entity.CustomerInfo;
 
-@CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST }, origins = "http://localhost:4200")
+@CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT }, origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/")
 public class AccountController {
@@ -100,5 +101,5 @@ public class AccountController {
 		result.setData(accountService.getAccountDetail(accountId));
 		return result;
 	}
-	
+
 }
