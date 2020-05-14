@@ -2,6 +2,7 @@ package com.fsd.emart.auth.service;
 
 import com.fsd.emart.auth.bean.LoginInfo;
 import com.fsd.emart.common.entity.AuthInfo;
+import com.fsd.emart.common.entity.CustomerInfo;
 import com.fsd.emart.common.entity.SessionInfo;
 
 public interface AuthService {
@@ -31,11 +32,11 @@ public interface AuthService {
 	boolean checkSession(String id,String sessionKey);
 
 	/**
-	 * get Account Type
+	 * get Customer Info
 	 * 
 	 * @param accountId
-	 * @return accountType
+	 * @return CustomerInfo
 	 */
-	String getAccountType(String accountId);
+	CustomerInfo getCustomerInfo(String accountId);
 
 }

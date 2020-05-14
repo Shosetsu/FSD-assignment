@@ -11,6 +11,3 @@ spring:
   jpa:
     database: MYSQL
     show-sql: true
-auth:
-    type : auth_a
-    session-key.length : 16

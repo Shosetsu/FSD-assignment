@@ -16,6 +16,7 @@ import com.fsd.emart.auth.service.AuthService;
 import com.fsd.emart.common.bean.JsonResponse;
 import com.fsd.emart.common.constans.Constants;
 import com.fsd.emart.common.entity.AuthInfo;
+import com.fsd.emart.common.entity.CustomerInfo;
 import com.fsd.emart.common.entity.SessionInfo;
 import com.fsd.emart.common.exception.BizException;
 
@@ -56,11 +57,13 @@ public class AuthController {
 			throw new BizException("Invalid ssid.");
 		}
 
+		CustomerInfo cusInfo = authService.getCustomerInfo(tempInfo[1]);
+
 		result.setStatus(Constants.SUCCESS);
 
 		LoginInfo data = new LoginInfo();
-		data.setAccountId(tempInfo[1]);
-		data.setAccountType(authService.getAccountType(tempInfo[1]));
+		data.setAccountId(cusInfo.getId());
+		data.setAccountType(cusInfo.getType());
 		data.setSessionKey(tempInfo[0]);
 		result.setData(data);
 		return result;
