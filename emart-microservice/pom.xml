@@ -38,6 +38,13 @@
 	</modules>
 
 	<dependencies>
+		<!-- Common Module -->
+		<dependency>
+			<groupId>com.fsd.emart</groupId>
+			<artifactId>common-base</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<!-- Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -106,22 +113,25 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
 	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>com.fsd.emart</groupId>
-				<artifactId>common-base</artifactId>
-				<version>1.0</version>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
-
+	
 	<repositories>
 		<repository>
 			<id>alimaven</id>
