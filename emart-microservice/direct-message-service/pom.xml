@@ -9,7 +9,7 @@
 	</parent>
 	
 	<artifactId>direct-message-service</artifactId>
-	<name>Direct Message System</name>
+	<name>Direct Message Service</name>
 	<description>Direct Message System</description>
 
 	<properties>
