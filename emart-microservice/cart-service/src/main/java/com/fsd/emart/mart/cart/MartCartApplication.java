@@ -3,8 +3,12 @@ package com.fsd.emart.mart.cart;
 import org.springframework.boot.SpringApplication;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages = { "com.fsd.ermat.common", "com.fsd.ermat.mart.cart" })
+@SpringBootApplication(scanBasePackages = "com.fsd.emart.*")
+@EnableJpaRepositories("com.fsd.emart.common.dao")
+@EntityScan("com.fsd.emart.*")
 public class MartCartApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MartCartApplication.class, args);

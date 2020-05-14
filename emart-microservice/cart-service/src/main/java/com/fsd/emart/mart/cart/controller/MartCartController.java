@@ -25,6 +25,8 @@ public class MartCartController {
 
 	@GetMapping("/cart/{id}")
 	public JsonResponse getCartList(@PathVariable String id, @RequestHeader("sessionKey") String sessionKey) {
+		// TODO wait gateway
+		
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);
 		result.setData(martService.getCartList(id));
@@ -34,8 +36,10 @@ public class MartCartController {
 	@PutMapping("/cart/{id}")
 	public JsonResponse putCartList(@PathVariable String id, @RequestParam("list") String[] list,
 			@RequestHeader("sessionKey") String sessionKey) {
-		martService.updateCartList(id, list);
+		// TODO wait gateway
 		
+		martService.updateCartList(id, list);
+
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);
 		return result;

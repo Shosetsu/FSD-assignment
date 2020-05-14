@@ -45,6 +45,7 @@ public class AccountController {
 			processedInfo.setAddress(info.getPostalAddr());
 			processedInfo.setGstin(info.getGSTIN());
 			processedInfo.setBankDetail(info.getBankDetail());
+			processedInfo.setSellerDate(new Timestamp(new Date().getTime()));
 		}
 		processedInfo.setCreateTime(new Timestamp(new Date().getTime()));
 
@@ -78,6 +79,8 @@ public class AccountController {
 	@GetMapping("/query/{accountId}/sellerDate")
 	public JsonResponse getSellerCreateTime(@PathVariable("accountId") String accountId,
 			@RequestHeader("sessionKey") String sessionKey) {
+		// TODO wait gateway
+
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);
 		result.setData(accountService.getSellerCreateTime(accountId));
@@ -87,6 +90,8 @@ public class AccountController {
 	@GetMapping("/query/{accountId}")
 	public JsonResponse getAccountDetail(@PathVariable("accountId") String accountId,
 			@RequestHeader("sessionKey") String sessionKey) {
+		// TODO wait gateway
+
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);
 		result.setData(accountService.getAccountDetail(accountId));
@@ -95,10 +100,13 @@ public class AccountController {
 
 	@PutMapping("/update/{accountId}")
 	public JsonResponse updateAccountDetail(@PathVariable("accountId") String accountId,
-			@RequestHeader("sessionKey") String sessionKey) {
+			@RequestHeader("sessionKey") String sessionKey, @RequestBody CustomerInfo info) {
+		// TODO wait gateway
+
+		accountService.updateAccountDetail(info);
+
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);
-		result.setData(accountService.getAccountDetail(accountId));
 		return result;
 	}
 
