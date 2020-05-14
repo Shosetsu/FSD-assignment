@@ -20,10 +20,10 @@ public class CartInfo implements Serializable {
 
 	@Id
 	@Column
-	private String account_id;
+	private String accountId;
 	@Column
-	private String cart_items;
+	private String cartItems;
 	@Column
-	private Timestamp update_time;
+	private Timestamp updateTime;
 
 }

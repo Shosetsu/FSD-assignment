@@ -1,6 +1,7 @@
 package com.fsd.emart.common.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -35,6 +36,8 @@ public class CustomerInfo implements Serializable {
 	private String gstin;
 	@Column
 	private String bankDetail;
+	@Column
+	private Timestamp sellerDate;
 	@Column
 	private Timestamp createTime;
 

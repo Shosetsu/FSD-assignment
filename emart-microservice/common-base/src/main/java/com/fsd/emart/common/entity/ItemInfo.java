@@ -21,11 +21,11 @@ public class ItemInfo implements Serializable {
 
 	@Id
 	@Column
-	private String item_id;
-	
+	private String itemId;
+
 	@Column
 	private String name;
-	
+
 	@Column
 	private String manufacturer;
 
@@ -42,16 +42,21 @@ public class ItemInfo implements Serializable {
 	private Integer stock;
 
 	@Column
-	private String owner_id;
+	private String ownerId;
 
 	@Column
-	private Integer sold_count;
+	private Integer soldCount;
 
 	@Column
-	private Timestamp update_time;
+	private Timestamp updateTime;
 
 	@Column
-	private Timestamp create_time;
+	private Timestamp createTime;
 
+	/**
+	 * 0:normal,1:blocked,2:archived
+	 */
+	@Column
+	private Integer status;
 
 }
