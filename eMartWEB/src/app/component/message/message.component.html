@@ -1,4 +1,5 @@
 <div class="container-sm p-4">
+  <app-messageheader></app-messageheader>
   <button class="btn btn-outline-warning mb-3" (click)="back()">Back</button>
   <div *ngIf="dmList.length==0" class="row text-center">No message.</div>
   <div *ngFor="let dm of dmList" class="mb-3 message-box">
@@ -22,7 +23,7 @@
   <div class="modal border dm-send-box">
     <form (ngSubmit)="send()" #ndmForm="ngForm">
       <div class="modal-header">
-        <h5>Send to {{newMessage.sendTo}}</h5>
+        <h5>Send to {{newMessage.sendto}}</h5>
       </div>
       <div class="p-3">
         <textarea name="text" rows="10" [(ngModel)]="newMessage.text" required class="form-control"

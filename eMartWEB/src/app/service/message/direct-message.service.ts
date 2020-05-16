@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { DirectMessage } from 'src/app/bean/DirectMessage';
 import { Constants } from 'src/app/constans/constans';
+import { ConnectService } from '../connect/connect.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DirectMessageService {
 
-  constructor() { }
+  constructor(private connect: ConnectService) { }
 
   getMessageList(accountId, sessionKey): DirectMessage[] {
     if (Constants.debugMode) console.log("#Get account DM list " + accountId);
@@ -20,9 +21,8 @@ export class DirectMessageService {
   }
 
   sendMessage(msg: DirectMessage): number {
-    if (Constants.debugMode) console.log("#Send DM to " + msg.sendTo);
-    //TODO connect server
-
+    if (Constants.debugMode) console.log("#Send DM to " + msg.sendto);
+    this.connect.fetchData(Constants.messageServer, "/message", "POST", JSON.stringify(msg));
     return 1;
   }
 }

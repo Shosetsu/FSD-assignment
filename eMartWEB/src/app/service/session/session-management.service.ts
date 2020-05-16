@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CustomerInfo } from 'src/app/bean/CustomerInfo';
 import { Message } from 'src/app/bean/message';
 import { Constants } from 'src/app/constans/constans';
+import { ConnectService } from '../connect/connect.service';
 import { MessageService } from '../message/message.service';
 import { SessionControllerService } from './session-controller.service';
 
@@ -10,7 +11,7 @@ import { SessionControllerService } from './session-controller.service';
 })
 export class SessionManagementService {
 
-  constructor(private sessionControllerService: SessionControllerService, private messageService: MessageService) { }
+  constructor(private sessionControllerService: SessionControllerService, private messageService: MessageService, private connect: ConnectService) { }
 
 
   async login(id, password): Promise<string> {
@@ -19,27 +20,21 @@ export class SessionManagementService {
     let processResult = 'success';
     let result = new CustomerInfo();
 
-    await fetch(Constants.fetchAddress + "/auth/login", {
-      headers: Constants.fetchHeader,
-      method: "POST",
-      body: JSON.stringify({ id: id, password: password })
-    }).then((fetchResult) => {
-      return fetchResult.json();
-    }).then((json) => {
-      if (Constants.debugMode) console.log(json);
-      if (json['status'] !== 'success') {
-        this.messageService.addMsg(new Message("warning", json['messageList'][0]));
+    await this.connect.fetchData(Constants.authServer, "/auth/login", "POST", JSON.stringify({ id: id, password: password }))
+      .then((json) => {
+        if (Constants.debugMode) console.log(json);
+        if (json === 'failure') {
+          processResult = 'failure';
+          return;
+        }
+        result.init(json['data']);
+        localStorage['_ssid'] = result.sessionKey + "|" + result.accountId;
+        this.sessionControllerService.init(result);
+      }).catch((err) => {
+        if (Constants.debugMode) console.error(err);
         processResult = 'failure';
-        return;
-      }
-      result.init(json['data']);
-      localStorage['_ssid'] = result.sessionKey + "|" + result.accountId;
-      this.sessionControllerService.init(result);
-    }).catch((err) => {
-      if (Constants.debugMode) console.error(err);
-      processResult = 'failure';
-      this.messageService.addMsg(new Message("danger", "System Error"));
-    });
+        this.messageService.addMsg(new Message("danger", "System Error"));
+      });
 
     return processResult;
   }
@@ -49,7 +44,7 @@ export class SessionManagementService {
     localStorage['_ssid'] = "";
     this.sessionControllerService.clearSession();
 
-    fetch(Constants.fetchAddress + "/auth/logout", {
+    fetch(Constants.authServer + "/auth/logout", {
       headers: Constants.fetchHeader,
       method: "POST",
       body: JSON.stringify({ id: id, sessionKey: sessionKey })
@@ -62,7 +57,7 @@ export class SessionManagementService {
     if (Constants.debugMode) console.log("#Auto Log in " + ssid.split("|")[1]);
     let result = new CustomerInfo();
 
-    fetch(Constants.fetchAddress + "/auth/login?ssId=" + encodeURI(ssid), {
+    fetch(Constants.authServer + "/auth/login?ssId=" + encodeURI(ssid), {
       headers: Constants.fetchHeader,
       method: "GET",
       cache: 'no-cache'

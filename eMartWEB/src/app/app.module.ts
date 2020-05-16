@@ -21,6 +21,7 @@ import { OrderManagementService } from './service/order/order-management.service
 import { SessionControllerService } from './service/session/session-controller.service';
 import { ForbiddenComponent } from './component/common/forbidden.component';
 import { SellerManagementService } from './service/seller/seller-management.service';
+import { ConnectService } from './service/connect/connect.service';
 
 @NgModule({
    declarations: [
@@ -49,7 +50,8 @@ import { SellerManagementService } from './service/seller/seller-management.serv
       { provide: 'MessageService', useClass: MessageService },
       { provide: 'DirectMessageService', useClass: DirectMessageService },
       { provide: 'OrderManagementService', useClass: OrderManagementService },
-      { provide: 'SellerManagementService', useClass: SellerManagementService }
+      { provide: 'SellerManagementService', useClass: SellerManagementService },
+      { provide: 'ConnectService', useClass: ConnectService }
    ],
    bootstrap: [
       AppComponent
