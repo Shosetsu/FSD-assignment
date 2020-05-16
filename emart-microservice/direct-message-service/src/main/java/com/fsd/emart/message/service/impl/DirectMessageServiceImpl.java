@@ -13,17 +13,17 @@ import com.fsd.emart.message.service.DirectMessageService;
 @Service
 public class DirectMessageServiceImpl implements DirectMessageService {
 
-	@Resource
-	private DirectMessageDao directMessageDao;
+    @Resource
+    private DirectMessageDao directMessageDao;
 
-	@Override
-	public List<DirectMessageInfo> getMessageList(String accountId) {
-		return directMessageDao.findListBySendbyOrSendto(accountId, accountId);
-	}
+    @Override
+    public List<DirectMessageInfo> getMessageList(String accountId) {
+        return directMessageDao.findListBySendbyOrSendto(accountId, accountId);
+    }
 
-	@Override
-	public void postMessage(DirectMessageInfo message) {
-		directMessageDao.save(message);
-	}
+    @Override
+    public void postMessage(DirectMessageInfo message) {
+        directMessageDao.saveAndFlush(message);
+    }
 
 }
