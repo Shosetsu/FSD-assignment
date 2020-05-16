@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,7 @@ public class MartQueryServiceImpl implements MartQueryService {
 
     @Override
     public List<String> getCategoryList() {
-        List<CategoryData> list = categoryDao.findAll();
+        List<CategoryData> list = categoryDao.findAll(Sort.by("id").ascending());
 
         List<String> result = new ArrayList<>(list.size());
         for (CategoryData categoryData : list) {
@@ -51,7 +52,7 @@ public class MartQueryServiceImpl implements MartQueryService {
 
     @Override
     public List<String> getManufacturerList() {
-        List<ManufacturerData> list = manufacturerDao.findAll();
+        List<ManufacturerData> list = manufacturerDao.findAll(Sort.by("id").ascending());
 
         List<String> result = new ArrayList<>(list.size());
         for (ManufacturerData manufacturerData : list) {
@@ -84,7 +85,7 @@ public class MartQueryServiceImpl implements MartQueryService {
 
             @Override
             public Predicate toPredicate(Root<ItemInfo> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                query.orderBy(criteriaBuilder.desc(root.get("update_time")));
+                query.orderBy(criteriaBuilder.desc(root.get("updateTime")));
 
                 if (filter != null) {
                     Predicate cond = criteriaBuilder.like(root.get("name"),
@@ -119,8 +120,8 @@ public class MartQueryServiceImpl implements MartQueryService {
         if (startRow < queryList.size()) {
             endRow = Math.min(endRow, queryList.size());
 
-            for (; startRow <= endRow; startRow++) {
-                list.add(GoodInfo.getInfoFromEntity(queryList.get(startRow - 1)));
+            for (; startRow < endRow; startRow++) {
+                list.add(GoodInfo.getInfoFromEntity(queryList.get(startRow)));
             }
         }
 

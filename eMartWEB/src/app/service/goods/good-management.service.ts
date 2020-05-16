@@ -4,6 +4,7 @@ import { Constants } from 'src/app/constans/constans';
 import { GoodInfo } from '../../bean/GoodInfo';
 import { MessageService } from '../message/message.service';
 import { SessionControllerService } from '../session/session-controller.service';
+import { ConnectService } from '../connect/connect.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,13 @@ export class GoodManagementService {
 
   private cartList: GoodInfo[];
 
-  private categoryList: string[];
-  private manufacturerList: string[];
+  private categoryList: string[]=[];
+  private manufacturerList: string[]=[];
 
-  constructor(private sessionService: SessionControllerService, private msgService: MessageService) {
+  constructor(private sessionService: SessionControllerService, private msgService: MessageService, private connect: ConnectService) {
     this.cartList = this.selectCartListFromServer();
-    this.categoryList = this.selectCategoryListFromServer();
-    this.manufacturerList = this.selectManufacturerListFromServer();
+    this.selectCategoryListFromServer().then(e => this.categoryList = e['data']);
+    this.selectManufacturerListFromServer().then(e => this.manufacturerList = e['data']);
   }
 
   getCartList(): GoodInfo[] {
@@ -39,7 +40,7 @@ export class GoodManagementService {
 
   addCart(good: GoodInfo, count: number = 1) {
     //check
-    if(good.owner===this.sessionService.getAccountId()){
+    if (good.owner === this.sessionService.getAccountId()) {
       this.msgService.addMsg(new Message("warning", "Cannot add own item to cart."));
       return;
     }
@@ -85,7 +86,6 @@ export class GoodManagementService {
   private selectCartListFromServer(): GoodInfo[] {
     this.sessionService.getSessionKey();
     if (Constants.debugMode) console.log("#load cartlist: " + this.sessionService.getAccountId());
-
     //TODO server connect
     return [];
   }
@@ -95,20 +95,17 @@ export class GoodManagementService {
     //TODO server connect use good.id
   }
 
-  private selectCategoryListFromServer(): string[] {
-    this.sessionService.getSessionKey();
+  private async selectCategoryListFromServer() {
     if (Constants.debugMode) console.log("#load categorylist");
 
-    //TODO server connect
-    return ['category1', 'category2', 'category3'];
+    return this.connect.fetchData(Constants.martQueryServer, "/category", "GET", null);
   }
 
-  private selectManufacturerListFromServer(): string[] {
+  private async selectManufacturerListFromServer() {
     this.sessionService.getSessionKey();
     if (Constants.debugMode) console.log("#load manufacturerList");
 
-    //TODO server connect
-    return ['manufacturer4', 'manufacturer5', 'manufacturer6'];
+    return this.connect.fetchData(Constants.martQueryServer, "/manufacturer", "GET", null);
   }
 
   queryGoods(filterRules): GoodInfo[] {

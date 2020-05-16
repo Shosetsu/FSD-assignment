@@ -19,13 +19,16 @@ public class ManufacturerData implements Serializable {
     private static final long serialVersionUID = -717060792549894036L;
 
     @Id
-    @Column
+    @Column(length = 3)
+    private String id;
+
+    @Column(length = 255)
     private String name;
 
-    @Column
+    @Column(length = 255)
     private String createUser;
 
     @Column
-    private Timestamp createDate;
+    private Timestamp createTime;
 
 }

@@ -1,7 +1,5 @@
 package com.fsd.emart.auth.service.impl;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Optional;
 
 import javax.annotation.Resource;
@@ -56,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
         SessionInfo sessionInfo = new SessionInfo();
         sessionInfo.setId(info.getId());
         sessionInfo.setSessionKey(session_key);
-        sessionInfo.setLastLoginTime(new Timestamp(new Date().getTime()));
+        sessionInfo.setLastLoginTime(null);
         sessionDao.saveAndFlush(sessionInfo);
 
         // Set response

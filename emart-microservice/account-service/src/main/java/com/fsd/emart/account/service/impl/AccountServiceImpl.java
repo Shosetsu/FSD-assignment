@@ -94,7 +94,6 @@ public class AccountServiceImpl implements AccountService {
         AuthInfo authInfo = new AuthInfo();
         authInfo.setId(customerInfo.get().getId());
         authInfo.setPassword(cryptoUtil.encodePassword(newPassword));
-        authInfo.setUpdateTime(new Timestamp(new Date().getTime()));
 
         // TODO Call mail server
     }

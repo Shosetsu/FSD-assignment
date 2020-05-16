@@ -4,9 +4,8 @@ import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +17,6 @@ import com.fsd.emart.mart.query.service.MartQueryService;
 
 @CrossOrigin(methods = RequestMethod.GET, origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/mart")
 public class MartQueryController {
     @Resource
     private MartQueryService martService;
@@ -40,7 +38,7 @@ public class MartQueryController {
     }
 
     @GetMapping("/list")
-    public JsonResponse getItemList(@RequestBody FilterConditions filter,
+    public JsonResponse getItemList(@ModelAttribute FilterConditions filter,
         @RequestParam(required = false, name = "sr", defaultValue = "0") int startRow) {
         JsonResponse result = new JsonResponse();
         result.setStatus(Constants.SUCCESS);

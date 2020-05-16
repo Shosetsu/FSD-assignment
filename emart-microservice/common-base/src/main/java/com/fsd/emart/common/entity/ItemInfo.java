@@ -21,32 +21,32 @@ public class ItemInfo implements Serializable {
     private static final long serialVersionUID = -2218899802295585516L;
 
     @Id
-    @Column
-    private BigInteger itemId;
+    @Column(length = 10)
+    private String itemId;
 
-    @Column
+    @Column(length = 45)
     private String name;
 
-    @Column
+    @Column(length = 45)
     private String manufacturer;
 
-    @Column
+    @Column(length = 45)
     private String category;
 
-    @Column
+    @Column(length = 5000)
     private String detail;
 
     @Column
     private BigDecimal price;
 
-    @Column
+    @Column(length = 11)
     private BigInteger stock;
 
     @Column
     private String ownerId;
 
-    @Column
-    private Integer soldCount;
+    @Column(length = 11)
+    private BigInteger soldCount;
 
     @Column
     private Timestamp updateTime;
@@ -57,7 +57,7 @@ public class ItemInfo implements Serializable {
     /**
      * 0:normal,1:blocked,2:archived
      */
-    @Column
+    @Column(length = 1)
     private Integer status;
 
 }
