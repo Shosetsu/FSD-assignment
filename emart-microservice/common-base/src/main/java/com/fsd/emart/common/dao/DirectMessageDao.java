@@ -10,7 +10,7 @@ import com.fsd.emart.common.entity.DirectMessageInfo;
 
 @Repository
 public interface DirectMessageDao
-		extends JpaRepository<DirectMessageInfo, String>, JpaSpecificationExecutor<DirectMessageInfo> {
+    extends JpaRepository<DirectMessageInfo, String>, JpaSpecificationExecutor<DirectMessageInfo> {
 
-	List<DirectMessageInfo> findListBySendbyOrSendto(String sendby, String sendto);
+    List<DirectMessageInfo> findListBySendbyOrSendto(String sendby, String sendto);
 }

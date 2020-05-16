@@ -15,15 +15,17 @@ import lombok.Data;
 @Table(name = "s_category")
 public class CategoryData implements Serializable {
 
-	/** UID */
-	private static final long serialVersionUID = 4049443688922991540L;
+    /** UID */
+    private static final long serialVersionUID = 4049443688922991540L;
 
-	@Id
-	@Column
-	private String name;
-	@Column
-	private String create_user;
-	@Column
-	private Timestamp create_date;
+    @Id
+    @Column
+    private String name;
+
+    @Column
+    private String createUser;
+
+    @Column
+    private Timestamp createDate;
 
 }

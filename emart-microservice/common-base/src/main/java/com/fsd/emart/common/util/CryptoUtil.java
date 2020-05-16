@@ -11,24 +11,23 @@ import com.fsd.emart.common.constans.AuthConstants;
 @Component
 public class CryptoUtil {
 
-	private String CURRENT_AUTH_TYPE = "auth_a";
+    PasswordEncoder passwordEncoder =
+        new DelegatingPasswordEncoder(AuthConstants.CURRENT_AUTH_TYPE, AuthConstants.AUTH_MAP);
 
-	private int SESSION_KEY_LENGTH = 16;
+    public String encodePassword(String password) {
+        return this.passwordEncoder.encode(password);
+    }
 
-	private int RANDOM_PASSWORD_LENGTH = 12;
+    public boolean comparePassword(String password, String encodedPassword) {
+        return this.passwordEncoder.matches(password, encodedPassword);
+    }
 
-	PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder(CURRENT_AUTH_TYPE, AuthConstants.AUTH_MAP);
+    public String createSessionKey() {
+        return new String(Hex.encode(KeyGenerators.secureRandom(AuthConstants.SESSION_KEY_LENGTH).generateKey()));
+    }
 
-	public PasswordEncoder getEncoder() {
-		return passwordEncoder;
-	}
-
-	public String createSessionKey() {
-		return new String(Hex.encode(KeyGenerators.secureRandom(SESSION_KEY_LENGTH).generateKey()));
-	}
-
-	public String createRandomPassword() {
-		return new String(Hex.encode(KeyGenerators.secureRandom(RANDOM_PASSWORD_LENGTH).generateKey()));
-	}
+    public String createRandomPassword() {
+        return new String(Hex.encode(KeyGenerators.secureRandom(AuthConstants.RANDOM_PASSWORD_LENGTH).generateKey()));
+    }
 
 }

@@ -2,6 +2,7 @@ package com.fsd.emart.common.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -16,33 +17,32 @@ import lombok.Data;
 @Table(name = "t_order")
 public class OrderInfo implements Serializable {
 
-	/** UID */
-	private static final long serialVersionUID = 1536354983346218329L;
+    /** UID */
+    private static final long serialVersionUID = 1536354983346218329L;
 
+    @Id
+    @Column
+    private BigInteger orderId;
 
-	@Id
-	@Column
-	private String order_id;
+    @Column
+    private BigInteger itemId;
 
-	@Column
-	private String item_id;
+    @Column
+    private BigDecimal price;
 
-	@Column
-	private BigDecimal price;
+    @Column
+    private BigInteger count;
 
-	@Column
-	private Integer count;
+    @Column
+    private BigDecimal amount;
 
-	@Column
-	private BigDecimal amount;
+    @Column
+    private String sellerId;
 
-	@Column
-	private String seller_id;
+    @Column
+    private String buyerId;
 
-	@Column
-	private String buyer_id;
-
-	@Column
-	private Timestamp order_time;
+    @Column
+    private Timestamp orderTime;
 
 }

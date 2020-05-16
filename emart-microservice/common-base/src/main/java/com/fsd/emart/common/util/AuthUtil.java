@@ -11,42 +11,42 @@ import com.fsd.emart.common.constans.Constants;
 import com.fsd.emart.common.dao.CustomerDao;
 import com.fsd.emart.common.dao.SessionDao;
 import com.fsd.emart.common.entity.SessionInfo;
-import com.fsd.emart.common.exception.BizException;
+import com.fsd.emart.common.exception.ApplicationException;
 
 @Component
 public class AuthUtil {
 
-	@Resource
-	private CustomerDao customerDao;
+    @Resource
+    private CustomerDao customerDao;
 
-	@Resource
-	private SessionDao sessionDao;
+    @Resource
+    private SessionDao sessionDao;
 
-	public boolean checkSession(String accountId, String sessionKey) {
-		Optional<SessionInfo> tempInfo = sessionDao.findByIdAndSessionKey(accountId, sessionKey);
+    public boolean checkSession(String accountId, String sessionKey) {
+        Optional<SessionInfo> tempInfo = sessionDao.findByIdAndSessionKey(accountId, sessionKey);
 
-		return tempInfo.isPresent()
-				&& tempInfo.get().getLastLoginTime().getTime() > (new Date().getTime() - 1000L * 60 * 60 * 24 * 30);
-	}
+        return tempInfo.isPresent()
+            && tempInfo.get().getLastLoginTime().getTime() > (new Date().getTime() - 1000L * 60 * 60 * 24 * 30);
+    }
 
-	public void froceCheck(String accountId, String sessionKey) {
-		if (!checkSession(accountId, sessionKey)) {
-			throw new BizException("Not login.");
-		}
-	}
+    public void froceCheck(String accountId, String sessionKey) {
+        if (!checkSession(accountId, sessionKey)) {
+            throw new ApplicationException("Not login.");
+        }
+    }
 
-	public void authCheck(String accountId, String sessionKey, String targetId) {
-		// session exist?
-		froceCheck(accountId, sessionKey);
+    public void authCheck(String accountId, String sessionKey, String targetId) {
+        // session exist?
+        froceCheck(accountId, sessionKey);
 
-		if (!StringUtil.emptyToBlank(targetId).equals(accountId)
-				&& !Constants.ROLE_ADMIN.equals(customerDao.getOne(accountId).getType())) {
-			throw new BizException("System Error.");
-		}
-	}
+        if (!StringUtil.emptyToBlank(targetId).equals(accountId)
+            && !Constants.ROLE_ADMIN.equals(customerDao.getOne(accountId).getType())) {
+            throw new ApplicationException("System Error.");
+        }
+    }
 
-	public boolean isExistAccountId(String accountId) {
-		return customerDao.findById(accountId).isPresent();
-	}
+    public boolean isExistAccountId(String accountId) {
+        return customerDao.findById(accountId).isPresent();
+    }
 
 }

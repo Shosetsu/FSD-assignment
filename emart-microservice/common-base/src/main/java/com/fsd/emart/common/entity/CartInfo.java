@@ -15,15 +15,17 @@ import lombok.Data;
 @Table(name = "t_cart")
 public class CartInfo implements Serializable {
 
-	/** UID */
-	private static final long serialVersionUID = 5193833692649739115L;
+    /** UID */
+    private static final long serialVersionUID = 5193833692649739115L;
 
-	@Id
-	@Column
-	private String accountId;
-	@Column
-	private String cartItems;
-	@Column
-	private Timestamp updateTime;
+    @Id
+    @Column
+    private String accountId;
+
+    @Column
+    private String cartItems;
+
+    @Column
+    private Timestamp updateTime;
 
 }

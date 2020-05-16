@@ -16,23 +16,23 @@ import lombok.Data;
 @Table(name = "t_message")
 public class DirectMessageInfo implements Serializable {
 
-	/** UID */
-	private static final long serialVersionUID = -6497737526387127725L;
+    /** UID */
+    private static final long serialVersionUID = -6497737526387127725L;
 
-	@Id
-	@Column
-	private BigInteger msgId;
+    @Id
+    @Column
+    private BigInteger msgId;
 
-	@Column
-	private String sendby;
+    @Column
+    private String sendby;
 
-	@Column
-	private String sendto;
+    @Column
+    private String sendto;
 
-	@Column
-	private String text;
+    @Column
+    private String text;
 
-	@Column
-	private Timestamp createTime;
+    @Column
+    private Timestamp createTime;
 
 }

@@ -11,6 +11,6 @@ import com.fsd.emart.common.entity.SessionInfo;
 @Repository
 public interface SessionDao extends JpaRepository<SessionInfo, String>, JpaSpecificationExecutor<SessionInfo> {
 
-	Optional<SessionInfo> findByIdAndSessionKey(String id, String sessionKey);
-	
+    Optional<SessionInfo> findByIdAndSessionKey(String id, String sessionKey);
+
 }

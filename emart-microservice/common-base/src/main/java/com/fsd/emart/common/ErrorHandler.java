@@ -10,15 +10,15 @@ import com.fsd.emart.common.exception.BizException;
 @RestControllerAdvice
 public class ErrorHandler {
 
-	@ExceptionHandler(value = BizException.class)
-	public JsonResponse handleException(BizException ex) {
+    @ExceptionHandler(value = BizException.class)
+    public JsonResponse handleException(BizException ex) {
 
-		JsonResponse response = new JsonResponse();
-		response.setStatus(Constants.FAILURE);
-		String[] messageList = new String[] { ex.getMessage() };
-		
-		response.setMessageList(messageList);
+        JsonResponse response = new JsonResponse();
+        response.setStatus(Constants.FAILURE);
+        String[] messageList = new String[] {ex.getMessage()};
 
-		return response;
-	}
+        response.setMessageList(messageList);
+
+        return response;
+    }
 }

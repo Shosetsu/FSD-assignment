@@ -15,15 +15,17 @@ import lombok.Data;
 @Table(name = "t_auth")
 public class AuthInfo implements Serializable {
 
-	/** UID */
-	private static final long serialVersionUID = 8874383918901366170L;
+    /** UID */
+    private static final long serialVersionUID = 8874383918901366170L;
 
-	@Id
-	@Column
-	private String id;
-	@Column
-	private String password;
-	@Column
-	private Timestamp updateTime;
+    @Id
+    @Column
+    private String id;
+
+    @Column
+    private String password;
+
+    @Column
+    private Timestamp updateTime;
 
 }

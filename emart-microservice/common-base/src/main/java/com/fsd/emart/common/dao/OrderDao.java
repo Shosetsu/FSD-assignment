@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 import com.fsd.emart.common.entity.OrderInfo;
 
 @Repository
-public interface OrderDao extends JpaRepository<OrderInfo, String>, JpaSpecificationExecutor<OrderInfo> {
-}
+public interface OrderDao extends JpaRepository<OrderInfo, String>, JpaSpecificationExecutor<OrderInfo> {}

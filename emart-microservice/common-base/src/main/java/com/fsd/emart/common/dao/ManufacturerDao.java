@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import com.fsd.emart.common.entity.ManufacturerData;
 
 @Repository
-public interface ManufacturerDao extends JpaRepository<ManufacturerData, String>, JpaSpecificationExecutor<ManufacturerData> {
-}
+public interface ManufacturerDao
+    extends JpaRepository<ManufacturerData, String>, JpaSpecificationExecutor<ManufacturerData> {}

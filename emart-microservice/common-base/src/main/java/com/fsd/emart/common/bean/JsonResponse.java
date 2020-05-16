@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class JsonResponse {
 
-	private String status;
-	
-	private String[] messageList;
-	
-	private Object data;
-	
+    private String status;
+
+    private String[] messageList;
+
+    private Object data;
+
 }

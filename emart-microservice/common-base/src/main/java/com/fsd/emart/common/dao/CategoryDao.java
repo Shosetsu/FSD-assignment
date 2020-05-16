@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 import com.fsd.emart.common.entity.CategoryData;
 
 @Repository
-public interface CategoryDao extends JpaRepository<CategoryData, String>, JpaSpecificationExecutor<CategoryData> {
-}
+public interface CategoryDao extends JpaRepository<CategoryData, String>, JpaSpecificationExecutor<CategoryData> {}

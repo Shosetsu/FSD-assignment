@@ -11,5 +11,5 @@ import com.fsd.emart.common.entity.CustomerInfo;
 @Repository
 public interface CustomerDao extends JpaRepository<CustomerInfo, String>, JpaSpecificationExecutor<CustomerInfo> {
 
-	Optional<CustomerInfo> findByEmail(String email);
+    Optional<CustomerInfo> findByEmail(String email);
 }

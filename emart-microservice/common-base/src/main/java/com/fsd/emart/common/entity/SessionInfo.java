@@ -15,15 +15,17 @@ import lombok.Data;
 @Table(name = "t_session")
 public class SessionInfo implements Serializable {
 
-	/** UID */
-	private static final long serialVersionUID = 2514589262873053104L;
+    /** UID */
+    private static final long serialVersionUID = 2514589262873053104L;
 
-	@Id
-	@Column
-	private String id;
-	@Column
-	private String sessionKey;
-	@Column
-	private Timestamp lastLoginTime;
+    @Id
+    @Column
+    private String id;
+
+    @Column
+    private String sessionKey;
+
+    @Column
+    private Timestamp lastLoginTime;
 
 }
