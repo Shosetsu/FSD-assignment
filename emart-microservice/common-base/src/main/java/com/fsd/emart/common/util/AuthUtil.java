@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.fsd.emart.common.constans.Constants;
 import com.fsd.emart.common.dao.CustomerDao;
+import com.fsd.emart.common.dao.ItemDao;
 import com.fsd.emart.common.dao.SessionDao;
 import com.fsd.emart.common.entity.SessionInfo;
 import com.fsd.emart.common.exception.AuthException;
@@ -21,6 +22,13 @@ public class AuthUtil {
 
     @Resource
     private SessionDao sessionDao;
+
+    @Resource
+    private ItemDao itemDao;
+
+    public String getAccountType(String accountId) {
+        return customerDao.getOne(accountId).getType();
+    }
 
     public boolean checkSession(String accountId, String sessionKey) {
         Optional<SessionInfo> tempInfo = sessionDao.findByIdAndSessionKey(accountId, sessionKey);
@@ -40,7 +48,7 @@ public class AuthUtil {
         froceCheck(accountId, sessionKey);
 
         if (!StringUtil.emptyToBlank(targetId).equals(accountId)
-            && !Constants.ROLE_ADMIN.equals(customerDao.getOne(accountId).getType())) {
+            && !Constants.ROLE_ADMIN.equals(getAccountType(accountId))) {
             throw new AuthException("System Error.");
         }
     }

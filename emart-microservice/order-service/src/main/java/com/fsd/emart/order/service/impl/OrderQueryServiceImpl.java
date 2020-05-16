@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import com.fsd.emart.common.dao.ItemDao;
 import com.fsd.emart.common.dao.OrderDao;
 import com.fsd.emart.common.entity.OrderInfo;
@@ -13,6 +15,7 @@ import com.fsd.emart.common.exception.ApplicationException;
 import com.fsd.emart.order.bean.OrderDetail;
 import com.fsd.emart.order.service.OrderQueryService;
 
+@Service
 public class OrderQueryServiceImpl implements OrderQueryService {
 
     @Resource
@@ -44,7 +47,7 @@ public class OrderQueryServiceImpl implements OrderQueryService {
 
         Integer endRow = startRow + 50;
 
-        List<OrderInfo> queryList = orderDao.findAllBySellerIdOrBuyerIdOrderByOrderTimeDesc(accountId, accountId);
+        List<OrderInfo> queryList = orderDao.findBySellerIdOrBuyerIdOrderByOrderTimeDesc(accountId, accountId);
 
         if (startRow < queryList.size()) {
             endRow = Math.min(endRow, queryList.size());

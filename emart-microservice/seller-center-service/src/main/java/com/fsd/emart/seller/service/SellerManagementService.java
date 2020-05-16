@@ -7,14 +7,14 @@ import com.fsd.emart.seller.bean.SalesOverviewInfo;
 
 public interface SellerManagementService {
 
-	public Boolean isSeller(String accountId);
+    public Boolean isSeller(String accountId);
 
-	public List<GoodInfo> getSalesList(String accountId);
+    public List<GoodInfo> getSalesList(String accountId);
 
-	public SalesOverviewInfo getSalesOverviewByMonth(String yyyyMM);
+    public SalesOverviewInfo getSalesOverviewByMonth(String accountId, String dateYm);
 
-	public void saveSalesItem(GoodInfo info);
+    public void saveSalesItem(GoodInfo info, String accountId);
 
-	public void changeSalesItemStatus(String itemId, String status);
+    public void changeSalesItemStatus(String itemId, Integer status, String accountId);
 
 }

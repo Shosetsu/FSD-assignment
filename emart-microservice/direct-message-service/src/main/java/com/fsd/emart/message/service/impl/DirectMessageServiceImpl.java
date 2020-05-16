@@ -18,7 +18,7 @@ public class DirectMessageServiceImpl implements DirectMessageService {
 
     @Override
     public List<DirectMessageInfo> getMessageList(String accountId) {
-        return directMessageDao.findListBySendbyOrSendto(accountId, accountId);
+        return directMessageDao.findBySendbyOrSendto(accountId, accountId);
     }
 
     @Override

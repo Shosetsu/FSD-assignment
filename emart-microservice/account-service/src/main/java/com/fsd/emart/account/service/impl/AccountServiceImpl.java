@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.fsd.emart.account.bean.AccountDetailUpdateForm;
 import com.fsd.emart.account.service.AccountService;
 import com.fsd.emart.common.constans.Constants;
 import com.fsd.emart.common.dao.AuthDao;
@@ -18,6 +19,7 @@ import com.fsd.emart.common.entity.CustomerInfo;
 import com.fsd.emart.common.exception.ApplicationException;
 import com.fsd.emart.common.exception.SystemException;
 import com.fsd.emart.common.util.CryptoUtil;
+import com.fsd.emart.common.util.StringUtil;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -51,7 +53,6 @@ public class AccountServiceImpl implements AccountService {
         AuthInfo authInfo = new AuthInfo();
         authInfo.setId(info.getId());
         authInfo.setPassword(cryptoUtil.encodePassword(newPassword));
-        authInfo.setUpdateTime(info.getCreateTime());
 
         // process
         customerDao.save(info);
@@ -66,7 +67,7 @@ public class AccountServiceImpl implements AccountService {
 
         if (!authInfo.isPresent()) {
             // Not Client?
-            throw new SystemException("System Error!");
+            throw new SystemException("System Error.");
         }
 
         if (!cryptoUtil.comparePassword(password, authInfo.get().getPassword())) {
@@ -110,29 +111,48 @@ public class AccountServiceImpl implements AccountService {
 
         // check accountId exist
         if (!customerInfo.isPresent()) {
-            throw new SystemException("System Error!");
+            throw new SystemException("System Error.");
         }
 
         return customerInfo.get();
     }
 
     @Override
-    public void updateAccountDetail(CustomerInfo info) {
+    public void updateAccountDetail(AccountDetailUpdateForm form, String targetId) {
 
-        CustomerInfo currentInfo = customerDao.findById(info.getId()).orElse(null);
+        CustomerInfo currentInfo = customerDao.findById(targetId).orElse(null);
 
         // check accountId exist
         if (currentInfo == null) {
-            throw new SystemException("System Error!");
+            throw new SystemException("System Error.");
         }
 
-        info.setId(currentInfo.getId());
-        if (Constants.ROLE_BUYER.equals(currentInfo.getType()) && Constants.ROLE_SELLER.equals(info.getType())) {
-            info.setSellerDate(new Timestamp(new Date().getTime()));
+        if (Constants.ROLE_BUYER.equals(currentInfo.getType()) && Constants.ROLE_SELLER.equals(form.getAccountType())) {
+            currentInfo.setType(Constants.ROLE_SELLER);
+            currentInfo.setSellerDate(new Timestamp(new Date().getTime()));
         }
 
-        customerDao.save(info);
+        currentInfo.setEmail(StringUtil.getNonblankString(form.getEmail()));
 
+        if (Constants.ROLE_SELLER.equals(currentInfo.getType())) {
+            currentInfo.setCompany(StringUtil.getNonblankString(form.getCoName()));
+            currentInfo.setAddress(StringUtil.getNonblankString(form.getPostalAddr()));
+            currentInfo.setGstin(StringUtil.getNonblankString(form.getGSTIN()));
+            currentInfo.setBankDetail(StringUtil.getNonblankString(form.getBankDetail()));
+            currentInfo.setTel(form.getTelNumber());
+        } else {
+            currentInfo.setTel(StringUtil.getNonblankString(form.getTelNumber()));
+        }
+        // update account info
+        customerDao.saveAndFlush(currentInfo);
+
+        // update password
+        if (!StringUtil.isEmpty(form.getPassword())) {
+            AuthInfo authInfo = new AuthInfo();
+            authInfo.setId(currentInfo.getId());
+            authInfo.setPassword(cryptoUtil.encodePassword(form.getPassword()));
+
+            authDao.saveAndFlush(authInfo);
+        }
     }
-
 }

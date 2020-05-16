@@ -11,15 +11,17 @@ import com.fsd.emart.common.constans.AuthConstants;
 @Component
 public class CryptoUtil {
 
+    private static final String SALT = "";
+
     PasswordEncoder passwordEncoder =
         new DelegatingPasswordEncoder(AuthConstants.CURRENT_AUTH_TYPE, AuthConstants.AUTH_MAP);
 
     public String encodePassword(String password) {
-        return this.passwordEncoder.encode(password);
+        return this.passwordEncoder.encode(password + SALT);
     }
 
     public boolean comparePassword(String password, String encodedPassword) {
-        return this.passwordEncoder.matches(password, encodedPassword);
+        return this.passwordEncoder.matches(password + SALT, encodedPassword);
     }
 
     public String createSessionKey() {

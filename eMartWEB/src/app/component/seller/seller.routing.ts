@@ -17,7 +17,7 @@ const routes: Routes = [
       { path: '**', component: MessageheaderComponent, pathMatch: 'full' }
     ]
   },
-  { path: 'seller/:sid', component: SellerComponent, canActivate: [AuthGuard, SellerCenterGuard], loadChildren: "seller" },
+  { path: 'seller/:sid', component: SellerComponent, canActivate: [AuthGuard, SellerCenterGuard], canActivateChild: [SellerCenterGuard], loadChildren: "seller" },
 ];
 
 

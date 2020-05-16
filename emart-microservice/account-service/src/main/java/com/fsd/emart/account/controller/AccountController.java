@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fsd.emart.account.bean.AccountDetailUpdateForm;
 import com.fsd.emart.account.bean.SignupForm;
 import com.fsd.emart.account.service.AccountService;
 import com.fsd.emart.common.bean.JsonResponse;
@@ -104,11 +105,11 @@ public class AccountController {
     @PutMapping("/update/{accountId}")
     public JsonResponse updateAccountDetail(@PathVariable("accountId") String targetId,
         @RequestHeader("accountId") String accountId, @RequestHeader("sessionKey") String sessionKey,
-        @RequestBody CustomerInfo info) {
+        @RequestBody AccountDetailUpdateForm form) {
         // Authorization Check
-        authUtil.authCheck(accountId, sessionKey, info.getId());
+        authUtil.authCheck(accountId, sessionKey, targetId);
 
-        accountService.updateAccountDetail(info);
+        accountService.updateAccountDetail(form, targetId);
 
         JsonResponse result = new JsonResponse();
         result.setStatus(Constants.SUCCESS);

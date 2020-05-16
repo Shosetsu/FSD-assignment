@@ -17,59 +17,79 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fsd.emart.common.bean.GoodInfo;
 import com.fsd.emart.common.bean.JsonResponse;
 import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.util.AuthUtil;
 import com.fsd.emart.seller.service.SellerManagementService;
 
-@CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT }, origins = "http://localhost:4200")
+@CrossOrigin(methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT}, origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/seller")
 public class SellerCenterController {
-	@Resource
-	private SellerManagementService sellerService;
+    @Resource
+    private SellerManagementService sellerService;
 
-	@GetMapping("/checkStatus")
-	public JsonResponse isSeller(@RequestHeader("id") String accountId,
-			@RequestHeader("sessionKey") String sessionKey) {
-		JsonResponse result = new JsonResponse();
-		result.setStatus(Constants.SUCCESS);
-		result.setData(sellerService.isSeller(accountId));
-		return result;
-	}
+    @Resource
+    private AuthUtil authUtil;
 
-	@GetMapping("/salesList")
-	public JsonResponse getSalesList(@RequestHeader("id") String accountId,
-			@RequestHeader("sessionKey") String sessionKey) {
-		JsonResponse result = new JsonResponse();
-		result.setStatus(Constants.SUCCESS);
-		result.setData(sellerService.getSalesList(accountId));
-		return result;
-	}
+    @GetMapping("/checkStatus")
+    public JsonResponse isSeller(@RequestParam("sid") String targetId, @RequestHeader("id") String accountId,
+        @RequestHeader("sessionKey") String sessionKey) {
+        // Authorization Check
+        authUtil.authCheck(accountId, sessionKey, targetId);
 
-	@GetMapping("/overview")
-	public JsonResponse getSalesOverviewByMonth(@RequestParam("date") String dateYm,
-			@RequestHeader("id") String accountId, @RequestHeader("sessionKey") String sessionKey) {
-		JsonResponse result = new JsonResponse();
-		result.setStatus(Constants.SUCCESS);
-		result.setData(sellerService.getSalesOverviewByMonth(dateYm));
-		return result;
-	}
+        JsonResponse result = new JsonResponse();
+        result.setStatus(Constants.SUCCESS);
+        result.setData(sellerService.isSeller(targetId));
+        return result;
+    }
 
-	@PostMapping("/item")
-	public JsonResponse updateItem(@RequestBody GoodInfo info, @RequestHeader("id") String accountId,
-			@RequestHeader("sessionKey") String sessionKey) {
-		sellerService.saveSalesItem(info);
+    @GetMapping("/salesList")
+    public JsonResponse getSalesList(@RequestParam("sid") String targetId, @RequestHeader("id") String accountId,
+        @RequestHeader("sessionKey") String sessionKey) {
+        // Authorization Check
+        authUtil.authCheck(accountId, sessionKey, targetId);
 
-		JsonResponse result = new JsonResponse();
-		result.setStatus(Constants.SUCCESS);
-		return result;
-	}
+        JsonResponse result = new JsonResponse();
+        result.setStatus(Constants.SUCCESS);
+        result.setData(sellerService.getSalesList(targetId));
+        return result;
+    }
 
-	@PutMapping("/item/{itemId}")
-	public JsonResponse updateItem(@PathVariable("itemId") String itemId, @RequestParam("status") String status,
-			@RequestHeader("id") String accountId, @RequestHeader("sessionKey") String sessionKey) {
-		sellerService.changeSalesItemStatus(itemId, status);
+    @GetMapping("/overview")
+    public JsonResponse getSalesOverviewByMonth(@RequestParam("sid") String targetId,
+        @RequestParam("date") String dateYm, @RequestHeader("id") String accountId,
+        @RequestHeader("sessionKey") String sessionKey) {
+        // Authorization Check
+        authUtil.authCheck(accountId, sessionKey, targetId);
 
-		JsonResponse result = new JsonResponse();
-		result.setStatus(Constants.SUCCESS);
-		return result;
-	}
+        JsonResponse result = new JsonResponse();
+        result.setStatus(Constants.SUCCESS);
+        result.setData(sellerService.getSalesOverviewByMonth(targetId, dateYm));
+        return result;
+    }
+
+    @PostMapping("/item")
+    public JsonResponse updateItem(@RequestBody GoodInfo info, @RequestHeader("id") String accountId,
+        @RequestHeader("sessionKey") String sessionKey) {
+        // Authorization Check
+        authUtil.froceCheck(accountId, sessionKey);
+
+        sellerService.saveSalesItem(info, accountId);
+
+        JsonResponse result = new JsonResponse();
+        result.setStatus(Constants.SUCCESS);
+        return result;
+    }
+
+    @PutMapping("/item/{itemId}/status")
+    public JsonResponse updateItemStatus(@PathVariable("itemId") String itemId, @RequestParam("status") Integer status,
+        @RequestHeader("id") String accountId, @RequestHeader("sessionKey") String sessionKey) {
+        // Authorization Check
+        authUtil.froceCheck(accountId, sessionKey);
+
+        sellerService.changeSalesItemStatus(itemId, status, accountId);
+
+        JsonResponse result = new JsonResponse();
+        result.setStatus(Constants.SUCCESS);
+        return result;
+    }
 }

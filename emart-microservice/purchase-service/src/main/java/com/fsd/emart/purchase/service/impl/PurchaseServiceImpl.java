@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import com.fsd.emart.common.dao.ItemDao;
 import com.fsd.emart.common.dao.OrderDao;
 import com.fsd.emart.common.entity.ItemInfo;
@@ -17,6 +19,7 @@ import com.fsd.emart.common.exception.SystemException;
 import com.fsd.emart.purchase.bean.PurchaseItemInfo;
 import com.fsd.emart.purchase.service.PurchaseService;
 
+@Service
 public class PurchaseServiceImpl implements PurchaseService {
 
     @Resource
