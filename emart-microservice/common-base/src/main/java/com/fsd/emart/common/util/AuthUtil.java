@@ -11,7 +11,7 @@ import com.fsd.emart.common.constans.Constants;
 import com.fsd.emart.common.dao.CustomerDao;
 import com.fsd.emart.common.dao.SessionDao;
 import com.fsd.emart.common.entity.SessionInfo;
-import com.fsd.emart.common.exception.ApplicationException;
+import com.fsd.emart.common.exception.AuthException;
 
 @Component
 public class AuthUtil {
@@ -31,7 +31,7 @@ public class AuthUtil {
 
     public void froceCheck(String accountId, String sessionKey) {
         if (!checkSession(accountId, sessionKey)) {
-            throw new ApplicationException("Not login.");
+            throw new AuthException("Not login.");
         }
     }
 
@@ -41,7 +41,7 @@ public class AuthUtil {
 
         if (!StringUtil.emptyToBlank(targetId).equals(accountId)
             && !Constants.ROLE_ADMIN.equals(customerDao.getOne(accountId).getType())) {
-            throw new ApplicationException("System Error.");
+            throw new AuthException("System Error.");
         }
     }
 

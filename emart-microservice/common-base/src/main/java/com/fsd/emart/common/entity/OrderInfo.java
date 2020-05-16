@@ -22,10 +22,10 @@ public class OrderInfo implements Serializable {
 
     @Id
     @Column
-    private BigInteger orderId;
+    private String orderId;
 
     @Column
-    private BigInteger itemId;
+    private String itemId;
 
     @Column
     private BigDecimal price;

@@ -13,30 +13,44 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fsd.emart.common.bean.JsonResponse;
 import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.util.AuthUtil;
 import com.fsd.emart.order.service.OrderQueryService;
 
 @CrossOrigin(methods = RequestMethod.GET, origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/order")
 public class OrderQueryController {
-	@Resource
-	private OrderQueryService orderService;
+    @Resource
+    private OrderQueryService orderService;
 
-	@GetMapping("/all")
-	public JsonResponse getOrderList(@RequestHeader("id") String accountId,
-			@RequestParam(defaultValue = "sIndex") Integer queryStartIndex) {
-		JsonResponse result = new JsonResponse();
-		result.setStatus(Constants.SUCCESS);
-		result.setData(orderService.queryOrder(accountId, queryStartIndex));
-		return result;
-	}
+    @Resource
+    private AuthUtil authUtil;
 
-	@GetMapping("/detail/{orderId}")
-	public JsonResponse getOrderDetail(@PathVariable("orderId") String orderId) {
-		JsonResponse result = new JsonResponse();
-		result.setStatus(Constants.SUCCESS);
-		result.setData(orderService.queryOrderDetail(orderId));
-		return result;
-	}
+    @GetMapping("/all")
+    public JsonResponse getOrderList(@RequestHeader("accountId") String accountId,
+        @RequestHeader("sessionKey") String sessionKey,
+        @RequestParam(defaultValue = "sr", required = false) Integer startRow) {
+
+        // Authorization Check
+        authUtil.froceCheck(accountId, sessionKey);
+
+        JsonResponse result = new JsonResponse();
+        result.setStatus(Constants.SUCCESS);
+        result.setData(orderService.queryOrder(accountId, startRow));
+        return result;
+    }
+
+    @GetMapping("/detail/{orderId}")
+    public JsonResponse getOrderDetail(@PathVariable("orderId") String orderId,
+        @RequestHeader("accountId") String accountId, @RequestHeader("sessionKey") String sessionKey) {
+
+        // Authorization Check - part.1
+        authUtil.froceCheck(accountId, sessionKey);
+
+        JsonResponse result = new JsonResponse();
+        result.setStatus(Constants.SUCCESS);
+        result.setData(orderService.queryOrderDetail(orderId, accountId));
+        return result;
+    }
 
 }

@@ -6,7 +6,7 @@ import com.fsd.emart.order.bean.OrderDetail;
 
 public interface OrderQueryService {
 
-	public OrderDetail queryOrderDetail(String orderId);
+    public OrderDetail queryOrderDetail(String orderId, String accountId);
 
-	public List<OrderDetail> queryOrder(String accountId, Integer queryStartIndex);
+    public List<OrderDetail> queryOrder(String accountId, Integer queryStartIndex);
 }
