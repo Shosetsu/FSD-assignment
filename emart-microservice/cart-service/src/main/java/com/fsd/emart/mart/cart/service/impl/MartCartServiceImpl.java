@@ -9,13 +9,17 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import com.fsd.emart.common.bean.GoodInfo;
 import com.fsd.emart.common.dao.CartDao;
 import com.fsd.emart.common.dao.ItemDao;
 import com.fsd.emart.common.entity.CartInfo;
 import com.fsd.emart.common.entity.ItemInfo;
+import com.fsd.emart.common.util.StringUtil;
 import com.fsd.emart.mart.cart.service.MartCartService;
 
+@Service
 public class MartCartServiceImpl implements MartCartService {
 
 	@Resource
@@ -33,7 +37,7 @@ public class MartCartServiceImpl implements MartCartService {
 		}
 
 		String cartItems = cartInfo.get().getCartItems();
-		String[] cartItemList = splitString(cartItems, ",");
+		String[] cartItemList = StringUtil.splitString(cartItems, ",");
 
 		List<GoodInfo> result = new ArrayList<>();
 
@@ -43,7 +47,7 @@ public class MartCartServiceImpl implements MartCartService {
 			GoodInfo goodInfo = new GoodInfo();
 			goodInfo.setId(item.getItemId());
 			goodInfo.setName(item.getName());
-			goodInfo.setCategory(splitString(item.getCategory(), ","));
+			goodInfo.setCategory(StringUtil.splitString(item.getCategory(), ","));
 			goodInfo.setManufacturer(item.getManufacturer());
 			goodInfo.setOwner(item.getOwnerId());
 			goodInfo.setPrice(item.getPrice());
@@ -55,10 +59,6 @@ public class MartCartServiceImpl implements MartCartService {
 		}
 
 		return result;
-	}
-
-	private String[] splitString(String str, String regex) {
-		return str.indexOf(regex) > -1 ? str.split(regex) : new String[] { str };
 	}
 
 	@Override

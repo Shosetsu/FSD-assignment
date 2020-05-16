@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fsd.emart.common.bean.JsonResponse;
 import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.util.AuthUtil;
 import com.fsd.emart.mart.cart.service.MartCartService;
 
 @CrossOrigin(methods = { RequestMethod.GET, RequestMethod.PUT }, origins = "http://localhost:4200")
@@ -23,10 +24,14 @@ public class MartCartController {
 	@Resource
 	private MartCartService martService;
 
+	@Resource
+	private AuthUtil authUtil;
+
 	@GetMapping("/cart/{id}")
 	public JsonResponse getCartList(@PathVariable String id, @RequestHeader("sessionKey") String sessionKey) {
-		// TODO wait gateway
-		
+		// Authorization Check
+		authUtil.froceCheck(id, sessionKey);
+
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);
 		result.setData(martService.getCartList(id));
@@ -36,8 +41,9 @@ public class MartCartController {
 	@PutMapping("/cart/{id}")
 	public JsonResponse putCartList(@PathVariable String id, @RequestParam("list") String[] list,
 			@RequestHeader("sessionKey") String sessionKey) {
-		// TODO wait gateway
-		
+		// Authorization Check
+		authUtil.froceCheck(id, sessionKey);
+
 		martService.updateCartList(id, list);
 
 		JsonResponse result = new JsonResponse();

@@ -17,6 +17,7 @@ import com.fsd.emart.common.entity.AuthInfo;
 import com.fsd.emart.common.entity.CustomerInfo;
 import com.fsd.emart.common.entity.SessionInfo;
 import com.fsd.emart.common.exception.BizException;
+import com.fsd.emart.common.util.AuthUtil;
 import com.fsd.emart.common.util.CryptoUtil;
 
 @Service
@@ -33,6 +34,9 @@ public class AuthServiceImpl implements AuthService {
 
 	@Resource
 	private CryptoUtil cryptoUtil;
+
+	@Resource
+	private AuthUtil authUtil;
 
 	@Override
 	public LoginInfo login(AuthInfo info) {
@@ -73,10 +77,7 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public boolean checkSession(String id, String sessionKey) {
-		Optional<SessionInfo> tempInfo = sessionDao.findByIdAndSessionKey(id, sessionKey);
-
-		return tempInfo.isPresent()
-				&& tempInfo.get().getLastLoginTime().getTime() > (new Date().getTime() - 1000L * 60 * 60 * 24 * 30);
+		return authUtil.checkSession(id, sessionKey);
 	}
 
 	@Override

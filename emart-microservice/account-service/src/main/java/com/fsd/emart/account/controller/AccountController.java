@@ -22,6 +22,7 @@ import com.fsd.emart.account.service.AccountService;
 import com.fsd.emart.common.bean.JsonResponse;
 import com.fsd.emart.common.constans.Constants;
 import com.fsd.emart.common.entity.CustomerInfo;
+import com.fsd.emart.common.util.AuthUtil;
 
 @CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT }, origins = "http://localhost:4200")
 @RestController
@@ -29,6 +30,9 @@ import com.fsd.emart.common.entity.CustomerInfo;
 public class AccountController {
 	@Resource
 	private AccountService accountService;
+
+	@Resource
+	private AuthUtil authUtil;
 
 	@PostMapping("/register")
 	public JsonResponse register(@RequestBody SignupForm info) {
@@ -77,20 +81,22 @@ public class AccountController {
 	}
 
 	@GetMapping("/query/{accountId}/sellerDate")
-	public JsonResponse getSellerCreateTime(@PathVariable("accountId") String accountId,
-			@RequestHeader("sessionKey") String sessionKey) {
-		// TODO wait gateway
+	public JsonResponse getSellerCreateTime(@PathVariable("accountId") String targetId,
+			@RequestHeader("accountId") String accountId, @RequestHeader("sessionKey") String sessionKey) {
+		// Authorization Check
+		authUtil.authCheck(accountId, sessionKey, targetId);
 
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);
-		result.setData(accountService.getSellerCreateTime(accountId));
+		result.setData(accountService.getSellerCreateTime(targetId));
 		return result;
 	}
 
 	@GetMapping("/query/{accountId}")
-	public JsonResponse getAccountDetail(@PathVariable("accountId") String accountId,
-			@RequestHeader("sessionKey") String sessionKey) {
-		// TODO wait gateway
+	public JsonResponse getAccountDetail(@PathVariable("accountId") String targetId,
+			@RequestHeader("accountId") String accountId, @RequestHeader("sessionKey") String sessionKey) {
+		// Authorization Check
+		authUtil.authCheck(accountId, sessionKey, targetId);
 
 		JsonResponse result = new JsonResponse();
 		result.setStatus(Constants.SUCCESS);
@@ -99,9 +105,11 @@ public class AccountController {
 	}
 
 	@PutMapping("/update/{accountId}")
-	public JsonResponse updateAccountDetail(@PathVariable("accountId") String accountId,
-			@RequestHeader("sessionKey") String sessionKey, @RequestBody CustomerInfo info) {
-		// TODO wait gateway
+	public JsonResponse updateAccountDetail(@PathVariable("accountId") String targetId,
+			@RequestHeader("accountId") String accountId, @RequestHeader("sessionKey") String sessionKey,
+			@RequestBody CustomerInfo info) {
+		// Authorization Check
+		authUtil.authCheck(accountId, sessionKey, info.getId());
 
 		accountService.updateAccountDetail(info);
 

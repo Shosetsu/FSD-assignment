@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import com.fsd.emart.account.service.AccountService;
 import com.fsd.emart.common.constans.Constants;
 import com.fsd.emart.common.dao.AuthDao;
@@ -16,6 +18,7 @@ import com.fsd.emart.common.entity.CustomerInfo;
 import com.fsd.emart.common.exception.BizException;
 import com.fsd.emart.common.util.CryptoUtil;
 
+@Service
 public class AccountServiceImpl implements AccountService {
 
 	@Resource
