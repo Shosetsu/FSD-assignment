@@ -1,6 +1,7 @@
 package com.fsd.emart.common.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -20,7 +21,7 @@ public class DirectMessageInfo implements Serializable {
 
 	@Id
 	@Column
-	private String msgId;
+	private BigInteger msgId;
 
 	@Column
 	private String sendby;
@@ -32,6 +33,6 @@ public class DirectMessageInfo implements Serializable {
 	private String text;
 
 	@Column
-	private Timestamp create_time;
+	private Timestamp createTime;
 
 }
