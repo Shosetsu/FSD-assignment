@@ -18,7 +18,8 @@ import com.fsd.emart.common.constans.Constants;
 import com.fsd.emart.common.entity.AuthInfo;
 import com.fsd.emart.common.entity.CustomerInfo;
 import com.fsd.emart.common.entity.SessionInfo;
-import com.fsd.emart.common.exception.BizException;
+import com.fsd.emart.common.exception.ApplicationException;
+import com.fsd.emart.common.exception.SystemException;
 
 @CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST }, origins = "http://localhost:4200")
 @RestController
@@ -49,12 +50,12 @@ public class AuthController {
 
 		// Is valid Session Param?
 		if (ssId.indexOf("|") == -1) {
-			throw new BizException("Invalid ssid.");
+			throw new SystemException("Invalid ssid.");
 		}
 
 		String[] tempInfo = ssId.split("\\|");
 		if (!authService.checkSession(tempInfo[1], tempInfo[0])) {
-			throw new BizException("Invalid ssid.");
+			throw new ApplicationException("Invalid ssid.");
 		}
 
 		CustomerInfo cusInfo = authService.getCustomerInfo(tempInfo[1]);

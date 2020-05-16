@@ -15,124 +15,125 @@ import com.fsd.emart.common.dao.CustomerDao;
 import com.fsd.emart.common.dao.SessionDao;
 import com.fsd.emart.common.entity.AuthInfo;
 import com.fsd.emart.common.entity.CustomerInfo;
-import com.fsd.emart.common.exception.BizException;
+import com.fsd.emart.common.exception.ApplicationException;
+import com.fsd.emart.common.exception.SystemException;
 import com.fsd.emart.common.util.CryptoUtil;
 
 @Service
 public class AccountServiceImpl implements AccountService {
 
-	@Resource
-	private AuthDao authDao;
+    @Resource
+    private AuthDao authDao;
 
-	@Resource
-	private CustomerDao customerDao;
+    @Resource
+    private CustomerDao customerDao;
 
-	@Resource
-	private SessionDao sessionDao;
+    @Resource
+    private SessionDao sessionDao;
 
-	@Resource
-	private CryptoUtil cryptoUtil;
+    @Resource
+    private CryptoUtil cryptoUtil;
 
-	@Override
-	public void register(CustomerInfo info, String newPassword) {
+    @Override
+    public void register(CustomerInfo info, String newPassword) {
 
-		// check mail exist
-		if (customerDao.findByEmail(info.getEmail()).isPresent()) {
-			throw new BizException("The Email address is registered.");
-		}
+        // check mail exist
+        if (customerDao.findByEmail(info.getEmail()).isPresent()) {
+            throw new ApplicationException("The Email address is registered.");
+        }
 
-		// check accountId exist
-		if (customerDao.findById(info.getId()).isPresent()) {
-			throw new BizException("The Account Id is registered.");
-		}
+        // check accountId exist
+        if (customerDao.findById(info.getId()).isPresent()) {
+            throw new ApplicationException("The Account Id is registered.");
+        }
 
-		// pre-process
-		AuthInfo authInfo = new AuthInfo();
-		authInfo.setId(info.getId());
-		authInfo.setPassword(cryptoUtil.getEncoder().encode(newPassword));
-		authInfo.setUpdateTime(info.getCreateTime());
+        // pre-process
+        AuthInfo authInfo = new AuthInfo();
+        authInfo.setId(info.getId());
+        authInfo.setPassword(cryptoUtil.encodePassword(newPassword));
+        authInfo.setUpdateTime(info.getCreateTime());
 
-		// process
-		customerDao.save(info);
-		authDao.save(authInfo);
-	}
+        // process
+        customerDao.save(info);
+        authDao.save(authInfo);
+    }
 
-	@Override
-	public void unregist(String accountId, String password) {
+    @Override
+    public void unregist(String accountId, String password) {
 
-		// check authorization
-		Optional<AuthInfo> authInfo = authDao.findById(accountId);
+        // check authorization
+        Optional<AuthInfo> authInfo = authDao.findById(accountId);
 
-		if (!authInfo.isPresent()) {
-			// Not Client?
-			throw new BizException("System Error!");
-		}
+        if (!authInfo.isPresent()) {
+            // Not Client?
+            throw new SystemException("System Error!");
+        }
 
-		if (!cryptoUtil.getEncoder().matches(password, authInfo.get().getPassword())) {
-			throw new BizException("Password invalid.");
-		}
+        if (!cryptoUtil.comparePassword(password, authInfo.get().getPassword())) {
+            throw new ApplicationException("Password invalid.");
+        }
 
-		// process
-		customerDao.deleteById(accountId);
-		authDao.deleteById(accountId);
-		sessionDao.deleteById(accountId);
-	}
+        // process
+        customerDao.deleteById(accountId);
+        authDao.deleteById(accountId);
+        sessionDao.deleteById(accountId);
+    }
 
-	@Override
-	public void findAccount(String mail) {
-		// check mail exist
-		Optional<CustomerInfo> customerInfo = customerDao.findByEmail(mail);
+    @Override
+    public void findAccount(String mail) {
+        // check mail exist
+        Optional<CustomerInfo> customerInfo = customerDao.findByEmail(mail);
 
-		if (!customerInfo.isPresent()) {
-			throw new BizException("The Email address is not registered.");
-		}
+        if (!customerInfo.isPresent()) {
+            throw new ApplicationException("The Email address is not registered.");
+        }
 
-		// process
-		String newPassword = cryptoUtil.createRandomPassword();
+        // process
+        String newPassword = cryptoUtil.createRandomPassword();
 
-		AuthInfo authInfo = new AuthInfo();
-		authInfo.setId(customerInfo.get().getId());
-		authInfo.setPassword(cryptoUtil.getEncoder().encode(newPassword));
-		authInfo.setUpdateTime(new Timestamp(new Date().getTime()));
+        AuthInfo authInfo = new AuthInfo();
+        authInfo.setId(customerInfo.get().getId());
+        authInfo.setPassword(cryptoUtil.encodePassword(newPassword));
+        authInfo.setUpdateTime(new Timestamp(new Date().getTime()));
 
-		// TODO Call mail server
-	}
+        // TODO Call mail server
+    }
 
-	@Override
-	public Timestamp getSellerCreateTime(String accountId) {
-		return getAccountDetail(accountId).getSellerDate();
-	}
+    @Override
+    public Timestamp getSellerCreateTime(String accountId) {
+        return getAccountDetail(accountId).getSellerDate();
+    }
 
-	@Override
-	public CustomerInfo getAccountDetail(String accountId) {
+    @Override
+    public CustomerInfo getAccountDetail(String accountId) {
 
-		Optional<CustomerInfo> customerInfo = customerDao.findById(accountId);
+        Optional<CustomerInfo> customerInfo = customerDao.findById(accountId);
 
-		// check accountId exist
-		if (!customerInfo.isPresent()) {
-			throw new BizException("System Error!");
-		}
+        // check accountId exist
+        if (!customerInfo.isPresent()) {
+            throw new SystemException("System Error!");
+        }
 
-		return customerInfo.get();
-	}
+        return customerInfo.get();
+    }
 
-	@Override
-	public void updateAccountDetail(CustomerInfo info) {
+    @Override
+    public void updateAccountDetail(CustomerInfo info) {
 
-		CustomerInfo currentInfo = customerDao.findById(info.getId()).orElse(null);
+        CustomerInfo currentInfo = customerDao.findById(info.getId()).orElse(null);
 
-		// check accountId exist
-		if (currentInfo == null) {
-			throw new BizException("System Error!");
-		}
+        // check accountId exist
+        if (currentInfo == null) {
+            throw new SystemException("System Error!");
+        }
 
-		info.setId(currentInfo.getId());
-		if (Constants.ROLE_BUYER.equals(currentInfo.getType()) && Constants.ROLE_SELLER.equals(info.getType())) {
-			info.setSellerDate(new Timestamp(new Date().getTime()));
-		}
+        info.setId(currentInfo.getId());
+        if (Constants.ROLE_BUYER.equals(currentInfo.getType()) && Constants.ROLE_SELLER.equals(info.getType())) {
+            info.setSellerDate(new Timestamp(new Date().getTime()));
+        }
 
-		customerDao.save(info);
+        customerDao.save(info);
 
-	}
+    }
 
 }
