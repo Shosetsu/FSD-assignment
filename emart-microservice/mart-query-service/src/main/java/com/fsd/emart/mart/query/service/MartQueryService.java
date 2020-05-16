@@ -9,11 +9,11 @@ import com.fsd.emart.mart.query.bean.FilterConditions;
 
 public interface MartQueryService {
 
-	public String[] getCategoryList();
+    public List<String> getCategoryList();
 
-	public String[] getManufacturerList();
+    public List<String> getManufacturerList();
 
-	public GoodInfo queryItemDetail(String itemId);
+    public GoodInfo queryItemDetail(String itemId);
 
-	public List<GoodInfo> queryItems(@Nullable FilterConditions filter);
+    public List<GoodInfo> queryItems(@Nullable FilterConditions filter, int startRow);
 }
