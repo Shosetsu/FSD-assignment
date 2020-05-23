@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fsd.emart.common.bean.JsonResponse;
+import com.fsd.emart.mart.cart.bean.CartData;
 import com.fsd.emart.mart.cart.service.MartCartService;
 
 @RestController
@@ -26,7 +27,7 @@ public class MartCartController {
     }
 
     @PutMapping
-    public JsonResponse putCartList(@RequestHeader("hid") String id, @RequestBody List<String> list) {
+    public JsonResponse putCartList(@RequestHeader("hid") String id, @RequestBody List<CartData> list) {
 
         martService.updateCartList(id, list);
 

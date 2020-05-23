@@ -35,7 +35,7 @@ export class MartDetailComponent {
     private orderService: OrderManagementService,
     private msgService: MessageService) {
     route.params.subscribe(para => {
-      this.goodInfo = this.goodService.queryGood(para['gid']);
+      this.goodService.queryGood(para['gid']).then(data => this.goodInfo = data);
     });
   }
 

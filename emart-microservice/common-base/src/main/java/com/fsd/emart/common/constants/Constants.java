@@ -7,6 +7,7 @@ public class Constants {
     public static final int RES_RELOAD = 2;
     public static final int RES_ERROR_RELOAD = 3;
     public static final int RES_AUTH_TIMEOUT = 4;
+    public static final int RES_TURNBACK = 5;
 
     public static final String ROLE_ANY = "A";
     public static final String ROLE_BUYER = "B";

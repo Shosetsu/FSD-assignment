@@ -33,7 +33,7 @@ export class SellerGoodEditorComponent {
     if (route.routeConfig.path === "edit/:gid") {
       route.params.subscribe(pram => {
         let gid = pram['gid'];
-        this.oldInfo = goodService.queryGood(gid);
+        goodService.queryGood(gid).then(data => this.oldInfo = data);
         this.goodInfo = this.oldInfo.clone();
         this.updateFlag = true;
       });

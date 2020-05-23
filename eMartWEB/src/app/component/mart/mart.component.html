@@ -17,20 +17,20 @@
       [style.left]="filterbtn.getBoundingClientRect().right-380 +'px'">
       <div class="form-row">
         <span class="col-4 mt-auto mb-auto">Category</span>
-        <select class="custom-select col-8" [(ngModel)]="filter_category">
+        <select class="custom-select col-8" [(ngModel)]="filterCategory">
           <option value="">&lt;Not selected&gt;</option>
           <option *ngFor="let category of categoryList" [value]="category">{{category}}</option>
         </select>
       </div>
       <div class="form-row mt-2" *ngIf="isRole('BSM')">
         <span class="col-4 mt-auto mb-auto">Price</span>
-        <input class="form-control col-3" type="number" placeholder="From" [(ngModel)]="filter_price_from">
+        <input class="form-control col-3" type="number" placeholder="From" [(ngModel)]="filterPriceFrom">
         <span class="col-2 m-auto">~</span>
-        <input class="form-control col-3" type="number" placeholder="To" [(ngModel)]="filter_price_to">
+        <input class="form-control col-3" type="number" placeholder="To" [(ngModel)]="filterPriceTo">
       </div>
       <div class="form-row mt-2" *ngIf="isRole('BSM')">
         <span class="col-4 mt-auto mb-auto">Manufacturer</span>
-        <select class="custom-select col-8" [(ngModel)]="filter_manufacturer">
+        <select class="custom-select col-8" [(ngModel)]="filterManufacturer">
           <option value="">&lt;Not selected&gt;</option>
           <option *ngFor="let manufacturer of manufacturerList" [value]="manufacturer">{{manufacturer}}</option>
         </select>

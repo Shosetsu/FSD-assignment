@@ -26,6 +26,9 @@ public class CartInfo implements Serializable {
     private String cartItems;
 
     @Column
+    private String cartCounts;
+
+    @Column
     private Timestamp updateTime;
 
 }

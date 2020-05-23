@@ -3,11 +3,12 @@ import { GoodManagementService } from '../../service/goods/good-management.servi
 import { GoodInfo } from 'src/app/bean/GoodInfo';
 import { SessionControllerService } from 'src/app/service/session/session-controller.service';
 import { CustomerInfo } from 'src/app/bean/CustomerInfo';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Message } from 'src/app/bean/message';
 import { MessageService } from 'src/app/service/message/message.service';
 import { OrderManagementService } from 'src/app/service/order/order-management.service';
 import { OrderDetail } from 'src/app/bean/OrderDetail';
+import { FilterInfo } from 'src/app/bean/FilterInfo';
 
 @Component({
   selector: 'app-mart',
@@ -16,8 +17,6 @@ import { OrderDetail } from 'src/app/bean/OrderDetail';
 })
 export class MartComponent implements OnInit {
 
-  searchKey: string;
-
   goodList: GoodInfo[];
 
   loginInfo: CustomerInfo;
@@ -25,11 +24,13 @@ export class MartComponent implements OnInit {
   categoryList: string[];
   manufacturerList: string[];
 
+  searchKey: string;
+
   filterDisplay: boolean;
-  filter_category: string = "";
-  filter_price_from: number = null;
-  filter_price_to: number = null;
-  filter_manufacturer: string = "";
+  filterCategory: string = "";
+  filterManufacturer: string = "";
+  filterPriceFrom: number = null;
+  filterPriceTo: number = null;
 
   detailOpenFlag: boolean;
 
@@ -38,14 +39,26 @@ export class MartComponent implements OnInit {
   constructor(
     private sessionControllerService: SessionControllerService,
     private router: Router,
+    private route: ActivatedRoute,
     private goodManagementService: GoodManagementService,
     private msgService: MessageService,
     private orderService: OrderManagementService) {
     this.messageList = this.msgService.getMessageList();
+    this.route.queryParams.subscribe(param => {
+      this.searchKey = param['k'] ? param['k'] : "";
+      this.filterCategory = param['c'] ? param['c'] : "";
+      this.filterManufacturer = param['m'] ? param['m'] : "";
+      this.filterPriceFrom = param['pf'] ? param['pf'] : null;
+      this.filterPriceTo = param['pt'] ? param['pt'] : null;
+
+      let filter = new FilterInfo(0, this.searchKey, this.filterCategory, this.filterManufacturer, this.filterPriceFrom, this.filterPriceTo);
+      this.goodManagementService.queryGoods(filter).then(data => {
+        this.goodList = data;
+      });
+    });
   }
 
   ngOnInit() {
-    this.goodList = this.goodManagementService.queryGoods(null);
     this.categoryList = this.goodManagementService.getCategoryList();
     this.manufacturerList = this.goodManagementService.getManufacturerList();
   }
@@ -65,7 +78,14 @@ export class MartComponent implements OnInit {
   }
 
   filter() {
+    let queryParamsMap = {};
+    if (this.searchKey) queryParamsMap['k'] = this.searchKey;
+    if (this.filterCategory) queryParamsMap['c'] = this.filterCategory;
+    if (this.filterManufacturer) queryParamsMap['m'] = this.filterManufacturer;
+    if (this.filterPriceFrom) queryParamsMap['pf'] = this.filterPriceFrom;
+    if (this.filterPriceTo) queryParamsMap['pt'] = this.filterPriceTo;
 
+    this.router.navigate(['mart'], { 'queryParams': queryParamsMap });
   }
 
   isRole(role: string) {

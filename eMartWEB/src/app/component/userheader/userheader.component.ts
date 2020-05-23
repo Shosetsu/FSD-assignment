@@ -34,7 +34,7 @@ export class UserheaderComponent {
   }
 
   filter(category: string) {
-
+    this.router.navigate(['mart'], { 'queryParams': { 'c': category } });
   }
 
   logout() {

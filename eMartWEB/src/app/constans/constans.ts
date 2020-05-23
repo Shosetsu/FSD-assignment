@@ -26,5 +26,6 @@ export const Constants = Object.freeze({
     res_error: 1,
     res_reload: 2,
     res_error_reload: 3,
-    res_timeout: 4
+    res_timeout: 4,
+    res_back: 5
 });

@@ -3,14 +3,15 @@ import { SessionControllerService } from '../session/session-controller.service'
 import { Constants } from 'src/app/constans/constans';
 import { MessageService } from '../message/message.service';
 import { Message } from 'src/app/bean/message';
-import { constants } from 'buffer';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConnectService {
 
-  constructor(private session: SessionControllerService, private messageService: MessageService) { }
+  constructor(private session: SessionControllerService, private messageService: MessageService, private location: Location, private router: Router) { }
 
   async fetchData(server, apiName, method, requestData) {
 
@@ -18,7 +19,7 @@ export class ConnectService {
 
     if (method === 'GET' && requestData) {
       let queryArray = [];
-      Object.keys(requestData).forEach((key) => { return queryArray.push(key + '=' + encodeURIComponent(requestData[key])); });
+      Object.keys(requestData).forEach((key) => { if (requestData[key]) queryArray.push(key + '=' + encodeURIComponent(requestData[key])); });
       url += '?' + queryArray.join('&');
     }
 
@@ -52,6 +53,10 @@ export class ConnectService {
           break;
         case Constants.res_timeout:
           // TODO
+          break;
+        case Constants.res_back:
+          // this.location.back();
+          this.router.navigate(["404"]);
           break;
         default:
           // TODO

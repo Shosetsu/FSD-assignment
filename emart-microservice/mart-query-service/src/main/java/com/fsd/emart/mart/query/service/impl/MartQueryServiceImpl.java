@@ -2,7 +2,6 @@ package com.fsd.emart.mart.query.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -21,7 +20,6 @@ import com.fsd.emart.common.dao.ManufacturerDao;
 import com.fsd.emart.common.entity.CategoryData;
 import com.fsd.emart.common.entity.ItemInfo;
 import com.fsd.emart.common.entity.ManufacturerData;
-import com.fsd.emart.common.exception.ApplicationException;
 import com.fsd.emart.common.util.StringUtil;
 import com.fsd.emart.mart.query.bean.FilterConditions;
 import com.fsd.emart.mart.query.service.MartQueryService;
@@ -64,13 +62,9 @@ public class MartQueryServiceImpl implements MartQueryService {
 
     @Override
     public GoodInfo queryItemDetail(String itemId) {
-        Optional<ItemInfo> item = itemDao.findById(itemId);
+        ItemInfo item = itemDao.getOne(itemId);
 
-        if (!item.isPresent()) {
-            throw new ApplicationException("Not Found");
-        }
-
-        return GoodInfo.getInfoFromEntity(item.get());
+        return GoodInfo.getInfoFromEntity(item);
     }
 
     @Override

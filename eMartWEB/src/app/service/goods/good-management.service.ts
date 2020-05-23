@@ -5,21 +5,22 @@ import { GoodInfo } from '../../bean/GoodInfo';
 import { MessageService } from '../message/message.service';
 import { SessionControllerService } from '../session/session-controller.service';
 import { ConnectService } from '../connect/connect.service';
+import { Observable, observable } from 'rxjs';
+import { FilterInfo } from 'src/app/bean/FilterInfo';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GoodManagementService {
 
-  private cartList: GoodInfo[];
-
-  private categoryList: string[]=[];
-  private manufacturerList: string[]=[];
+  private cartList: GoodInfo[] = [];
+  private categoryList: string[] = [];
+  private manufacturerList: string[] = [];
 
   constructor(private sessionService: SessionControllerService, private msgService: MessageService, private connect: ConnectService) {
-    this.cartList = this.selectCartListFromServer();
-    this.selectCategoryListFromServer().then(e => this.categoryList = e['data']);
-    this.selectManufacturerListFromServer().then(e => this.manufacturerList = e['data']);
+    this.selectCartListFromServer();
+    this.selectCategoryListFromServer();
+    this.selectManufacturerListFromServer();
   }
 
   getCartList(): GoodInfo[] {
@@ -83,10 +84,17 @@ export class GoodManagementService {
     return;
   }
 
-  private selectCartListFromServer(): GoodInfo[] {
+  public selectCartListFromServer() {
     if (Constants.debugMode) console.log("#load cartlist: " + this.sessionService.getAccountId());
-    //TODO server connect
-    return [];
+
+    this.connect.fetchData('cart', "", "GET", null).then(data => {
+      this.cartList.splice(0);
+      data.forEach(element => {
+        let item = new GoodInfo();
+        item.init(element);
+        this.cartList.push(item);
+      });
+    });
   }
 
   private updateCartListToServer() {
@@ -97,32 +105,29 @@ export class GoodManagementService {
   private async selectCategoryListFromServer() {
     if (Constants.debugMode) console.log("#load categorylist");
 
-    return this.connect.fetchData('martquery', "/category", "GET", null);
+    this.connect.fetchData('martquery', "/category", "GET", null).then(data => {
+      data.forEach(element => this.categoryList.push(element));
+    });
   }
 
   private async selectManufacturerListFromServer() {
     if (Constants.debugMode) console.log("#load manufacturerList");
 
-    return this.connect.fetchData('martquery', "/manufacturer", "GET", null);
+    this.connect.fetchData('martquery', "/manufacturer", "GET", null).then(data => {
+      data.forEach(element => this.manufacturerList.push(element));
+    });
   }
 
-  queryGoods(filterRules): GoodInfo[] {
-    if (filterRules) {
-      //...
-    }
-    //TODO server connect
+  async queryGoods(filterRules: FilterInfo): Promise<GoodInfo[]> {
+    if (Constants.debugMode) console.log("#Query Item List: " + filterRules);
 
-    return [new GoodInfo("100000", "Item1", "NO-1(tm)", ["test", "No1"], "first good, asdf asdfasdf asdf asdfasdf asdfasdfasdf asdfasdf asdfasdfasdf", 56800.66, 99, "Setsu", new Date(2020, 3, 23, 12, 6, 54)),
-    new GoodInfo("100001", "Item2", "last company", ["test", "tool"], "2nd good, etcetcetcetcetcetcetcetcetce tcetcetcetcetcetcet cetcetcetcetcetcetcetcetcetc", 8993.50, 0, "Setsu", new Date(2020, 3, 23, 18, 6, 56)),
-    new GoodInfo("100002", "Item3", "last company", ["tool", "food"], "3rd good", 999.75, 4, "Setsu2", new Date(2020, 3, 25, 18, 6, 58))];
+
+    return this.connect.fetchData('martquery', "/list", "GET", filterRules);
   }
 
-  queryGood(goodId: string): GoodInfo {
-    if (Constants.debugMode) console.log("#Query Item-" + goodId);
-    //TODO server connect
+  async queryGood(goodId: string): Promise<GoodInfo> {
+    if (Constants.debugMode) console.log("#Query Item Detail - " + goodId);
 
-    return new GoodInfo(goodId, "Item1", "NO-1(tm)",
-      ["category2", "category3"], "first good, asdf asdfasdf asdf asdfasdf asdfasdfasdf asdfasdf asdfasdfasdf",
-      56800.66, 99, "Setsu", new Date(2020, 3, 23, 12, 6, 54));
+    return this.connect.fetchData('martquery', "/detail", "GET", { 'gid': goodId });
   }
 }

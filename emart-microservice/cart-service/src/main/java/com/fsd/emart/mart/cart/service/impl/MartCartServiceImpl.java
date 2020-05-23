@@ -15,6 +15,7 @@ import com.fsd.emart.common.dao.ItemDao;
 import com.fsd.emart.common.entity.CartInfo;
 import com.fsd.emart.common.entity.ItemInfo;
 import com.fsd.emart.common.util.StringUtil;
+import com.fsd.emart.mart.cart.bean.CartData;
 import com.fsd.emart.mart.cart.service.MartCartService;
 
 @Service
@@ -34,25 +35,38 @@ public class MartCartServiceImpl implements MartCartService {
             return new ArrayList<>();
         }
 
-        String cartItems = cartInfo.get().getCartItems();
-        String[] cartItemList = StringUtil.splitString(cartItems, ",");
+        CartInfo cartItems = cartInfo.get();
+        List<String> cartItemList = Arrays.asList(StringUtil.splitString(cartItems.getCartItems(), ","));
+        String[] cartCountList = StringUtil.splitString(cartItems.getCartCounts(), ",");
 
         List<GoodInfo> result = new ArrayList<>();
 
-        List<ItemInfo> itemList = itemDao.findAllById(Arrays.asList(cartItemList));
+        List<ItemInfo> itemList = itemDao.findAllById(cartItemList);
 
         for (ItemInfo item : itemList) {
-            result.add(GoodInfo.getInfoFromEntity(item));
+            GoodInfo goodInfo = GoodInfo.getInfoFromEntity(item);
+            goodInfo.setCount(Integer.valueOf(cartCountList[cartItemList.indexOf(item.getItemId())]));
+            result.add(goodInfo);
         }
 
         return result;
     }
 
     @Override
-    public void updateCartList(String accountId, List<String> cartList) {
+    public void updateCartList(String accountId, List<CartData> cartList) {
+
+        String[] items = new String[cartList.size()];
+        String[] counts = new String[cartList.size()];
+
+        for (int i = 0; i < cartList.size(); i++) {
+            items[i] = cartList.get(i).getItemId();
+            counts[i] = String.valueOf(cartList.get(i).getCount());
+        }
+
         CartInfo cartInfo = new CartInfo();
         cartInfo.setAccountId(accountId);
-        cartInfo.setCartItems(String.join(",", cartList));
+        cartInfo.setCartItems(String.join(",", items));
+        cartInfo.setCartCounts(String.join(",", counts));
         // process
         cartDao.save(cartInfo);
     }

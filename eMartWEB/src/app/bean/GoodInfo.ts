@@ -20,7 +20,7 @@ export class GoodInfo {
         return new GoodInfo().init(this);
     }
 
-    init(other: GoodInfo): GoodInfo {
+    init(other): GoodInfo {
         for (let key in other) {
             this[key] = other[key];
         }

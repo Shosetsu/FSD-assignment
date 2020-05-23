@@ -1,5 +1,7 @@
 package com.fsd.emart.common.controller;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -21,4 +23,17 @@ public class ErrorHandler {
 
         return response;
     }
+
+    @ExceptionHandler(value = EntityNotFoundException.class)
+    public JsonResponse handleNotFound(EntityNotFoundException ex) {
+
+        JsonResponse response = new JsonResponse();
+        response.setStatus(Constants.RES_TURNBACK);
+        String[] messageList = new String[] {"Not found detail"};
+
+        response.setMessageList(messageList);
+
+        return response;
+    }
+
 }

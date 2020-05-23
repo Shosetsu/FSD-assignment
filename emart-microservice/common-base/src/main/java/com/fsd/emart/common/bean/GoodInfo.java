@@ -20,6 +20,7 @@ public class GoodInfo {
     public String detail;
     public BigDecimal price;
     public Integer stock;
+    public Integer count;
     public String owner;
     public Timestamp createdDate;
     public Integer status;
@@ -36,6 +37,7 @@ public class GoodInfo {
         good.setOwner(entity.getOwnerId());
         good.setCreatedDate(entity.getUpdateTime());
         good.setStatus(entity.getStatus());
+        good.setCount(0);
         return good;
     }
 
