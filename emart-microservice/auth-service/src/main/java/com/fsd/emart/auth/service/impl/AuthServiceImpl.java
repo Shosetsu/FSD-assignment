@@ -75,10 +75,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void logout(SessionInfo info) {
-        if (checkSession(info.getId(), info.getSessionKey())) {
-            sessionDao.deleteById(info.getId());
-        }
+    public void logout(String accountId) {
+        sessionDao.deleteById(accountId);
     }
 
     @Override

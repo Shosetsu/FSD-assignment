@@ -26,7 +26,6 @@ import com.fsd.emart.common.dao.CustomerDao;
 import com.fsd.emart.common.dao.SessionDao;
 import com.fsd.emart.common.entity.AuthInfo;
 import com.fsd.emart.common.entity.CustomerInfo;
-import com.fsd.emart.common.entity.SessionInfo;
 import com.fsd.emart.common.exception.ApplicationException;
 import com.fsd.emart.common.util.AuthUtil;
 import com.fsd.emart.common.util.CryptoUtil;
@@ -108,18 +107,15 @@ class AuthServiceImplTest {
 
     @Test
     public void testLogout() {
-        SessionInfo info = new SessionInfo();
-        info.setId("id");
-        info.setSessionKey("1234");
 
         // Test invalid session logout
         when(authUtil.checkSession(anyString(), anyString())).thenReturn(false);
-        sut.logout(info);
+        sut.logout("id");
         verify(sessionDao, never()).deleteById(anyString());
 
         // Test valid session logout
         when(authUtil.checkSession(anyString(), anyString())).thenReturn(true);
-        sut.logout(info);
+        sut.logout("id");
         verify(sessionDao, times(1)).deleteById(anyString());
     }
 

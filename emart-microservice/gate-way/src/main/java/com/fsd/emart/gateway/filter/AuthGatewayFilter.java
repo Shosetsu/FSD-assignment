@@ -7,8 +7,11 @@ import javax.annotation.Resource;
 
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -81,21 +84,27 @@ public class AuthGatewayFilter extends AbstractGatewayFilterFactory<AuthGatewayF
             }
 
             // check session exist
-            URI uri =
-                URI.create(String.format("http://server-auth/login?hid=%s&sss=%s", data.getId(), data.getSubject()));
+            URI uri = URI.create("http://server-auth/login");
 
             try {
-                @SuppressWarnings("unchecked")
-                Map<Object, Object> result = restTemplate.getForObject(uri, Map.class);
+
+                HttpHeaders getHeader = new HttpHeaders();
+                getHeader.set(GatewayConstants.HEADER_ID, data.getId());
+                getHeader.set(GatewayConstants.HEADER_SESSION, data.getSubject());
+                HttpEntity<String> requestEntity = new HttpEntity<>(null, getHeader);
+
+                @SuppressWarnings("rawtypes")
+                ResponseEntity<Map> result = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, Map.class);
 
                 // check role
-                if (!mustAuthRole.contains((String)result.get("data"))) {
+                if (!mustAuthRole.contains((String)result.getBody().get("data"))) {
                     return setError(exchange, "Not Authorized to view.", HttpStatus.FORBIDDEN);
                 }
 
                 // set Authorized header
                 headers.add(GatewayConstants.HEADER_ID, data.getId());
-                headers.add(GatewayConstants.HEADER_ROLE, (String)result.get("data"));
+                headers.set(GatewayConstants.HEADER_SESSION, data.getSubject());
+                headers.add(GatewayConstants.HEADER_ROLE, (String)result.getBody().get("data"));
 
             } catch (Exception e) {
                 return setError(exchange, "Authorization Error.", HttpStatus.FORBIDDEN);

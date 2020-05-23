@@ -9,6 +9,7 @@ public class GatewayConstants {
     public static final long TOKEN_TERM = 1000L * 3600 * 24 * 30;
 
     public static final String HEADER_ID = "hid";
+    public static final String HEADER_SESSION = "sss";
     public static final String HEADER_ROLE = "rt";
 
     public static final String ROLE_ANY = "A";

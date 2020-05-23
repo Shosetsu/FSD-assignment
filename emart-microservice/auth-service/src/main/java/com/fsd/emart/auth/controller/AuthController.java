@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fsd.emart.auth.service.AuthService;
@@ -13,7 +13,7 @@ import com.fsd.emart.common.bean.JsonResponse;
 import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.entity.AuthInfo;
 import com.fsd.emart.common.entity.CustomerInfo;
-import com.fsd.emart.common.entity.SessionInfo;
+import com.fsd.emart.common.util.StringUtil;
 
 @RestController
 public class AuthController {
@@ -28,24 +28,30 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public JsonResponse logout(@RequestBody SessionInfo info) {
+    public JsonResponse logout(@RequestHeader("hid") String id) {
 
-        authService.logout(info);
+        authService.logout(id);
 
         return new JsonResponse();
     }
 
     @GetMapping("/login")
-    public JsonResponse getSessionType(@RequestParam("hid") String id, @RequestParam("sss") String sessionKey) {
-        String accountType = Constants.ROLE_ANY;
+    public JsonResponse getSessionType(@RequestHeader("hid") String id, @RequestHeader("sss") String sessionKey,
+        @RequestHeader(name = "rt", required = false) String role) {
+
+        JsonResponse result = new JsonResponse();
+        result.setData(Constants.ROLE_ANY);
+
+        if (!StringUtil.isEmpty(role)) {
+            result.setData(role);
+            return result;
+        }
 
         if (authService.checkSession(id, sessionKey)) {
             CustomerInfo cusInfo = authService.getCustomerInfo(id);
-            accountType = cusInfo.getType();
+            result.setData(cusInfo.getType());
         }
 
-        JsonResponse result = new JsonResponse();
-        result.setData(accountType);
         return result;
     }
 
