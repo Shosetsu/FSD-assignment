@@ -22,4 +22,5 @@ public class GateWayApplication {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
 }

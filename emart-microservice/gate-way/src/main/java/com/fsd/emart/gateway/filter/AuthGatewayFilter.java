@@ -59,7 +59,7 @@ public class AuthGatewayFilter extends AbstractGatewayFilterFactory<AuthGatewayF
             String mustAuthRole = AuthPropertyHandler.getProperty(
                 request.getPath().pathWithinApplication().toString().concat(".").concat(request.getMethodValue()));
 
-            if (GatewayConstants.ROLE_ANY.equals(mustAuthRole)) {
+            if (HttpMethod.OPTIONS == request.getMethod() || GatewayConstants.ROLE_ANY.equals(mustAuthRole)) {
                 // no check
                 return chain.filter(exchange.mutate().request(request).build());
             } else if (mustAuthRole.length() == 0) {
