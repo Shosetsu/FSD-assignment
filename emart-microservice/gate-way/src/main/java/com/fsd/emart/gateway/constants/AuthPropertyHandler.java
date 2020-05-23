@@ -24,7 +24,6 @@ public class AuthPropertyHandler {
     }
 
     public static String getProperty(final String key) {
-        loadProperties();// TODO
         return getProperty(key, "");
     }
 

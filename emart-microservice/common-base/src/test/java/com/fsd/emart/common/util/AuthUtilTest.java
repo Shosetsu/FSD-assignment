@@ -61,18 +61,12 @@ class AuthUtilTest {
         sut.authCheck("aaaa", "sessionKey", "aaaa");
 
         // Test M
-        CustomerInfo value = new CustomerInfo();
-        value.setType("M");
-        when(customerDao.getOne(anyString())).thenReturn(value);
-        sut.authCheck("aaaa", "sessionKey", "bbb");
+        sut.authCheck("aaaa", "M", "bbb");
 
         // Test not M and different id
-        value = new CustomerInfo();
-        value.setType("S");
-        when(customerDao.getOne(anyString())).thenReturn(value);
         String msg = "";
         try {
-            sut.authCheck("aaaa", "sessionKey", "bbb");
+            sut.authCheck("aaaa", "S", "bbb");
         } catch (AuthException e) {
             msg = e.getMessage();
         }

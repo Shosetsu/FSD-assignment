@@ -13,6 +13,7 @@
 	<groupId>com.fsd.emart</groupId>
 	<artifactId>eureka-service</artifactId>
 	<name>Eureka Service</name>
+		<version>1.0.0</version>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

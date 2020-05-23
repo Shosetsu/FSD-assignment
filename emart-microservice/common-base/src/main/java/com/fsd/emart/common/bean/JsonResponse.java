@@ -7,7 +7,11 @@ import lombok.Data;
 @Data
 public class JsonResponse {
 
-    private Integer status = Constants.RES_NOTHING;
+    public JsonResponse() {
+        this.status = Constants.RES_NOTHING;
+    }
+
+    private Integer status;
 
     private String[] messageList;
 

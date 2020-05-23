@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fsd.emart.common.bean.GoodInfo;
 import com.fsd.emart.common.bean.JsonResponse;
 import com.fsd.emart.common.util.AuthUtil;
+import com.fsd.emart.seller.bean.ChangeStatusInfo;
 import com.fsd.emart.seller.service.SellerManagementService;
 
 @RestController
@@ -66,10 +67,10 @@ public class SellerCenterController {
     }
 
     @PutMapping("/item/status")
-    public JsonResponse updateItemStatus(@RequestParam("iid") String itemId, @RequestParam("status") Integer status,
-        @RequestHeader("hid") String accountId, @RequestHeader("rt") String accountType) {
+    public JsonResponse updateItemStatus(@RequestBody ChangeStatusInfo info, @RequestHeader("hid") String accountId,
+        @RequestHeader("rt") String accountType) {
 
-        sellerService.changeSalesItemStatus(itemId, status, accountId, accountType);
+        sellerService.changeSalesItemStatus(info.getItemId(), info.getStatus(), accountId, accountType);
 
         return new JsonResponse();
     }

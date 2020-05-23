@@ -25,6 +25,7 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class AuthGatewayFilter extends AbstractGatewayFilterFactory<AuthGatewayFilter.Config> {
+
     public AuthGatewayFilter() {
         super(Config.class);
     }
@@ -32,8 +33,8 @@ public class AuthGatewayFilter extends AbstractGatewayFilterFactory<AuthGatewayF
     @Resource
     private RestTemplate restTemplate;
 
-    private Mono<Void> authError(ServerWebExchange exchange, String err) {
-        return setError(exchange, HttpStatus.UNAUTHORIZED);
+    private Mono<Void> setError(ServerWebExchange exchange, String msg, HttpStatus errorType) {
+        return setError(exchange, errorType);
     }
 
     private Mono<Void> setError(ServerWebExchange exchange, HttpStatus errorType) {
@@ -45,6 +46,7 @@ public class AuthGatewayFilter extends AbstractGatewayFilterFactory<AuthGatewayF
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
+
             ServerHttpRequest request = exchange.getRequest();
             HttpHeaders headers = HttpHeaders.writableHttpHeaders(request.getHeaders());
             headers.remove(GatewayConstants.HEADER_ID);
@@ -64,8 +66,8 @@ public class AuthGatewayFilter extends AbstractGatewayFilterFactory<AuthGatewayF
 
             String token = headers.getFirst(GatewayConstants.TOKEN_HEADER);
             // check token exist
-            if (token == null || token.startsWith(GatewayConstants.TOKEN_PREFIX)) {
-                return authError(exchange, "No Authorization header.");
+            if (token == null || !token.startsWith(GatewayConstants.TOKEN_PREFIX)) {
+                return setError(exchange, "No Authorization header.", HttpStatus.UNAUTHORIZED);
             }
 
             Claims data;
@@ -75,24 +77,29 @@ public class AuthGatewayFilter extends AbstractGatewayFilterFactory<AuthGatewayF
                     .setSigningKey(Keys.hmacShaKeyFor(GatewayConstants.CRYPT_KEY.getBytes())).build()
                     .parseClaimsJws(token.replace(GatewayConstants.TOKEN_PREFIX, "")).getBody();
             } catch (Exception e) {
-                return authError(exchange, "Invalid Authorization header.");
+                return setError(exchange, "Invalid Authorization header.", HttpStatus.UNAUTHORIZED);
             }
 
             // check session exist
             URI uri =
                 URI.create(String.format("http://server-auth/login?hid=%s&sss=%s", data.getId(), data.getSubject()));
 
-            @SuppressWarnings("unchecked")
-            Map<Object, Object> result = restTemplate.getForObject(uri, Map.class);
+            try {
+                @SuppressWarnings("unchecked")
+                Map<Object, Object> result = restTemplate.getForObject(uri, Map.class);
 
-            // check role
-            if (!mustAuthRole.contains((String)result.get("data"))) {
-                return authError(exchange, "Not Authorized to view.");
+                // check role
+                if (!mustAuthRole.contains((String)result.get("data"))) {
+                    return setError(exchange, "Not Authorized to view.", HttpStatus.FORBIDDEN);
+                }
+
+                // set Authorized header
+                headers.add(GatewayConstants.HEADER_ID, data.getId());
+                headers.add(GatewayConstants.HEADER_ROLE, (String)result.get("data"));
+
+            } catch (Exception e) {
+                return setError(exchange, "Authorization Error.", HttpStatus.FORBIDDEN);
             }
-
-            // set Authorized header
-            headers.add(GatewayConstants.HEADER_ID, data.getId());
-            headers.add(GatewayConstants.HEADER_ROLE, (String)result.get("data"));
 
             return chain.filter(exchange.mutate().request(request).build());
         };

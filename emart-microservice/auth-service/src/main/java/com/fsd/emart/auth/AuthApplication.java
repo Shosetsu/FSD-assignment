@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("com.fsd.emart.common.dao")
 @EntityScan("com.fsd.emart.*")
 public class AuthApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(AuthApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AuthApplication.class, args);
+    }
 }
