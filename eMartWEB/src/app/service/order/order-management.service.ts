@@ -18,22 +18,22 @@ export class OrderManagementService {
     private msgService: MessageService,
     private session: SessionControllerService) { }
 
-  getOrderList(accountId: string, sessionKey: string): OrderInfo[] {
-    if (Constants.debugMode) console.log("#Get account Order list " + accountId);
+  getOrderList(): OrderInfo[] {
+    if (Constants.debugMode) console.log("#Get account Order list ");
     //TODO connect server
 
     return [
-      new OrderInfo("O-5332221", accountId, "Seller01", "TestBuy001", "No1(tm)", 10, 5000, new Date(2020, 4, 2, 12, 55, 32, 111), "100001"),
-      new OrderInfo("O-5332222", "Buyer01", accountId, "TestSell002", "Bbr", 7, 7700, new Date(2020, 4, 1, 12, 55, 32, 111), "100000")
+      new OrderInfo("O-5332221", "Setsu", "Seller01", "TestBuy001", "No1(tm)", 10, 5000, new Date(2020, 4, 2, 12, 55, 32, 111), "100001"),
+      new OrderInfo("O-5332222", "Buyer01", "Setsu", "TestSell002", "Bbr", 7, 7700, new Date(2020, 4, 1, 12, 55, 32, 111), "100000")
     ];
 
   }
 
-  getOrderDetail(accountId: string, sessionKey: string, oid: string): OrderDetail {
-    if (Constants.debugMode) console.log("#Get Order Detail " + oid + " for" + accountId);
+  getOrderDetail(oid: string): OrderDetail {
+    if (Constants.debugMode) console.log("#Get Order Detail " + oid + " for");
     //TODO connect server
 
-    return new OrderDetail("O-5332222", "Buyer01", accountId, "TestSell002", ["Category1", "Category2"], "Bbr", 1100, 7, 7700, new Date(2020, 4, 1, 12, 55, 32, 111), "100000")
+    return new OrderDetail("O-5332222", "Buyer01", "Setsu", "TestSell002", ["Category1", "Category2"], "Bbr", 1100, 7, 7700, new Date(2020, 4, 1, 12, 55, 32, 111), "100000")
   }
 
   getPurchaseList() { return this.purchaseList };
@@ -65,6 +65,7 @@ export class OrderManagementService {
 
     return 1;
   }
+  
   purchase() {
 
     //TODO connect server

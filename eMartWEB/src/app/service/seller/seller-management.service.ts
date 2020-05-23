@@ -9,7 +9,7 @@ export class SellerManagementService {
 
   constructor() { }
 
-  isSeller(accountId: string, sessionKey: string): boolean {
+  isSeller(accountId: string): boolean {
     if (Constants.debugMode) console.log("#Check Sales Id: " + accountId);
     //TODO server connect
 
@@ -17,7 +17,7 @@ export class SellerManagementService {
   }
 
 
-  getSalesList(accountId: string, sessionKey: string): GoodInfo[] {
+  getSalesList(accountId: string): GoodInfo[] {
     if (Constants.debugMode) console.log("#Get Sales List for " + accountId);
     //TODO server connect
 
@@ -31,8 +31,8 @@ export class SellerManagementService {
    * 
    * @param processType 0:update,1:insert
    */
-  updateSalesItemInformation(accountId: string, sessionKey: string, item: GoodInfo, processType: number = 0): number {
-    if (Constants.debugMode) console.log("#" + ['Update', 'Insert'][processType] + " Sales Item for " + accountId);
+  updateSalesItemInformation(item: GoodInfo, processType: number = 0): number {
+    if (Constants.debugMode) console.log("#" + ['Update', 'Insert'][processType] + " Sales Item ");
     //TODO server connect
 
 
@@ -43,14 +43,14 @@ export class SellerManagementService {
    * 
    * @param status 0:normal,1:blocked,2:archiveed
    */
-  setStatus(sessionKey: string, goodId: string, status: number): number {
+  setStatus(goodId: string, status: number): number {
     if (Constants.debugMode) console.log("#Change id[" + goodId + "] block status to " + Constants.goodStatus[status]);
     //TODO server connect
 
     return 1;
   }
 
-  getSellerOverviewInDate(accountId: string, sessionKey: string, range: string = 'all'): { count: number, amount: number } {
+  getSellerOverviewInDate(accountId: string, range: string = 'all'): { count: number, amount: number } {
     if (Constants.debugMode) console.log("#Get account sales info in " + range);
     //TODO connect server
 

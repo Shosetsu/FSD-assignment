@@ -20,7 +20,7 @@ export class OrderComponent  {
     private location: Location,
     private session: SessionControllerService,
     private router: Router) {
-    this.orderList = orderService.getOrderList(session.getAccountId(), session.getSessionKey());
+    this.orderList = orderService.getOrderList();
     this.id = session.getAccountId();
   }
 

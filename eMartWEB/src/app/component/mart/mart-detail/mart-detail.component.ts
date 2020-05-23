@@ -67,7 +67,7 @@ export class MartDetailComponent {
     } else if (this.goodInfo.status === 1) {
       this.goodInfo.status = 0;
     }
-    this.sellerService.setStatus(this.sessionSerivce.getSessionKey(), this.goodInfo.id, this.goodInfo.status);
+    this.sellerService.setStatus(this.goodInfo.id, this.goodInfo.status);
   }
 
   changeArchiveStatus() {
@@ -76,7 +76,7 @@ export class MartDetailComponent {
     } else if (this.goodInfo.status === 2) {
       this.goodInfo.status = 0;
     }
-    this.sellerService.setStatus(this.sessionSerivce.getSessionKey(), this.goodInfo.id, this.goodInfo.status);
+    this.sellerService.setStatus(this.goodInfo.id, this.goodInfo.status);
   }
 
   sendDM() {

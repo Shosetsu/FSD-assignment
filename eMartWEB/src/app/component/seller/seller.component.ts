@@ -37,14 +37,14 @@ export class SellerComponent {
       }
     });
 
-    if (!sellerService.isSeller(this.id, session.getSessionKey())) {
+    if (!sellerService.isSeller(this.id)) {
       router.navigateByUrl('404');
       return;
     }
 
-    this.salesList = sellerService.getSalesList(this.id, session.getSessionKey());
+    this.salesList = sellerService.getSalesList(this.id);
 
-    let baseDate: Date = accountService.getSellerCreateDate(this.id, session.getSessionKey());
+    let baseDate: Date = accountService.getSellerCreateDate(this.id);
     let nowDate: Date = new Date();
 
     while (baseDate <= nowDate) {
@@ -56,7 +56,7 @@ export class SellerComponent {
   }
 
   refreshData() {
-    let result = this.sellerService.getSellerOverviewInDate(this.session.getAccountId(), this.session.getSessionKey(), this.filterMonth);
+    let result = this.sellerService.getSellerOverviewInDate(this.session.getAccountId(), this.filterMonth);
     this.soldCount = result['count'];
     this.salesAmount = result['amount'];
   }
@@ -83,7 +83,7 @@ export class SellerComponent {
     } else if (item.status === 1) {
       item.status = 0;
     }
-    this.sellerService.setStatus(this.session.getSessionKey(), item.id, item.status);
+    this.sellerService.setStatus(item.id, item.status);
   }
 
   changeArchiveStatus(item: GoodInfo) {
@@ -92,7 +92,7 @@ export class SellerComponent {
     } else if (item.status === 2) {
       item.status = 0;
     }
-    this.sellerService.setStatus(this.session.getSessionKey(), item.id, item.status);
+    this.sellerService.setStatus(item.id, item.status);
   }
 
   edit(item: GoodInfo) {

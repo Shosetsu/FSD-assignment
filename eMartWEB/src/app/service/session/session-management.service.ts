@@ -20,7 +20,7 @@ export class SessionManagementService {
     let processResult = 'success';
     let result = new CustomerInfo();
 
-    await this.connect.fetchData(Constants.authServer, "/auth/login", "POST", JSON.stringify({ id: id, password: password }))
+    await this.connect.fetchData('auth', '/login', 'POST', JSON.stringify({ id: id, password: password }))
       .then((json) => {
         if (Constants.debugMode) console.log(json);
         if (json === 'failure') {
@@ -28,51 +28,35 @@ export class SessionManagementService {
           return;
         }
         result.init(json['data']);
-        localStorage['_ssid'] = result.sessionKey + "|" + result.accountId;
+        localStorage['_ssid'] = result.authKey;
         this.sessionControllerService.init(result);
-      }).catch((err) => {
-        if (Constants.debugMode) console.error(err);
-        processResult = 'failure';
-        this.messageService.addMsg(new Message("danger", "System Error"));
       });
 
     return processResult;
   }
 
-  logout(id, sessionKey) {
-    if (Constants.debugMode) console.log("#Log out " + id);
+  logout() {
+    if (Constants.debugMode) console.log("#Log out ");
     localStorage['_ssid'] = "";
     this.sessionControllerService.clearSession();
 
-    fetch(Constants.authServer + "/auth/logout", {
-      headers: Constants.fetchHeader,
-      method: "POST",
-      body: JSON.stringify({ id: id, sessionKey: sessionKey })
-    }).catch((err) => {
-      if (Constants.debugMode) console.error(err);
-    });
+    this.connect.fetchData('auth', '/logout', 'POST', null);
   }
 
   checkLoginStatus(ssid) {
-    if (Constants.debugMode) console.log("#Auto Log in " + ssid.split("|")[1]);
+    if (Constants.debugMode) console.log("#Auto Log in ");
     let result = new CustomerInfo();
 
-    fetch(Constants.authServer + "/auth/login?ssId=" + encodeURI(ssid), {
-      headers: Constants.fetchHeader,
-      method: "GET",
-      cache: 'no-cache'
-    }).then((fetchResult) => {
-      return fetchResult.json();
-    }).then((json) => {
-      if (Constants.debugMode) console.log(json);
-      if (json['status'] === 'success') {
-        if (Constants.debugMode) console.log("#Auto Log in " + ssid.split("|")[1] + " success!");
-        result.init(json['data']);
-        this.sessionControllerService.init(result);
-      }
-    }).catch((err) => {
-      if (Constants.debugMode) console.error(err);
-    });
+    this.connect.fetchData('auth', '/login', 'GET', null).then((json) => {
+        if (Constants.debugMode) console.log(json);
+        if (json['status'] === 'success') {
+          if (Constants.debugMode) console.log("#Auto Log in " + ssid.split("|")[1] + " success!");
+          result.init(json['data']);
+          this.sessionControllerService.init(result);
+        }
+      }).catch((err) => {
+        if (Constants.debugMode) console.error(err);
+      });
 
   }
 

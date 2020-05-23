@@ -38,7 +38,7 @@ export class UserheaderComponent {
   }
 
   logout() {
-    this.sessionManagementService.logout(this.sessionControllerService.getAccountId(), this.sessionControllerService.getSessionKey());
+    this.sessionManagementService.logout();
   }
 
   isRole(role: string) {

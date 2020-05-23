@@ -47,7 +47,7 @@ export class MessageComponent {
   }
 
   ngOnInit() {
-    this.dmList = this.dmService.getMessageList(this.sessionService.getAccountId(), this.sessionService.getSessionKey());
+    this.dmList = this.dmService.getMessageList();
   }
 
   back() {

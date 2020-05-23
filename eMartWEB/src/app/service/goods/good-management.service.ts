@@ -84,7 +84,6 @@ export class GoodManagementService {
   }
 
   private selectCartListFromServer(): GoodInfo[] {
-    this.sessionService.getSessionKey();
     if (Constants.debugMode) console.log("#load cartlist: " + this.sessionService.getAccountId());
     //TODO server connect
     return [];
@@ -98,14 +97,13 @@ export class GoodManagementService {
   private async selectCategoryListFromServer() {
     if (Constants.debugMode) console.log("#load categorylist");
 
-    return this.connect.fetchData(Constants.martQueryServer, "/category", "GET", null);
+    return this.connect.fetchData('martquery', "/category", "GET", null);
   }
 
   private async selectManufacturerListFromServer() {
-    this.sessionService.getSessionKey();
     if (Constants.debugMode) console.log("#load manufacturerList");
 
-    return this.connect.fetchData(Constants.martQueryServer, "/manufacturer", "GET", null);
+    return this.connect.fetchData('martquery', "/manufacturer", "GET", null);
   }
 
   queryGoods(filterRules): GoodInfo[] {

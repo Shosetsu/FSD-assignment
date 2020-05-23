@@ -59,7 +59,7 @@ export class SellerGoodEditorComponent {
       return;
     }
 
-    if (this.sellerService.updateSalesItemInformation(this.session.getAccountId(), this.session.getSessionKey(), this.goodInfo, this.updateFlag ? 0 : 1)) {
+    if (this.sellerService.updateSalesItemInformation(this.goodInfo, this.updateFlag ? 0 : 1)) {
       this.close();
     }
   }

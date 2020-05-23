@@ -10,8 +10,8 @@ export class DirectMessageService {
 
   constructor(private connect: ConnectService) { }
 
-  getMessageList(accountId, sessionKey): DirectMessage[] {
-    if (Constants.debugMode) console.log("#Get account DM list " + accountId);
+  getMessageList(): DirectMessage[] {
+    if (Constants.debugMode) console.log("#Get Direct Message list ");
     //TODO connect server
 
 
@@ -22,7 +22,7 @@ export class DirectMessageService {
 
   sendMessage(msg: DirectMessage): number {
     if (Constants.debugMode) console.log("#Send DM to " + msg.sendto);
-    this.connect.fetchData(Constants.messageServer, "/message", "POST", JSON.stringify(msg));
+    this.connect.fetchData('message', '', 'POST', JSON.stringify(msg));
     return 1;
   }
 }

@@ -25,7 +25,6 @@ export const Constants = Object.freeze({
         'Accept': 'application/json',
         'Content-Type': 'application/json',        
     },
-    authServer: 'http://localhost:10048',
-    messageServer:'http://localhost:10053',
-    martQueryServer:'http://localhost:10050'
+    serverAddress: 'http://localhost:10061',
+    authPrefix: 'Bearer '
 });

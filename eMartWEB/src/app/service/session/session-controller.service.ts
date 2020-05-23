@@ -31,8 +31,8 @@ export class SessionControllerService {
     }
   }
 
-  public getSessionKey(): string {
-    return this.customerInfomation.sessionKey;
+  public getAuthKey(): string {
+    return this.customerInfomation.authKey;
   }
   public getAccountType(): string {
     return this.customerInfomation.accountType;

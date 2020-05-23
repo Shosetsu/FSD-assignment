@@ -48,14 +48,14 @@ export class AccountManagementService {
     return 0;
   }
 
-  getSellerCreateDate(accountId: string, sessionKey: string): Date {
+  getSellerCreateDate(accountId: string): Date {
     if (Constants.debugMode) console.log("#Get account seller date " + accountId);
     //TODO connect server
 
     return new Date(2019, 5, 6, 22, 12, 54);
   }
 
-  getAccountDetail(accountId: string, sessionKey: string): CustomerDetail {
+  getAccountDetail(accountId: string): CustomerDetail {
     if (Constants.debugMode) console.log("#Get account detail " + accountId);
     //TODO connect server
 

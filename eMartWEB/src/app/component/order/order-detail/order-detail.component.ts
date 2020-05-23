@@ -36,7 +36,7 @@ export class OrderDetailComponent implements OnDestroy {
 
     } else {
       route.params.subscribe(para => {
-        let orderDetail = orderService.getOrderDetail(session.getAccountId(), session.getSessionKey(), para['oid']);
+        let orderDetail = orderService.getOrderDetail(para['oid']);
         if (orderDetail) {
           this.orderDetailList = [orderDetail];
         } else {
