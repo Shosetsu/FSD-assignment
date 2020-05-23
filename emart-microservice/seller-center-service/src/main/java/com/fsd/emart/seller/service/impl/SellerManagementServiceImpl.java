@@ -120,7 +120,7 @@ public class SellerManagementServiceImpl implements SellerManagementService {
     }
 
     @Override
-    public void changeSalesItemStatus(String itemId, Integer status, String accountId) {
+    public void changeSalesItemStatus(String itemId, Integer status, String accountId, String accountType) {
         Optional<ItemInfo> item = itemDao.findById(itemId);
 
         // check exist
@@ -133,14 +133,13 @@ public class SellerManagementServiceImpl implements SellerManagementService {
         // check owner or manager
         if ((itemInfo.getOwnerId().equals(accountId) && oldStatus != Constants.ITEM_STATUS_BLOCK
             && status != Constants.ITEM_STATUS_BLOCK)
-            || (Constants.ROLE_ADMIN.equals(authUtil.getAccountType(accountId))
-                && oldStatus != Constants.ITEM_STATUS_ARCHIVED && status != Constants.ITEM_STATUS_ARCHIVED)) {
+            || (Constants.ROLE_ADMIN.equals(accountType) && oldStatus != Constants.ITEM_STATUS_ARCHIVED
+                && status != Constants.ITEM_STATUS_ARCHIVED)) {
             if (oldStatus == status) {
                 throw new ApplicationException("No change.");
             }
             itemInfo.setStatus(status);
             itemDao.save(itemInfo);
-
         } else {
             throw new AuthException("Invalid Operation.");
         }

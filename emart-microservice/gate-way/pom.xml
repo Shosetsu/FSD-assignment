@@ -9,6 +9,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
+	<version>1.0.0</version>
 	<groupId>com.fsd.emart</groupId>
 	<artifactId>gate-way</artifactId>
 	<name>Gateway</name>

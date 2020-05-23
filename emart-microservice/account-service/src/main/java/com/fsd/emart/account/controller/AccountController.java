@@ -2,15 +2,11 @@ package com.fsd.emart.account.controller;
 
 import javax.annotation.Resource;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,9 +18,7 @@ import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.entity.CustomerInfo;
 import com.fsd.emart.common.util.AuthUtil;
 
-@CrossOrigin(methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT}, origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/")
 public class AccountController {
     @Resource
     private AccountService accountService;
@@ -34,8 +28,6 @@ public class AccountController {
 
     @PostMapping("/register")
     public JsonResponse register(@RequestBody SignupForm info) {
-        JsonResponse result = new JsonResponse();
-
         CustomerInfo processedInfo = new CustomerInfo();
         processedInfo.setId(info.getAccountId());
         processedInfo.setEmail(info.getEmail());
@@ -53,67 +45,58 @@ public class AccountController {
 
         accountService.register(processedInfo, info.getPassword());
 
-        result.setStatus(Constants.RES_NOTHING);
-        return result;
+        return new JsonResponse();
     }
 
     @PostMapping("/unregister")
     public JsonResponse unregister(@RequestParam("accountId") String accountId,
         @RequestParam("password") String password) {
-        JsonResponse result = new JsonResponse();
 
         accountService.unregist(accountId, password);
 
-        result.setStatus(Constants.RES_NOTHING);
-        return result;
+        return new JsonResponse();
     }
 
     @PostMapping("/findAccount")
     public JsonResponse getSessionType(@RequestParam("email") String email) {
-        JsonResponse result = new JsonResponse();
 
         accountService.findAccount(email);
 
-        result.setStatus(Constants.RES_NOTHING);
-        return result;
+        return new JsonResponse();
     }
 
-    @GetMapping("/query/{accountId}/sellerDate")
-    public JsonResponse getSellerCreateTime(@PathVariable("accountId") String targetId,
-        @RequestHeader("accountId") String accountId, @RequestHeader("sessionKey") String sessionKey) {
+    @GetMapping("/query/sellerDate")
+    public JsonResponse getSellerCreateTime(@RequestParam("tid") String targetId,
+        @RequestHeader("hid") String accountId, @RequestHeader("rt") String accountType) {
         // Authorization Check
-        authUtil.authCheck(accountId, sessionKey, targetId);
+        authUtil.authCheck(accountId, accountType, targetId);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.RES_NOTHING);
         result.setData(accountService.getSellerCreateTime(targetId));
         return result;
     }
 
-    @GetMapping("/query/{accountId}")
-    public JsonResponse getAccountDetail(@PathVariable("accountId") String targetId,
-        @RequestHeader("accountId") String accountId, @RequestHeader("sessionKey") String sessionKey) {
+    @GetMapping("/query")
+    public JsonResponse getAccountDetail(@RequestParam("tid") String targetId, @RequestHeader("hid") String accountId,
+        @RequestHeader("rt") String accountType) {
         // Authorization Check
-        authUtil.authCheck(accountId, sessionKey, targetId);
+        authUtil.authCheck(accountId, accountType, targetId);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.RES_NOTHING);
         result.setData(accountService.getAccountDetail(accountId));
         return result;
     }
 
-    @PutMapping("/update/{accountId}")
-    public JsonResponse updateAccountDetail(@PathVariable("accountId") String targetId,
-        @RequestHeader("accountId") String accountId, @RequestHeader("sessionKey") String sessionKey,
+    @PutMapping("/update")
+    public JsonResponse updateAccountDetail(@RequestParam("tid") String targetId,
+        @RequestHeader("hid") String accountId, @RequestHeader("rt") String accountType,
         @RequestBody AccountDetailUpdateForm form) {
         // Authorization Check
-        authUtil.authCheck(accountId, sessionKey, targetId);
+        authUtil.authCheck(accountId, accountType, targetId);
 
         accountService.updateAccountDetail(form, targetId);
 
-        JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.RES_NOTHING);
-        return result;
+        return new JsonResponse();
     }
 
 }

@@ -2,7 +2,7 @@ server:
   port: 10055
 spring:
   application:
-    name: server-seller-system
+    name: server-seller
   profiles:
     include:
     - commonDev

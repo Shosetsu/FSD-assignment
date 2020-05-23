@@ -28,13 +28,12 @@ public class OrderQueryServiceImpl implements OrderQueryService {
     public OrderDetail queryOrderDetail(String orderId, String accountId) {
         Optional<OrderInfo> order = orderDao.findById(orderId);
 
-        // Authorization Check - part.2
-        if (order.isPresent()
-            && !(order.get().getBuyerId().equals(accountId) || order.get().getSellerId().equals(accountId))) {
+        if (!order.isPresent()) {
             throw new ApplicationException("Not Found");
         }
 
-        if (!order.isPresent()) {
+        // Authorization Check
+        if (!order.get().getBuyerId().equals(accountId) && !order.get().getSellerId().equals(accountId)) {
             throw new ApplicationException("Not Found");
         }
 

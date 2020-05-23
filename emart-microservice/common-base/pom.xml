@@ -12,8 +12,7 @@
 
 	<groupId>com.fsd.emart</groupId>
 	<artifactId>common-base</artifactId>
-	<version>1.0</version>
-	<packaging>jar</packaging>
+	<version>1.0.2</version>
 
 	<properties>
 		<java.version>1.8</java.version>

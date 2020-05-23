@@ -51,7 +51,8 @@ public class AuthGatewayFilter extends AbstractGatewayFilterFactory<AuthGatewayF
             headers.remove(GatewayConstants.HEADER_ROLE);
 
             // get rule of current path
-            String mustAuthRole = AuthPropertyHandler.getProperty(request.getPath().pathWithinApplication().toString());
+            String mustAuthRole = AuthPropertyHandler.getProperty(
+                request.getPath().pathWithinApplication().toString().concat(".").concat(request.getMethodValue()));
 
             if (GatewayConstants.ROLE_ANY.equals(mustAuthRole)) {
                 // no check

@@ -37,18 +37,9 @@ public class AuthUtil {
             && tempInfo.get().getLastLoginTime().getTime() > (System.currentTimeMillis() - AuthConstants.TOKEN_TERM);
     }
 
-    public void froceCheck(String accountId, String sessionKey) {
-        if (!checkSession(accountId, sessionKey)) {
-            throw new AuthException("Not login.");
-        }
-    }
+    public void authCheck(String accountId, String accountType, String targetId) {
 
-    public void authCheck(String accountId, String sessionKey, String targetId) {
-        // session exist?
-        froceCheck(accountId, sessionKey);
-
-        if (!StringUtil.emptyToBlank(targetId).equals(accountId)
-            && !Constants.ROLE_ADMIN.equals(getAccountType(accountId))) {
+        if (!StringUtil.emptyToBlank(targetId).equals(accountId) && !Constants.ROLE_ADMIN.equals(accountType)) {
             throw new AuthException("System Error.");
         }
     }

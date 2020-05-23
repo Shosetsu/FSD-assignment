@@ -9,17 +9,59 @@ spring:
         locator:
           enabled: true
           lowerCaseServiceId: true
-      routes:      - id: mart
-        uri: lb://SERVER-MART
+      routes:
+      - id: auth
+        uri: lb://server-auth
         predicates:
-          - Path=/mart/**
+          - Path=/auth/**
         filters:
           - AuthGatewayFilter
           - StripPrefix=1
-      - id: auth
-        uri: lb://SERVER-AUTH
+      - id: account
+        uri: lb://server-account
         predicates:
-          - Path=/auth/**
+          - Path=/account/**
+        filters:
+          - AuthGatewayFilter
+          - StripPrefix=1
+      - id: cart
+        uri: lb://server-cart
+        predicates:
+          - Path=/cart/**
+        filters:
+          - AuthGatewayFilter
+          - StripPrefix=1
+      - id: message
+        uri: lb://server-message
+        predicates:
+          - Path=/message/**
+        filters:
+          - AuthGatewayFilter
+          - StripPrefix=1      - id: martquery
+        uri: lb://server-martquery
+        predicates:
+          - Path=/martquery/**
+        filters:
+          - AuthGatewayFilter
+          - StripPrefix=1
+      - id: order
+        uri: lb://server-order
+        predicates:
+          - Path=/order/**
+        filters:
+          - AuthGatewayFilter
+          - StripPrefix=1
+      - id: purchase
+        uri: lb://server-purchase
+        predicates:
+          - Path=/purchase/**
+        filters:
+          - AuthGatewayFilter
+          - StripPrefix=1
+      - id: seller
+        uri: lb://server-seller
+        predicates:
+          - Path=/seller/**
         filters:
           - AuthGatewayFilter
           - StripPrefix=1

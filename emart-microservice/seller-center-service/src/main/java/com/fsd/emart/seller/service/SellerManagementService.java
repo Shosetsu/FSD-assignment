@@ -15,6 +15,6 @@ public interface SellerManagementService {
 
     public void saveSalesItem(GoodInfo info, String accountId);
 
-    public void changeSalesItemStatus(String itemId, Integer status, String accountId);
+    public void changeSalesItemStatus(String itemId, Integer status, String accountId, String accountType);
 
 }

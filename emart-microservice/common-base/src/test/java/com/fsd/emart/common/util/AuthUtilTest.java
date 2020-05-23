@@ -4,9 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.sql.Timestamp;
@@ -59,30 +56,7 @@ class AuthUtilTest {
     }
 
     @Test
-    void testFroceCheck() {
-        String msg = "";
-
-        sut = spy(sut);
-
-        // Test false
-        doReturn(Boolean.FALSE).when(sut).checkSession(anyString(), anyString());
-        try {
-            sut.froceCheck("id", "sessionKey");
-        } catch (AuthException e) {
-            msg = e.getMessage();
-        }
-        assertEquals(msg, "Not login.");
-
-        // Test true
-        doReturn(Boolean.TRUE).when(sut).checkSession(anyString(), anyString());
-        sut.froceCheck("id", "sessionKey");
-    }
-
-    @Test
     void testAuthCheck() {
-        sut = spy(sut);
-        doNothing().when(sut).froceCheck(anyString(), anyString());
-
         // Test same id
         sut.authCheck("aaaa", "sessionKey", "aaaa");
 

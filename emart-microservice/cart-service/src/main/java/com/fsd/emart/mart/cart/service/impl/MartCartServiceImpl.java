@@ -49,7 +49,7 @@ public class MartCartServiceImpl implements MartCartService {
     }
 
     @Override
-    public void updateCartList(String accountId, String[] cartList) {
+    public void updateCartList(String accountId, List<String> cartList) {
         CartInfo cartInfo = new CartInfo();
         cartInfo.setAccountId(accountId);
         cartInfo.setCartItems(String.join(",", cartList));

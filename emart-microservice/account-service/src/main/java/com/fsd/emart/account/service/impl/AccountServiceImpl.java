@@ -65,7 +65,7 @@ public class AccountServiceImpl implements AccountService {
         Optional<AuthInfo> authInfo = authDao.findById(accountId);
 
         if (!authInfo.isPresent()) {
-            // Not Client?
+            // Not User?
             throw new SystemException("System Error.");
         }
 
@@ -126,6 +126,11 @@ public class AccountServiceImpl implements AccountService {
             throw new SystemException("System Error.");
         }
 
+        // check old password
+        if (!cryptoUtil.comparePassword(form.getPassword(), authDao.getOne(targetId).getPassword())) {
+            throw new ApplicationException("Password invalid.");
+        }
+
         if (Constants.ROLE_BUYER.equals(currentInfo.getType()) && Constants.ROLE_SELLER.equals(form.getAccountType())) {
             currentInfo.setType(Constants.ROLE_SELLER);
             currentInfo.setSellerDate(new Timestamp(System.currentTimeMillis()));
@@ -146,7 +151,7 @@ public class AccountServiceImpl implements AccountService {
         customerDao.saveAndFlush(currentInfo);
 
         // update password
-        if (!StringUtil.isEmpty(form.getPassword())) {
+        if (!StringUtil.isEmpty(form.getNewPassword())) {
             AuthInfo authInfo = new AuthInfo();
             authInfo.setId(currentInfo.getId());
             authInfo.setPassword(cryptoUtil.encodePassword(form.getPassword()));
