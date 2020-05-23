@@ -20,11 +20,11 @@ export const Constants = Object.freeze({
     goodStatus: [
         'normal', 'blocked', 'archived'
     ],
-    fetchHeader: {
-        'Access-Control-Allow-Origin': 'http://localhost:4200',
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',        
-    },
     serverAddress: 'http://localhost:10061',
-    authPrefix: 'Bearer '
+    authPrefix: 'Bearer ',
+    res_nothing: 0,
+    res_error: 1,
+    res_reload: 2,
+    res_error_reload: 3,
+    res_timeout: 4
 });

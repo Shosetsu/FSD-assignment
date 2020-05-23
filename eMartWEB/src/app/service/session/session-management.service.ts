@@ -5,6 +5,7 @@ import { Constants } from 'src/app/constans/constans';
 import { ConnectService } from '../connect/connect.service';
 import { MessageService } from '../message/message.service';
 import { SessionControllerService } from './session-controller.service';
+import { encode } from 'punycode';
 
 @Injectable({
   providedIn: 'root'
@@ -21,15 +22,16 @@ export class SessionManagementService {
     let result = new CustomerInfo();
 
     await this.connect.fetchData('auth', '/login', 'POST', JSON.stringify({ id: id, password: password }))
-      .then((json) => {
-        if (Constants.debugMode) console.log(json);
-        if (json === 'failure') {
+      .then((data) => {
+        if (!data) {
           processResult = 'failure';
           return;
         }
-        result.init(json['data']);
-        localStorage['_ssid'] = result.authKey;
+        result.init(data);
         this.sessionControllerService.init(result);
+
+        localStorage['_ssid'] = result.authKey;
+        localStorage['tempT'] = btoa(result.accountType);
       });
 
     return processResult;
@@ -37,26 +39,34 @@ export class SessionManagementService {
 
   logout() {
     if (Constants.debugMode) console.log("#Log out ");
-    localStorage['_ssid'] = "";
-    this.sessionControllerService.clearSession();
 
-    this.connect.fetchData('auth', '/logout', 'POST', null);
+    this.connect.fetchData('auth', '/logout', 'POST', null).then((data) => {
+      localStorage['_ssid'] = "";
+      localStorage['tempT'] = "";
+      this.sessionControllerService.clearSession();
+      window.location.href = "/";
+    });
+
   }
 
-  checkLoginStatus(ssid) {
-    if (Constants.debugMode) console.log("#Auto Log in ");
+  checkLoginStatus() {
     let result = new CustomerInfo();
+    result.authKey = localStorage['_ssid'];
+    result.accountId = JSON.parse(atob(localStorage['_ssid'].split('.')[1]))['jti'];
+    if (localStorage['tempT']) {
+      result.accountType = atob(localStorage['tempT']);
+    }
+    this.sessionControllerService.init(result);
+    if (Constants.debugMode) console.log("#Auto Log in " + result.accountId);
 
-    this.connect.fetchData('auth', '/login', 'GET', null).then((json) => {
-        if (Constants.debugMode) console.log(json);
-        if (json['status'] === 'success') {
-          if (Constants.debugMode) console.log("#Auto Log in " + ssid.split("|")[1] + " success!");
-          result.init(json['data']);
-          this.sessionControllerService.init(result);
-        }
-      }).catch((err) => {
-        if (Constants.debugMode) console.error(err);
-      });
+    this.connect.fetchData('auth', '/login', 'GET', null).then((data) => {
+      if (data) {
+        if (Constants.debugMode) console.log("#Auto Log in " + result.accountId + " success!");
+        result.accountType = data;
+        localStorage['tempT'] = btoa(data);
+        this.sessionControllerService.init(result);
+      }
+    });
 
   }
 

@@ -12,10 +12,9 @@ export class AppComponent {
   title = 'eMartWEB';
 
   constructor(private sessionControllerService: SessionControllerService, private sessionManagementService: SessionManagementService) {
-    let ssid = localStorage['_ssid'];
-    if (ssid && ssid.indexOf("|") > -1) {
-      this.sessionManagementService.checkLoginStatus(ssid);
-    } else {
+    try {
+      this.sessionManagementService.checkLoginStatus();
+    } catch (e) {
       this.sessionControllerService.init(new CustomerInfo());
     }
   }

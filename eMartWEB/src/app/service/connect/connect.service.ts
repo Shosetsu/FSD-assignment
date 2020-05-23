@@ -3,6 +3,7 @@ import { SessionControllerService } from '../session/session-controller.service'
 import { Constants } from 'src/app/constans/constans';
 import { MessageService } from '../message/message.service';
 import { Message } from 'src/app/bean/message';
+import { constants } from 'buffer';
 
 @Injectable({
   providedIn: 'root'
@@ -15,34 +16,52 @@ export class ConnectService {
 
     let url = Constants.serverAddress + "/" + server + apiName;
 
-    if (method == "GET") {
+    if (method === 'GET' && requestData) {
       let queryArray = [];
-      Object.keys(requestData).forEach(function (key) { return queryArray.push(key + '=' + encodeURIComponent(requestData[key])); });
+      Object.keys(requestData).forEach((key) => { return queryArray.push(key + '=' + encodeURIComponent(requestData[key])); });
       url += '?' + queryArray.join('&');
     }
 
     return fetch(url, {
       headers: {
-        'Access-Control-Allow-Origin': 'http://localhost:4200',
+        'Access-Control-Allow-Origin': window.location.hostname,
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': Constants.authPrefix + this.session.getAuthKey()
       },
       method: method,
-      body: requestData
+      body: method === 'GET' ? null : requestData
     }).then((fetchResult) => {
       return fetchResult.json();
     }).then((json) => {
       if (Constants.debugMode) console.log(json);
-      if (json['status'] !== 'success') {
-        this.messageService.addMsg(new Message("warning", json['messageList'][0]));
-        return 'failure';
+
+      if (json['status'] === Constants.res_nothing) {
+        return json['data'];
       }
-      return json;
+
+      switch (json['status']) {
+        case Constants.res_error:
+          this.messageService.addMsg(new Message("warning", json['messageList'][0]));
+          break;
+        case Constants.res_reload:
+          // TODO
+          break;
+        case Constants.res_error_reload:
+          // TODO
+          break;
+        case Constants.res_timeout:
+          // TODO
+          break;
+        default:
+          // TODO
+          break;
+      }
+      return null;
     }).catch((err) => {
       if (Constants.debugMode) console.error(err);
       this.messageService.addMsg(new Message("danger", "System Error"));
-      return 'failure';
+      return null;
     });
   }
 }
