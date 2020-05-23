@@ -3,14 +3,6 @@ server:
 spring:
   application:
     name: gate-way
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:10047/emart_a?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-    username: root
-    password: Qwer1234
-  jpa:
-    database: MYSQL
-    show-sql: true
   cloud:
     gateway:
       discovery:
@@ -21,13 +13,15 @@ spring:
         uri: lb://SERVER-MART
         predicates:
           - Path=/mart/**
-        filters:          - StripPrefix=1
-          - AuthGateway
+        filters:
+          - AuthGatewayFilter
+          - StripPrefix=1
       - id: auth
         uri: lb://SERVER-AUTH
         predicates:
           - Path=/auth/**
         filters:
+          - AuthGatewayFilter
           - StripPrefix=1
 eureka:
   client:

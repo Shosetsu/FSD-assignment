@@ -10,15 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fsd.emart.auth.bean.LoginInfo;
 import com.fsd.emart.auth.service.AuthService;
 import com.fsd.emart.common.bean.JsonResponse;
 import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.entity.AuthInfo;
 import com.fsd.emart.common.entity.CustomerInfo;
 import com.fsd.emart.common.entity.SessionInfo;
-import com.fsd.emart.common.exception.ApplicationException;
-import com.fsd.emart.common.exception.SystemException;
 
 @CrossOrigin(methods = {RequestMethod.GET, RequestMethod.POST}, origins = "http://localhost:4200")
 @RestController
@@ -43,28 +40,17 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public JsonResponse getSessionType(@RequestParam("ssId") String ssId) {
+    public JsonResponse getSessionType(@RequestParam("hid") String id, @RequestParam("sss") String sessionKey) {
         JsonResponse result = new JsonResponse();
+        String accountType = Constants.ROLE_ANY;
 
-        // Is valid Session Param?
-        if (ssId.indexOf("|") == -1) {
-            throw new SystemException("Invalid ssid.");
+        if (authService.checkSession(id, sessionKey)) {
+            CustomerInfo cusInfo = authService.getCustomerInfo(id);
+            accountType = cusInfo.getType();
         }
-
-        String[] tempInfo = ssId.split("\\|");
-        if (!authService.checkSession(tempInfo[1], tempInfo[0])) {
-            throw new ApplicationException("Invalid ssid.");
-        }
-
-        CustomerInfo cusInfo = authService.getCustomerInfo(tempInfo[1]);
 
         result.setStatus(Constants.RES_NOTHING);
-
-        LoginInfo data = new LoginInfo();
-        data.setAccountId(cusInfo.getId());
-        data.setAccountType(cusInfo.getType());
-        data.setAuthKey(tempInfo[0]);
-        result.setData(data);
+        result.setData(accountType);
         return result;
     }
 

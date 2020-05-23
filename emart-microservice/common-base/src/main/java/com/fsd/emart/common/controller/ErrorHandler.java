@@ -1,4 +1,4 @@
-package com.fsd.emart.common;
+package com.fsd.emart.common.controller;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

@@ -14,13 +14,6 @@
 	<name>Gateway</name>
 
 	<dependencies>
-		<!-- Common Module -->
-		<dependency>
-			<groupId>com.fsd.emart</groupId>
-			<artifactId>common-base</artifactId>
-			<version>1.0</version>
-		</dependency>
-		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
