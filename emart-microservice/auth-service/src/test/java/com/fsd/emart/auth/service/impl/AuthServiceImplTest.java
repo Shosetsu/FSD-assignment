@@ -2,6 +2,7 @@ package com.fsd.emart.auth.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -101,7 +102,7 @@ class AuthServiceImplTest {
         LoginInfo result = sut.login(info);
 
         assertEquals("AAAA", result.getAccountId());
-        assertEquals("testaaaa", result.getSessionKey());
+        assertNotNull(result.getAuthKey());
         assertEquals("T", result.getAccountType());
     }
 

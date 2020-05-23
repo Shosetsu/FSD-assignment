@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fsd.emart.common.bean.GoodInfo;
 import com.fsd.emart.common.bean.JsonResponse;
-import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.util.AuthUtil;
 import com.fsd.emart.seller.service.SellerManagementService;
 
@@ -37,7 +37,7 @@ public class SellerCenterController {
         authUtil.authCheck(accountId, sessionKey, targetId);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         result.setData(sellerService.isSeller(targetId));
         return result;
     }
@@ -49,7 +49,7 @@ public class SellerCenterController {
         authUtil.authCheck(accountId, sessionKey, targetId);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         result.setData(sellerService.getSalesList(targetId));
         return result;
     }
@@ -62,7 +62,7 @@ public class SellerCenterController {
         authUtil.authCheck(accountId, sessionKey, targetId);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         result.setData(sellerService.getSalesOverviewByMonth(targetId, dateYm));
         return result;
     }
@@ -76,7 +76,7 @@ public class SellerCenterController {
         sellerService.saveSalesItem(info, accountId);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         return result;
     }
 
@@ -89,7 +89,7 @@ public class SellerCenterController {
         sellerService.changeSalesItemStatus(itemId, status, accountId);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         return result;
     }
 }

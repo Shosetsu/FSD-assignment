@@ -18,7 +18,7 @@ import com.fsd.emart.account.bean.AccountDetailUpdateForm;
 import com.fsd.emart.account.bean.SignupForm;
 import com.fsd.emart.account.service.AccountService;
 import com.fsd.emart.common.bean.JsonResponse;
-import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.entity.CustomerInfo;
 import com.fsd.emart.common.util.AuthUtil;
 
@@ -53,7 +53,7 @@ public class AccountController {
 
         accountService.register(processedInfo, info.getPassword());
 
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         return result;
     }
 
@@ -64,7 +64,7 @@ public class AccountController {
 
         accountService.unregist(accountId, password);
 
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         return result;
     }
 
@@ -74,7 +74,7 @@ public class AccountController {
 
         accountService.findAccount(email);
 
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         return result;
     }
 
@@ -85,7 +85,7 @@ public class AccountController {
         authUtil.authCheck(accountId, sessionKey, targetId);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         result.setData(accountService.getSellerCreateTime(targetId));
         return result;
     }
@@ -97,7 +97,7 @@ public class AccountController {
         authUtil.authCheck(accountId, sessionKey, targetId);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         result.setData(accountService.getAccountDetail(accountId));
         return result;
     }
@@ -112,7 +112,7 @@ public class AccountController {
         accountService.updateAccountDetail(form, targetId);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         return result;
     }
 

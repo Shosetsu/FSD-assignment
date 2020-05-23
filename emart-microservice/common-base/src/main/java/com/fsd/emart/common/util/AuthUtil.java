@@ -1,13 +1,13 @@
 package com.fsd.emart.common.util;
 
-import java.util.Date;
 import java.util.Optional;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.constants.AuthConstants;
+import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.dao.CustomerDao;
 import com.fsd.emart.common.dao.ItemDao;
 import com.fsd.emart.common.dao.SessionDao;
@@ -34,7 +34,7 @@ public class AuthUtil {
         Optional<SessionInfo> tempInfo = sessionDao.findByIdAndSessionKey(accountId, sessionKey);
 
         return tempInfo.isPresent()
-            && tempInfo.get().getLastLoginTime().getTime() > (new Date().getTime() - 1000L * 60 * 60 * 24 * 30);
+            && tempInfo.get().getLastLoginTime().getTime() > (System.currentTimeMillis() - AuthConstants.TOKEN_TERM);
     }
 
     public void froceCheck(String accountId, String sessionKey) {

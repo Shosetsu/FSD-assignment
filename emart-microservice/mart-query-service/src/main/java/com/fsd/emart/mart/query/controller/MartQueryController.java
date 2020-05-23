@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fsd.emart.common.bean.JsonResponse;
-import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.mart.query.bean.FilterConditions;
 import com.fsd.emart.mart.query.service.MartQueryService;
 
@@ -24,7 +24,7 @@ public class MartQueryController {
     @GetMapping("/category")
     public JsonResponse getCategoryList() {
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         result.setData(martService.getCategoryList());
         return result;
     }
@@ -32,7 +32,7 @@ public class MartQueryController {
     @GetMapping("/manufacturer")
     public JsonResponse getManufacturerList() {
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         result.setData(martService.getManufacturerList());
         return result;
     }
@@ -41,7 +41,7 @@ public class MartQueryController {
     public JsonResponse getItemList(@ModelAttribute FilterConditions filter,
         @RequestParam(required = false, name = "sr", defaultValue = "0") int startRow) {
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         result.setData(martService.queryItems(filter, startRow));
         return result;
     }
@@ -49,7 +49,7 @@ public class MartQueryController {
     @GetMapping("/list/{itemId}")
     public JsonResponse getItemDetail(@PathVariable String itemId) {
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         result.setData(martService.queryItemDetail(itemId));
         return result;
     }

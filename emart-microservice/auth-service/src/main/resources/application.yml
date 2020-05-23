@@ -1,0 +1,8 @@
+server:
+  port: 10048
+spring:
+  application:
+    name: server-auth
+  profiles:
+    include:
+    - commonDev

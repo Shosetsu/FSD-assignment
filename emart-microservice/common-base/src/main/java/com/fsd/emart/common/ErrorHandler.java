@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.fsd.emart.common.bean.JsonResponse;
-import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.exception.BizException;
 
 @RestControllerAdvice
@@ -14,7 +14,7 @@ public class ErrorHandler {
     public JsonResponse handleException(BizException ex) {
 
         JsonResponse response = new JsonResponse();
-        response.setStatus(Constants.FAILURE);
+        response.setStatus(Constants.RES_ERROR);
         String[] messageList = new String[] {ex.getMessage()};
 
         response.setMessageList(messageList);

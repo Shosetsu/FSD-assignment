@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fsd.emart.common.bean.JsonResponse;
-import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.util.AuthUtil;
 import com.fsd.emart.purchase.bean.PurchaseItemInfo;
 import com.fsd.emart.purchase.service.PurchaseService;
@@ -35,7 +35,7 @@ public class PurchaseController {
         purchaseService.purchase(purchaseList, accountId);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         return result;
     }
 

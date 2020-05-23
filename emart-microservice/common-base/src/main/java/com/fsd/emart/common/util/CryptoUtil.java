@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.fsd.emart.common.constans.AuthConstants;
+import com.fsd.emart.common.constants.AuthConstants;
 
 @Component
 public class CryptoUtil {

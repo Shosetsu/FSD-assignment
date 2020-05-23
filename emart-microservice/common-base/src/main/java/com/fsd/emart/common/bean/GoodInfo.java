@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.entity.ItemInfo;
 import com.fsd.emart.common.util.StringUtil;
 

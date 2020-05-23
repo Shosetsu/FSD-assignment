@@ -12,6 +12,6 @@ import com.fsd.emart.common.entity.ManufacturerData;
 public interface ManufacturerDao
     extends JpaRepository<ManufacturerData, String>, JpaSpecificationExecutor<ManufacturerData> {
 
-    public Optional<ManufacturerData> findbyName(String name);
+    public Optional<ManufacturerData> findByName(String name);
 
 }

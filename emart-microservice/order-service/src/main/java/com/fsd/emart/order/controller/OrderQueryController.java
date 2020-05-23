@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fsd.emart.common.bean.JsonResponse;
-import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.util.AuthUtil;
 import com.fsd.emart.order.service.OrderQueryService;
 
@@ -35,7 +35,7 @@ public class OrderQueryController {
         authUtil.froceCheck(accountId, sessionKey);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         result.setData(orderService.queryOrder(accountId, startRow));
         return result;
     }
@@ -48,7 +48,7 @@ public class OrderQueryController {
         authUtil.froceCheck(accountId, sessionKey);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         result.setData(orderService.queryOrderDetail(orderId, accountId));
         return result;
     }

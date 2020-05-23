@@ -11,7 +11,7 @@
 	<artifactId>cart-service</artifactId>
 	<name>Cart Service</name>
 	<description>Cart Service</description>
-
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

@@ -1,0 +1,8 @@
+server:
+  port: 10051
+spring:
+  application:
+    name: server-cart
+  profiles:
+    include:
+    - commonDev

@@ -10,7 +10,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,7 @@ import com.fsd.emart.common.dao.CustomerDao;
 import com.fsd.emart.common.dao.SessionDao;
 import com.fsd.emart.common.entity.CustomerInfo;
 import com.fsd.emart.common.entity.SessionInfo;
-import com.fsd.emart.common.exception.ApplicationException;
+import com.fsd.emart.common.exception.AuthException;
 
 @SpringBootTest
 @SpringBootConfiguration
@@ -54,7 +53,7 @@ class AuthUtilTest {
 
         // Test new session
         value = new SessionInfo();
-        value.setLastLoginTime(new Timestamp(new Date().getTime()));
+        value.setLastLoginTime(new Timestamp(System.currentTimeMillis()));
         when(sessionDao.findByIdAndSessionKey(anyString(), anyString())).thenReturn(Optional.ofNullable(value));
         assertTrue(sut.checkSession("id", "sessionKey"));
     }
@@ -69,7 +68,7 @@ class AuthUtilTest {
         doReturn(Boolean.FALSE).when(sut).checkSession(anyString(), anyString());
         try {
             sut.froceCheck("id", "sessionKey");
-        } catch (ApplicationException e) {
+        } catch (AuthException e) {
             msg = e.getMessage();
         }
         assertEquals(msg, "Not login.");
@@ -100,7 +99,7 @@ class AuthUtilTest {
         String msg = "";
         try {
             sut.authCheck("aaaa", "sessionKey", "bbb");
-        } catch (ApplicationException e) {
+        } catch (AuthException e) {
             msg = e.getMessage();
         }
         assertEquals(msg, "System Error.");

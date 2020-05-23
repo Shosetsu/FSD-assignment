@@ -1,8 +1,4 @@
-server:
-  port: 10052
 spring:
-  application:
-    name: server-purchase
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:10047/emart_a?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
@@ -11,3 +7,12 @@ spring:
   jpa:
     database: MYSQL
     show-sql: true
+eureka:
+  client:
+    registryFetchIntervalSeconds: 5
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:10060/eureka
+  instance:
+    hostname: localhost

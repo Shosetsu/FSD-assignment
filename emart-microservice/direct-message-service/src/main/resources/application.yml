@@ -1,0 +1,8 @@
+server:
+  port: 10053
+spring:
+  application:
+    name: server-purchase
+  profiles:
+    include:
+    - commonDev

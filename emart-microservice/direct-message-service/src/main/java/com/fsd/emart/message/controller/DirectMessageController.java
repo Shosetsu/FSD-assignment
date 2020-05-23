@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fsd.emart.common.bean.JsonResponse;
-import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.entity.DirectMessageInfo;
 import com.fsd.emart.common.exception.ApplicationException;
 import com.fsd.emart.common.util.AuthUtil;
@@ -37,7 +37,7 @@ public class DirectMessageController {
         authUtil.froceCheck(accountId, sessionKey);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         result.setData(dmService.getMessageList(accountId));
         return result;
     }
@@ -61,7 +61,7 @@ public class DirectMessageController {
         dmService.postMessage(newMessage);
 
         JsonResponse result = new JsonResponse();
-        result.setStatus(Constants.SUCCESS);
+        result.setStatus(Constants.RES_NOTHING);
         return result;
     }
 

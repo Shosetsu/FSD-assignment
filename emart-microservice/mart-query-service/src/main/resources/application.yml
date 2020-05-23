@@ -1,0 +1,8 @@
+server:
+  port: 10050
+spring:
+  application:
+    name: server-mart
+  profiles:
+    include:
+    - commonDev

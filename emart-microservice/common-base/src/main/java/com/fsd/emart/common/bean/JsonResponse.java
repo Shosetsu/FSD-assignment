@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class JsonResponse {
 
-    private String status;
+    private Integer status;
 
     private String[] messageList;
 

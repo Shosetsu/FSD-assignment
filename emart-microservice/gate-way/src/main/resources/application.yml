@@ -1,0 +1,41 @@
+server:
+  port: 10061
+spring:
+  application:
+    name: gate-way
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:10047/emart_a?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password: Qwer1234
+  jpa:
+    database: MYSQL
+    show-sql: true
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:      - id: mart
+        uri: lb://SERVER-MART
+        predicates:
+          - Path=/mart/**
+        filters:          - StripPrefix=1
+          - AuthGateway
+      - id: auth
+        uri: lb://SERVER-AUTH
+        predicates:
+          - Path=/auth/**
+        filters:
+          - StripPrefix=1
+eureka:
+  client:
+    registryFetchIntervalSeconds: 5
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:10060/eureka
+  instance:
+    preferIpAddress: true
+    hostname: localhost

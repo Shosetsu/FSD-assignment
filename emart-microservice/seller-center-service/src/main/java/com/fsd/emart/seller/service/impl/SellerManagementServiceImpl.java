@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.fsd.emart.common.bean.GoodInfo;
-import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.dao.ItemDao;
 import com.fsd.emart.common.dao.ManufacturerDao;
 import com.fsd.emart.common.dao.OrderDao;
@@ -99,7 +99,7 @@ public class SellerManagementServiceImpl implements SellerManagementService {
             newInfo.setSoldCount(BigInteger.ZERO);
 
             // update manufacturer name
-            if (!manufacturerDao.findbyName(info.getManufacturer()).isPresent()) {
+            if (!manufacturerDao.findByName(info.getManufacturer()).isPresent()) {
                 ManufacturerData manuData = new ManufacturerData();
                 manuData.setCreateUser(accountId);
                 manuData.setName(info.getManufacturer());

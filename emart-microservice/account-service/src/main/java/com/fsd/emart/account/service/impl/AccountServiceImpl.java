@@ -1,7 +1,6 @@
 package com.fsd.emart.account.service.impl;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Optional;
 
 import javax.annotation.Resource;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.fsd.emart.account.bean.AccountDetailUpdateForm;
 import com.fsd.emart.account.service.AccountService;
-import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.dao.AuthDao;
 import com.fsd.emart.common.dao.CustomerDao;
 import com.fsd.emart.common.dao.SessionDao;
@@ -129,7 +128,7 @@ public class AccountServiceImpl implements AccountService {
 
         if (Constants.ROLE_BUYER.equals(currentInfo.getType()) && Constants.ROLE_SELLER.equals(form.getAccountType())) {
             currentInfo.setType(Constants.ROLE_SELLER);
-            currentInfo.setSellerDate(new Timestamp(new Date().getTime()));
+            currentInfo.setSellerDate(new Timestamp(System.currentTimeMillis()));
         }
 
         currentInfo.setEmail(StringUtil.getNonblankString(form.getEmail()));

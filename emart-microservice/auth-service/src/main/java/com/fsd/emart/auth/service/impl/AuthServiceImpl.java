@@ -1,5 +1,6 @@
 package com.fsd.emart.auth.service.impl;
 
+import java.util.Date;
 import java.util.Optional;
 
 import javax.annotation.Resource;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.fsd.emart.auth.bean.LoginInfo;
 import com.fsd.emart.auth.service.AuthService;
+import com.fsd.emart.common.constants.AuthConstants;
 import com.fsd.emart.common.dao.AuthDao;
 import com.fsd.emart.common.dao.CustomerDao;
 import com.fsd.emart.common.dao.SessionDao;
@@ -17,6 +19,9 @@ import com.fsd.emart.common.entity.SessionInfo;
 import com.fsd.emart.common.exception.ApplicationException;
 import com.fsd.emart.common.util.AuthUtil;
 import com.fsd.emart.common.util.CryptoUtil;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -61,7 +66,9 @@ public class AuthServiceImpl implements AuthService {
         CustomerInfo cusInfo = getCustomerInfo(info.getId());
         result.setAccountId(cusInfo.getId());
         result.setAccountType(cusInfo.getType());
-        result.setSessionKey(session_key);
+        result.setAuthKey(Jwts.builder().setId(info.getId()).setSubject(session_key)
+            .setExpiration(new Date(System.currentTimeMillis() + AuthConstants.TOKEN_TERM))
+            .signWith(Keys.hmacShaKeyFor(AuthConstants.CRYPT_KEY.getBytes())).compact());
 
         return result;
     }

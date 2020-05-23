@@ -1,0 +1,8 @@
+server:
+  port: 10055
+spring:
+  application:
+    name: server-seller-system
+  profiles:
+    include:
+    - commonDev

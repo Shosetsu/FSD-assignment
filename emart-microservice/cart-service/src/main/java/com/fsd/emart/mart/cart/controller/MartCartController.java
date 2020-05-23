@@ -13,42 +13,42 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fsd.emart.common.bean.JsonResponse;
-import com.fsd.emart.common.constans.Constants;
+import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.util.AuthUtil;
 import com.fsd.emart.mart.cart.service.MartCartService;
 
-@CrossOrigin(methods = { RequestMethod.GET, RequestMethod.PUT }, origins = "http://localhost:4200")
+@CrossOrigin(methods = {RequestMethod.GET, RequestMethod.PUT}, origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/mart")
 public class MartCartController {
-	@Resource
-	private MartCartService martService;
+    @Resource
+    private MartCartService martService;
 
-	@Resource
-	private AuthUtil authUtil;
+    @Resource
+    private AuthUtil authUtil;
 
-	@GetMapping("/cart/{id}")
-	public JsonResponse getCartList(@PathVariable String id, @RequestHeader("sessionKey") String sessionKey) {
-		// Authorization Check
-		authUtil.froceCheck(id, sessionKey);
+    @GetMapping("/cart/{id}")
+    public JsonResponse getCartList(@PathVariable String id, @RequestHeader("sessionKey") String sessionKey) {
+        // Authorization Check
+        authUtil.froceCheck(id, sessionKey);
 
-		JsonResponse result = new JsonResponse();
-		result.setStatus(Constants.SUCCESS);
-		result.setData(martService.getCartList(id));
-		return result;
-	}
+        JsonResponse result = new JsonResponse();
+        result.setStatus(Constants.RES_NOTHING);
+        result.setData(martService.getCartList(id));
+        return result;
+    }
 
-	@PutMapping("/cart/{id}")
-	public JsonResponse putCartList(@PathVariable String id, @RequestParam("list") String[] list,
-			@RequestHeader("sessionKey") String sessionKey) {
-		// Authorization Check
-		authUtil.froceCheck(id, sessionKey);
+    @PutMapping("/cart/{id}")
+    public JsonResponse putCartList(@PathVariable String id, @RequestParam("list") String[] list,
+        @RequestHeader("sessionKey") String sessionKey) {
+        // Authorization Check
+        authUtil.froceCheck(id, sessionKey);
 
-		martService.updateCartList(id, list);
+        martService.updateCartList(id, list);
 
-		JsonResponse result = new JsonResponse();
-		result.setStatus(Constants.SUCCESS);
-		return result;
-	}
+        JsonResponse result = new JsonResponse();
+        result.setStatus(Constants.RES_NOTHING);
+        return result;
+    }
 
 }

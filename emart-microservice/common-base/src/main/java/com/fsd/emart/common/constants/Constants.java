@@ -1,10 +1,11 @@
-package com.fsd.emart.common.constans;
+package com.fsd.emart.common.constants;
 
 public class Constants {
 
-    public static final String SUCCESS = "success";
-
-    public static final String FAILURE = "failure";
+    public static final int RES_NOTHING = 0;
+    public static final int RES_ERROR = 1;
+    public static final int RES_RELOAD = 2;
+    public static final int RES_ERROR_RELOAD = 3;
 
     public static final String ROLE_ANY = "A";
     public static final String ROLE_BUYER = "B";
