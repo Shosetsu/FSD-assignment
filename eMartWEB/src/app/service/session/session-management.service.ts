@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CustomerInfo } from 'src/app/bean/CustomerInfo';
-import { Message } from 'src/app/bean/message';
 import { Constants } from 'src/app/constans/constans';
 import { ConnectService } from '../connect/connect.service';
 import { MessageService } from '../message/message.service';
 import { SessionControllerService } from './session-controller.service';
-import { encode } from 'punycode';
 
 @Injectable({
   providedIn: 'root'

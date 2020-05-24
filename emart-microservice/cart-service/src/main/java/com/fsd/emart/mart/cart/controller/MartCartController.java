@@ -1,5 +1,6 @@
 package com.fsd.emart.mart.cart.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -27,7 +28,12 @@ public class MartCartController {
     }
 
     @PutMapping
-    public JsonResponse putCartList(@RequestHeader("hid") String id, @RequestBody List<CartData> list) {
+    public JsonResponse putCartList(@RequestHeader("hid") String id,
+        @RequestBody(required = false) List<CartData> list) {
+
+        if (list == null) {
+            list = new ArrayList<>();
+        }
 
         martService.updateCartList(id, list);
 

@@ -27,8 +27,10 @@ export class CartComponent implements OnInit {
   }
 
   checkNumber(good: GoodInfo) {
+    if (good.count > good.stock) { good.count--; return; }
+    
     if (good.count < 1) this.remove(good);
-    if (good.count > good.stock) good.count--;
+    this.goodSerivce.updateCartList();
   }
 
   getAllPrice(): number {

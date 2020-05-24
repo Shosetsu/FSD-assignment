@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
+import { FilterInfo } from 'src/app/bean/FilterInfo';
 import { Message } from 'src/app/bean/message';
 import { Constants } from 'src/app/constans/constans';
 import { GoodInfo } from '../../bean/GoodInfo';
+import { ConnectService } from '../connect/connect.service';
 import { MessageService } from '../message/message.service';
 import { SessionControllerService } from '../session/session-controller.service';
-import { ConnectService } from '../connect/connect.service';
-import { Observable, observable } from 'rxjs';
-import { FilterInfo } from 'src/app/bean/FilterInfo';
+import { CartDataRequest } from './CartDataRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -73,7 +73,7 @@ export class GoodManagementService {
     if (skipFlag) return;
 
     if (!findFlag) {
-      let targetGood = good.clone();
+      let targetGood = new GoodInfo().init(good);
       targetGood.count = count;
       this.cartList.push(targetGood);
     }
@@ -98,8 +98,12 @@ export class GoodManagementService {
   }
 
   private updateCartListToServer() {
+    let putCartList = [];
+    this.cartList.forEach(element => {
+      putCartList.push(new CartDataRequest(element.id, element.count));
+    });
 
-    //TODO server connect use good.id
+    this.connect.fetchData('cart', "", "PUT", putCartList);
   }
 
   private async selectCategoryListFromServer() {

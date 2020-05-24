@@ -1,10 +1,10 @@
+import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { SessionControllerService } from '../session/session-controller.service';
+import { Router } from '@angular/router';
+import { Message } from 'src/app/bean/message';
 import { Constants } from 'src/app/constans/constans';
 import { MessageService } from '../message/message.service';
-import { Message } from 'src/app/bean/message';
-import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { SessionControllerService } from '../session/session-controller.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +31,7 @@ export class ConnectService {
         'Authorization': Constants.authPrefix + this.session.getAuthKey()
       },
       method: method,
-      body: method === 'GET' ? null : requestData
+      body: method === 'GET' ? null : requestData ? JSON.stringify(requestData) : null
     }).then((fetchResult) => {
       return fetchResult.json();
     }).then((json) => {
@@ -56,6 +56,9 @@ export class ConnectService {
           break;
         case Constants.res_back:
           // this.location.back();
+          this.router.navigate(["404"]);
+          break;
+        case 404:
           this.router.navigate(["404"]);
           break;
         default:
