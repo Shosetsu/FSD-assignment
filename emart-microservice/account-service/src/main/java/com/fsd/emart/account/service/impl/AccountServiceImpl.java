@@ -11,7 +11,9 @@ import com.fsd.emart.account.bean.AccountDetailUpdateForm;
 import com.fsd.emart.account.service.AccountService;
 import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.dao.AuthDao;
+import com.fsd.emart.common.dao.CartDao;
 import com.fsd.emart.common.dao.CustomerDao;
+import com.fsd.emart.common.dao.ItemDao;
 import com.fsd.emart.common.dao.SessionDao;
 import com.fsd.emart.common.entity.AuthInfo;
 import com.fsd.emart.common.entity.CustomerInfo;
@@ -31,6 +33,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Resource
     private SessionDao sessionDao;
+
+    @Resource
+    private CartDao cartDao;
+
+    @Resource
+    private ItemDao itemDao;
 
     @Resource
     private CryptoUtil cryptoUtil;
@@ -73,10 +81,15 @@ public class AccountServiceImpl implements AccountService {
             throw new ApplicationException("Password invalid.");
         }
 
-        // process
+        // process master
         customerDao.deleteById(accountId);
         authDao.deleteById(accountId);
         sessionDao.deleteById(accountId);
+
+        // process part.2
+        cartDao.deleteById(accountId);
+
+        itemDao.deleteAll(itemDao.findByOwnerIdOrderByUpdateTimeDesc(accountId));
     }
 
     @Override

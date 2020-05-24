@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fsd.emart.account.bean.AccountDetailUpdateForm;
 import com.fsd.emart.account.bean.CustomerDetail;
 import com.fsd.emart.account.bean.SignupForm;
+import com.fsd.emart.account.bean.UnregisterForm;
 import com.fsd.emart.account.service.AccountService;
 import com.fsd.emart.common.bean.JsonResponse;
 import com.fsd.emart.common.constants.Constants;
@@ -55,10 +56,9 @@ public class AccountController {
     }
 
     @PostMapping("/unregister")
-    public JsonResponse unregister(@RequestParam("accountId") String accountId,
-        @RequestParam("password") String password) {
+    public JsonResponse unregister(@RequestHeader("hid") String accountId, @RequestBody UnregisterForm password) {
 
-        accountService.unregist(accountId, password);
+        accountService.unregist(accountId, password.getPassword());
 
         return new JsonResponse();
     }

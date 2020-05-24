@@ -22,7 +22,7 @@ export class AccountManagementService {
     asSeller: boolean,
     coName: string,
     postalAddr: string,
-    GSTIN: string,
+    gstin: string,
     bankDetail: string
   }): Promise<boolean> {
     if (Constants.debugMode) console.log('#Register user ' + formData.accountId);
@@ -37,11 +37,11 @@ export class AccountManagementService {
     });
   }
 
-  async unregist(accountId: string, password: string): Promise<boolean> {
-    if (Constants.debugMode) console.log('#Unregsit user ' + accountId);
+  async unregist(password: string): Promise<boolean> {
+    if (Constants.debugMode) console.log('#Unregsit user');
     //TODO connect server
 
-    return await this.connect.fetchData('account', "/unregister", "POST", { 'accountId': accountId, 'password': password }).then(data => {
+    return await this.connect.fetchData('account', "/unregister", "POST", { 'password': password }).then(data => {
       //success
       if (data) {
         localStorage['_ssid'] = "";
@@ -80,9 +80,9 @@ export class AccountManagementService {
   async updateAccountDetail(customerDetail: CustomerDetail, password: string): Promise<any> {
     if (Constants.debugMode) console.log("#Update account detail " + customerDetail.accountId);
 
-    let req = new UpdateAccountInfoRequestData(customerDetail.accountId, 
-      password, customerDetail.email, customerDetail.telNumber, 
-      customerDetail.accountType, customerDetail.coName, 
+    let req = new UpdateAccountInfoRequestData(customerDetail.accountId,
+      password, customerDetail.email, customerDetail.telNumber,
+      customerDetail.accountType, customerDetail.coName,
       customerDetail.postalAddr, customerDetail.gstin, customerDetail.bankDetail);
 
     return await this.connect.fetchData('account', "/update", "PUT", req);

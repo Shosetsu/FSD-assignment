@@ -25,7 +25,7 @@ export class AccountDeleteComponent {
       return;
     }
 
-    this.accountService.unregist(this.sessionService.getAccountId(), this.password);
+    this.accountService.unregist(this.password);
   }
 
 }

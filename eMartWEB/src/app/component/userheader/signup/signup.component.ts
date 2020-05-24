@@ -21,7 +21,7 @@ export class SignupComponent implements OnInit {
   asSeller: boolean = false;
   coName: string;
   postalAddr: string;
-  GSTIN: string;
+  gstin: string;
   bankDetail: string;
 
   processed: boolean;
@@ -43,7 +43,7 @@ export class SignupComponent implements OnInit {
       asSeller: this.asSeller,
       coName: this.coName,
       postalAddr: this.postalAddr,
-      GSTIN: this.GSTIN,
+      gstin: this.gstin,
       bankDetail: this.bankDetail
     }).then(result => {
       if (result) {
