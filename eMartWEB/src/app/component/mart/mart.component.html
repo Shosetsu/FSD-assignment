@@ -71,8 +71,8 @@
         <div class="link-btn-group" *ngIf="isRole('BS');">
           <a class="cart" herf="#" (click)="addCart(good)"><img src="../../../assets/addcart.svg" alt="Add to cart"
               height="16" width="16"></a>
-          <a class="buy" routerLink="/purchase" (click)="purchase(good)"><img src="../../../assets/buy.svg" alt="Buy"
-              height="24" width="32"></a>
+          <a class="buy" (click)="purchase(good)"><img src="../../../assets/buy.svg" alt="Buy" height="24"
+              width="32"></a>
         </div>
       </div>
     </div><!-- good-list -->
