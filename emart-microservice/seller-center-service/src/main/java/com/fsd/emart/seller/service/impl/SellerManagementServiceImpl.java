@@ -13,6 +13,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fsd.emart.common.bean.GoodInfo;
 import com.fsd.emart.common.constants.Constants;
@@ -28,6 +29,7 @@ import com.fsd.emart.common.util.StringUtil;
 import com.fsd.emart.seller.bean.SalesOverviewInfo;
 import com.fsd.emart.seller.service.SellerManagementService;
 
+@Transactional
 @Service
 public class SellerManagementServiceImpl implements SellerManagementService {
 

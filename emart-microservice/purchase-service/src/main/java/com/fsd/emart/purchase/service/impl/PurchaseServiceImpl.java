@@ -9,6 +9,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fsd.emart.common.dao.ItemDao;
 import com.fsd.emart.common.dao.OrderDao;
@@ -19,6 +20,7 @@ import com.fsd.emart.common.exception.SystemException;
 import com.fsd.emart.purchase.bean.PurchaseItemInfo;
 import com.fsd.emart.purchase.service.PurchaseService;
 
+@Transactional
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
 
@@ -47,6 +49,11 @@ public class PurchaseServiceImpl implements PurchaseService {
                     + "]'s price has changed. Please refresh the page and try again.");
             }
 
+            // check stock
+            if (currentItem.get().getStock().compareTo(BigInteger.valueOf(info.getCount())) < 0) {
+                throw new ApplicationException("The item [" + currentItem.get().getName() + "] over stock.");
+            }
+
             OrderInfo order = new OrderInfo();
             order.setBuyerId(accountId);
             order.setSellerId(currentItem.get().getOwnerId());
@@ -63,6 +70,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         // TODO connect out-server to completed the purchase. => allAmount
 
+        for (PurchaseItemInfo info : purchaseList) {
+            itemDao.updateSalesInfo(BigInteger.valueOf(info.getCount()), info.getId());
+        }
         orderDao.saveAll(orderList);
         orderDao.flush();
     }

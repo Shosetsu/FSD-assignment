@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fsd.emart.common.bean.GoodInfo;
 import com.fsd.emart.common.dao.CartDao;
@@ -18,6 +19,7 @@ import com.fsd.emart.common.util.StringUtil;
 import com.fsd.emart.mart.cart.bean.CartData;
 import com.fsd.emart.mart.cart.service.MartCartService;
 
+@Transactional
 @Service
 public class MartCartServiceImpl implements MartCartService {
 

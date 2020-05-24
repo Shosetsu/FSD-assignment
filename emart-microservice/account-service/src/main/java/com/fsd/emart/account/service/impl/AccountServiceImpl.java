@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fsd.emart.account.bean.AccountDetailUpdateForm;
 import com.fsd.emart.account.service.AccountService;
@@ -22,6 +23,7 @@ import com.fsd.emart.common.exception.SystemException;
 import com.fsd.emart.common.util.CryptoUtil;
 import com.fsd.emart.common.util.StringUtil;
 
+@Transactional
 @Service
 public class AccountServiceImpl implements AccountService {
 

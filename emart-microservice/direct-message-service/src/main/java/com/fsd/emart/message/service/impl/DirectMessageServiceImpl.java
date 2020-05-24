@@ -5,11 +5,13 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fsd.emart.common.dao.DirectMessageDao;
 import com.fsd.emart.common.entity.DirectMessageInfo;
 import com.fsd.emart.message.service.DirectMessageService;
 
+@Transactional
 @Service
 public class DirectMessageServiceImpl implements DirectMessageService {
 
