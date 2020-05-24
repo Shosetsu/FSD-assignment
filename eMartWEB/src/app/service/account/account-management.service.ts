@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { CustomerDetail } from 'src/app/bean/CustomerDetail';
-import { SessionControllerService } from '../session/session-controller.service';
 import { CustomerInfo } from 'src/app/bean/CustomerInfo';
 import { Constants } from 'src/app/constans/constans';
+import { ConnectService } from '../connect/connect.service';
+import { SessionControllerService } from '../session/session-controller.service';
+import { SessionManagementService } from '../session/session-management.service';
+import { UpdateAccountInfoRequestData } from './UpdateAccountInfoRequestData';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountManagementService {
 
-  constructor(private sessionService: SessionControllerService) { }
-  
-  register(formData: {
+  constructor(private sessionService: SessionControllerService, private sessionMS: SessionManagementService, private connect: ConnectService) { }
+
+  async register(formData: {
     accountId: string,
     password: string,
     email: string,
@@ -21,57 +24,67 @@ export class AccountManagementService {
     postalAddr: string,
     GSTIN: string,
     bankDetail: string
-  }) {
+  }): Promise<boolean> {
     if (Constants.debugMode) console.log('#Register user ' + formData.accountId);
-    //TODO connect server
 
-    // regist new session info
-    let newSessionKey = new Date().toLocaleString() + "_0";
-    localStorage['_ssid'] = newSessionKey;
-    this.sessionService.init(new CustomerInfo(formData.asSeller ? "S" : "B", formData.accountId, newSessionKey));
-    return 0;
+    return await this.connect.fetchData('account', "/register", "POST", formData).then(data => {
+      //register success auto login
+      if (data) {
+        return this.sessionMS.login(formData.accountId, formData.password);
+      }
+      //failure
+      return false;
+    });
   }
 
-  unregist(accountId: string, password: string): number {
+  async unregist(accountId: string, password: string): Promise<boolean> {
     if (Constants.debugMode) console.log('#Unregsit user ' + accountId);
     //TODO connect server
 
-    localStorage['_ssid'] = "";
-    this.sessionService.clearSession();
-    return 0;
+    return await this.connect.fetchData('account', "/unregister", "POST", { 'accountId': accountId, 'password': password }).then(data => {
+      //success
+      if (data) {
+        localStorage['_ssid'] = "";
+        localStorage['tempT'] = "";
+        this.sessionService.clearSession();
+        window.location.href = "/";
+
+        return true;
+      }
+      //failure
+      return false;
+    });
   }
 
   findAccount(mail: string): number {
     if (Constants.debugMode) console.log("#Find Account " + mail);
-    //TODO connect server
+
+    this.connect.fetchData('account', "/findaccount", "POST", { 'email': mail });
 
     return 0;
   }
 
-  getSellerCreateDate(accountId: string): Date {
+  async getSellerCreateDate(accountId: string): Promise<Date> {
     if (Constants.debugMode) console.log("#Get account seller date " + accountId);
-    //TODO connect server
 
-    return new Date(2019, 5, 6, 22, 12, 54);
+    return await this.connect.fetchData('account', "/query/sellerdate", "GET", { 'tid': accountId });
   }
 
-  getAccountDetail(accountId: string): CustomerDetail {
+  async getAccountDetail(accountId: string): Promise<CustomerDetail> {
     if (Constants.debugMode) console.log("#Get account detail " + accountId);
-    //TODO connect server
 
-
-    return new CustomerDetail("B", accountId, "setsu@test.com", "01-555-666", "Test Seller Company", "7 Alma Villa Rise", "PKS59-50", "6288-****-****-*888-**8");
+    return await this.connect.fetchData('account', "/query", "GET", { 'tid': accountId });
 
   }
 
-  updateAccountDetail(customerDetail: CustomerDetail, password: string): { status: number, newDetail?: CustomerDetail } {
+  async updateAccountDetail(customerDetail: CustomerDetail, password: string): Promise<any> {
     if (Constants.debugMode) console.log("#Update account detail " + customerDetail.accountId);
-    //TODO connect server
 
-    // regist new session info
-    let newSessionKey = new Date().toLocaleString() + "_2";
-    localStorage['_ssid'] = newSessionKey;
-    this.sessionService.init(new CustomerInfo(customerDetail.accountType, customerDetail.accountId, newSessionKey));
-    return { status: 0, newDetail: customerDetail };
+    let req = new UpdateAccountInfoRequestData(customerDetail.accountId, 
+      password, customerDetail.email, customerDetail.telNumber, 
+      customerDetail.accountType, customerDetail.coName, 
+      customerDetail.postalAddr, customerDetail.gstin, customerDetail.bankDetail);
+
+    return await this.connect.fetchData('account', "/update", "PUT", req);
   }
 }

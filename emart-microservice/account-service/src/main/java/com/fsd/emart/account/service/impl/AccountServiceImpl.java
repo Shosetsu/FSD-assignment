@@ -141,8 +141,8 @@ public class AccountServiceImpl implements AccountService {
         if (Constants.ROLE_SELLER.equals(currentInfo.getType())) {
             currentInfo.setCompany(StringUtil.getNonblankString(form.getCoName()));
             currentInfo.setAddress(StringUtil.getNonblankString(form.getPostalAddr()));
-            currentInfo.setGstin(StringUtil.getNonblankString(form.getGSTIN()));
-            currentInfo.setBankDetail(StringUtil.getNonblankString(form.getBankDetail()));
+            currentInfo.setGstin(StringUtil.emptyToString(form.getGSTIN(), currentInfo.getGstin()));
+            currentInfo.setBankDetail(StringUtil.emptyToString(form.getBankDetail(), currentInfo.getBankDetail()));
             currentInfo.setTel(form.getTelNumber());
         } else {
             currentInfo.setTel(StringUtil.getNonblankString(form.getTelNumber()));

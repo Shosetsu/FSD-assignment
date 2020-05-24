@@ -12,12 +12,18 @@ import { NgForm } from '@angular/forms';
 })
 export class AccountDetailComponent {
   customerDetail: CustomerDetail;
+
   constructor(private route: ActivatedRoute, private accountService: AccountManagementService, private sessionService: SessionControllerService) {
+    this.customerDetail = new CustomerDetail();
+    this.changedDetail = new CustomerDetail();
+
+    //load detail
     this.route.params.subscribe(para => {
       let id = para['uid'] ? "" + para['uid'] : sessionService.getAccountId();
-      this.customerDetail = this.accountService.getAccountDetail(id);
+      this.accountService.getAccountDetail(id).then(data => {
+        this.customerDetail.init(data);
+      });
     });
-    this.changedDetail = new CustomerDetail();
   }
 
   changeFlag: boolean;
@@ -40,7 +46,7 @@ export class AccountDetailComponent {
   openChange() {
     this.changeFlag = true;
     this.changedDetail.init(this.customerDetail);
-    this.changedDetail.GSTIN = "";
+    this.changedDetail.gstin = "";
     this.changedDetail.bankDetail = "";
   }
 
@@ -57,12 +63,11 @@ export class AccountDetailComponent {
       return;
     }
 
-    let result = this.accountService.updateAccountDetail(this.changedDetail, this.oldPassword);
-    if (result.status == 0) {
-      this.customerDetail = result.newDetail;
-      this.discard(form);
-    }
+    this.accountService.updateAccountDetail(this.changedDetail, this.oldPassword).then(data => {
+      if (data) {
+        this.discard(form);
+        location.reload();
+      }
+    })
   }
-
-
 }

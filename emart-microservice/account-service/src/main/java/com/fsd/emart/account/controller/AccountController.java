@@ -1,5 +1,7 @@
 package com.fsd.emart.account.controller;
 
+import java.sql.Timestamp;
+
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fsd.emart.account.bean.AccountDetailUpdateForm;
+import com.fsd.emart.account.bean.CustomerDetail;
 import com.fsd.emart.account.bean.SignupForm;
 import com.fsd.emart.account.service.AccountService;
 import com.fsd.emart.common.bean.JsonResponse;
 import com.fsd.emart.common.constants.Constants;
 import com.fsd.emart.common.entity.CustomerInfo;
 import com.fsd.emart.common.util.AuthUtil;
+import com.fsd.emart.common.util.StringUtil;
 
 @RestController
 public class AccountController {
@@ -29,17 +33,19 @@ public class AccountController {
     @PostMapping("/register")
     public JsonResponse register(@RequestBody SignupForm info) {
         CustomerInfo processedInfo = new CustomerInfo();
-        processedInfo.setId(info.getAccountId());
-        processedInfo.setEmail(info.getEmail());
-        processedInfo.setTel(info.getTelNumber());
+        processedInfo.setId(StringUtil.getNonblankString(info.getAccountId()));
+        processedInfo.setEmail(StringUtil.getNonblankString(info.getEmail()));
         processedInfo.setType(Constants.ROLE_BUYER);
         if (info.isAsSeller()) {
             processedInfo.setType(Constants.ROLE_SELLER);
-            processedInfo.setCompany(info.getCoName());
-            processedInfo.setAddress(info.getPostalAddr());
-            processedInfo.setGstin(info.getGSTIN());
-            processedInfo.setBankDetail(info.getBankDetail());
-            processedInfo.setSellerDate(null);
+            processedInfo.setCompany(StringUtil.getNonblankString(info.getCoName()));
+            processedInfo.setAddress(StringUtil.getNonblankString(info.getPostalAddr()));
+            processedInfo.setGstin(StringUtil.getNonblankString(info.getGstin()));
+            processedInfo.setBankDetail(StringUtil.getNonblankString(info.getBankDetail()));
+            processedInfo.setSellerDate(new Timestamp(System.currentTimeMillis()));
+            processedInfo.setTel(info.getTelNumber());
+        } else {
+            processedInfo.setTel(StringUtil.getNonblankString(info.getTelNumber()));
         }
         processedInfo.setCreateTime(null);
 
@@ -57,7 +63,7 @@ public class AccountController {
         return new JsonResponse();
     }
 
-    @PostMapping("/findAccount")
+    @PostMapping("/findaccount")
     public JsonResponse getSessionType(@RequestParam("email") String email) {
 
         accountService.findAccount(email);
@@ -65,7 +71,7 @@ public class AccountController {
         return new JsonResponse();
     }
 
-    @GetMapping("/query/sellerDate")
+    @GetMapping("/query/sellerdate")
     public JsonResponse getSellerCreateTime(@RequestParam("tid") String targetId,
         @RequestHeader("hid") String accountId, @RequestHeader("rt") String accountType) {
         // Authorization Check
@@ -83,18 +89,17 @@ public class AccountController {
         authUtil.authCheck(accountId, accountType, targetId);
 
         JsonResponse result = new JsonResponse();
-        result.setData(accountService.getAccountDetail(accountId));
+        result.setData(CustomerDetail.getInfoFromEntity(accountService.getAccountDetail(accountId)));
         return result;
     }
 
     @PutMapping("/update")
-    public JsonResponse updateAccountDetail(@RequestParam("tid") String targetId,
-        @RequestHeader("hid") String accountId, @RequestHeader("rt") String accountType,
-        @RequestBody AccountDetailUpdateForm form) {
+    public JsonResponse updateAccountDetail(@RequestHeader("hid") String accountId,
+        @RequestHeader("rt") String accountType, @RequestBody AccountDetailUpdateForm form) {
         // Authorization Check
-        authUtil.authCheck(accountId, accountType, targetId);
+        authUtil.authCheck(accountId, accountType, form.getTargetId());
 
-        accountService.updateAccountDetail(form, targetId);
+        accountService.updateAccountDetail(form, form.getTargetId());
 
         return new JsonResponse();
     }

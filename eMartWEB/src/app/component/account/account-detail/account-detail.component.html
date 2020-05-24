@@ -37,9 +37,9 @@
   <div class="row" *ngIf="isRole('S')">
     <div class="col-4">Banking Information</div>
     <div class="col-8" *ngIf="!changeFlag">
-      <span>{{customerDetail.bankDetail | bankInfoFormat:customerDetail.GSTIN}}</span></div>
+      <span>{{customerDetail.bankDetail | bankInfoFormat:customerDetail.gstin}}</span></div>
     <div class="col-8 d-inline-flex" *ngIf="changeFlag">
-      <input class="form-control col-3" name="gstin" [(ngModel)]="changedDetail.GSTIN" type="text"
+      <input class="form-control col-3" name="gstin" [(ngModel)]="changedDetail.gstin" type="text"
         [required]="customerDetail.accountType==='B'"
         [placeholder]="customerDetail.accountType==='S'?'Typing to change':'GSTIN'">&nbsp;&nbsp;
       <input class="form-control" name="bankDetail" [(ngModel)]="changedDetail.bankDetail" type="text"

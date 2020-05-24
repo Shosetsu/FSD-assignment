@@ -44,15 +44,21 @@ export class SellerComponent {
 
     this.salesList = sellerService.getSalesList(this.id);
 
-    let baseDate: Date = accountService.getSellerCreateDate(this.id);
-    let nowDate: Date = new Date();
+    this.filterMonth = "";
+    this.soldCount = 0;
+    this.salesAmount = 0;
 
-    while (baseDate <= nowDate) {
-      this.filterMonthList.push(new Date(baseDate));
-      baseDate.setMonth(baseDate.getMonth() + 1);
-    }
-    this.filterMonth = this.formatDate(this.filterMonthList[this.filterMonthList.length - 1], "yyyyMM");
-    this.refreshData();
+    accountService.getSellerCreateDate(this.id).then(date => {
+      let baseDate: Date = new Date(date);
+      let nowDate: Date = new Date();
+
+      while (baseDate <= nowDate) {
+        this.filterMonthList.push(new Date(baseDate));
+        baseDate.setMonth(baseDate.getMonth() + 1);
+      }
+      this.filterMonth = this.formatDate(this.filterMonthList[this.filterMonthList.length - 1], "yyyyMM");
+      this.refreshData();
+    });
   }
 
   refreshData() {

@@ -35,7 +35,7 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    let result = this.accountManagementService.register({
+    this.accountManagementService.register({
       accountId: this.accountId,
       password: this.password,
       email: this.email,
@@ -45,11 +45,12 @@ export class SignupComponent implements OnInit {
       postalAddr: this.postalAddr,
       GSTIN: this.GSTIN,
       bankDetail: this.bankDetail
+    }).then(result => {
+      if (result) {
+        this.processed = true;
+        setTimeout('document.querySelector(".modal-backdrop").click()', 500);
+      }
     });
-    if (result == 0) {
-      this.processed = true;
-      setTimeout('document.querySelector(".modal-backdrop").click()', 500);
-    }
   }
 
   public close() {

@@ -38,7 +38,7 @@ export class ConnectService {
       if (Constants.debugMode) console.log(json);
 
       if (json['status'] === Constants.res_nothing) {
-        return json['data'];
+        return json['data'] ? json['data']: true;
       }
 
       switch (json['status']) {
@@ -65,11 +65,11 @@ export class ConnectService {
           // TODO
           break;
       }
-      return null;
+      return false;
     }).catch((err) => {
       if (Constants.debugMode) console.error(err);
       this.messageService.addMsg(new Message("danger", "System Error"));
-      return null;
+      return false;
     });
   }
 }

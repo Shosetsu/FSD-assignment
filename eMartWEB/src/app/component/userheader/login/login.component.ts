@@ -36,7 +36,7 @@ export class LoginComponent implements OnDestroy {
   login(form: NgForm) {
     if (form.form.valid) {
       this.sessionManagementService.login(this.userId, this.password).then(response => {
-        if (response === "success") {
+        if (response) {
           this.loginUper.emit(response);
           this.processed = true;
 

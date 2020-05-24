@@ -9,4 +9,11 @@ export class OrderInfo {
         public amount: number,
         public timestamp: Date,
         public goodId: string) { }
+        
+    init(other) {
+        for (let key in this) {
+            this[key] = other[key];
+        }
+        return this;
+    }
 }

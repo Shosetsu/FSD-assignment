@@ -6,7 +6,7 @@ import { GoodInfo } from '../../bean/GoodInfo';
 import { ConnectService } from '../connect/connect.service';
 import { MessageService } from '../message/message.service';
 import { SessionControllerService } from '../session/session-controller.service';
-import { CartDataRequest } from './CartDataRequest';
+import { CartDataRequest } from './CartRequestData';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +18,14 @@ export class GoodManagementService {
   private manufacturerList: string[] = [];
 
   constructor(private sessionService: SessionControllerService, private msgService: MessageService, private connect: ConnectService) {
-    this.selectCartListFromServer();
     this.selectCategoryListFromServer();
     this.selectManufacturerListFromServer();
   }
 
   getCartList(): GoodInfo[] {
+    if (this.sessionService.isRole("BS")) {
+      this.selectCartListFromServer();
+    }
     return this.cartList;
   }
 

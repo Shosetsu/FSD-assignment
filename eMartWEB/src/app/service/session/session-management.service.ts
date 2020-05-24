@@ -13,26 +13,24 @@ export class SessionManagementService {
   constructor(private sessionControllerService: SessionControllerService, private messageService: MessageService, private connect: ConnectService) { }
 
 
-  async login(id, password): Promise<string> {
+  async login(id, password): Promise<boolean> {
     if (Constants.debugMode) console.log("#Log in " + id);
 
-    let processResult = 'success';
     let result = new CustomerInfo();
 
-    await this.connect.fetchData('auth', '/login', 'POST', JSON.stringify({ id: id, password: password }))
+    return await this.connect.fetchData('auth', '/login', 'POST', { id: id, password: password })
       .then((data) => {
         if (!data) {
-          processResult = 'failure';
-          return;
+          return false;
         }
         result.init(data);
         this.sessionControllerService.init(result);
 
         localStorage['_ssid'] = result.authKey;
         localStorage['tempT'] = btoa(result.accountType);
-      });
 
-    return processResult;
+        return true;
+      });
   }
 
   logout() {

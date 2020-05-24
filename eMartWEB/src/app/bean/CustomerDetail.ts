@@ -7,19 +7,15 @@ export class CustomerDetail {
         public telNumber?: string,
         public coName?: string,
         public postalAddr?: string,
-        public GSTIN?: string,
+        public gstin?: string,
         public bankDetail?: string) { }
 
     isRole(role: string): boolean {
         return this.accountType ? role ? role.indexOf(this.accountType) != -1 : true : false;
     }
 
-    clone(): CustomerDetail {
-        return new CustomerDetail().init(this);
-    }
-
-    init(other: CustomerDetail): CustomerDetail {
-        for (let key in other) {
+    init(other) {
+        for (let key in this) {
             this[key] = other[key];
         }
         return this;

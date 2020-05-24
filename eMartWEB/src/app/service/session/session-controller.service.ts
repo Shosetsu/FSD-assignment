@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CustomerInfo } from 'src/app/bean/CustomerInfo';
+import { GoodManagementService } from '../goods/good-management.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionControllerService {
   private customerInfomation: CustomerInfo;
-
   private redirectUrl: string;
 
   setRedirectUrl(url: string) {

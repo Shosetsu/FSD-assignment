@@ -10,9 +10,10 @@ export class CustomerInfo {
     }
 
     init(other) {
-        for (let key in other) {
+        for (let key in this) {
             this[key] = other[key];
         }
+        return this;
     }
 
 }
