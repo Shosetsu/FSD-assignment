@@ -9,7 +9,7 @@ export class OrderDetail {
         public price?: number,
         public count?: number,
         public amount?: number,
-        public orderTime?: Date,
+        public timestamp?: Date,
         public goodId?: string) { }
 
     init(other) {

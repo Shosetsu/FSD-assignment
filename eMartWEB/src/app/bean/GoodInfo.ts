@@ -1,5 +1,4 @@
 export class GoodInfo {
-    public count: number;
     /**
      * 
      * @param status 0:normal,1:blocked,2.archived
@@ -12,6 +11,7 @@ export class GoodInfo {
         public detail?: string,
         public price?: number,
         public stock?: number,
+        public count?: number,
         public owner?: string,
         public createdDate?: Date,
         public status: number = 0) { }

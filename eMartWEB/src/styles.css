@@ -117,6 +117,12 @@ app-userheader .modal {
     padding: 2em;
 }
 
+.two-panel{    
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
 .img-container {
     display: table-cell;
     width: 45%;

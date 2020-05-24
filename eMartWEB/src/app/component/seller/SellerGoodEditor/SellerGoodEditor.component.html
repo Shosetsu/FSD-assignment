@@ -2,58 +2,61 @@
 <div class="modal container-md border good-detail">
   <app-messageheader></app-messageheader>
   <form (ngSubmit)="ok(goodEditorForm)" #goodEditorForm="ngForm" name="goodEditorForm">
-    <div class="img-container">
-      <img class="img-preview rounded" [src]="loadImg(imgInput)"><br>
-      <div class="custom-file mt-2">
-        <input type="file" class="custom-file-input" id="img" name="img" #imgInput (change)="0"
-          [required]="!updateFlag">
-        <label class="custom-file-label img-input"
-          for="customFile">{{imgInput.value?imgInput.value:updateFlag?'Select a new image':'Upload image'}}</label>
-      </div>
-    </div>
-    <div class="detail-container">
-      <div class="row">
-        <div class="col-4">
-          Category:
+    <div class="two-panel">
+      <div class="img-container">
+        <img class="img-preview rounded" [src]="loadImg(imgInput)"><br>
+        <div class="custom-file mt-2">
+          <input type="file" class="custom-file-input" id="img" name="img" #imgInput (change)="0"
+            [required]="!updateFlag">
+          <label class="custom-file-label img-input"
+            for="customFile">{{imgInput.value?imgInput.value:updateFlag?'Select a new image':'Upload image'}}</label>
         </div>
-        <div class="col-8">
-          <div class="category">
-            <select class="custom-select" name="category" id="category" [(ngModel)]="goodInfo.category" multiple
-              required>
-              <option *ngFor="let category of categoryList" [value]="category">{{category}}</option>
-            </select>
+      </div>
+      <div class="detail-container">
+        <div class="row">
+          <div class="col-4">
+            Category:
+          </div>
+          <div class="col-8">
+            <div class="category">
+              <select class="custom-select" name="category" id="category" [(ngModel)]="goodInfo.category" multiple
+                required>
+                <option *ngFor="let category of categoryList" [value]="category">{{category}}</option>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-4">Manufacturer:</div>
-        <div class="col-8">
-          <input type="text" class="form-control" name="manufacturer" id="manufacturer"
-            [(ngModel)]="goodInfo.manufacturer" required>
+        <div class="row">
+          <div class="col-4">Manufacturer:</div>
+          <div class="col-8">
+            <input type="text" class="form-control" name="manufacturer" id="manufacturer"
+              [(ngModel)]="goodInfo.manufacturer" required>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-4">Name</div>
-        <div class="col-8">
-          <input type="text" class="form-control" name="name" id="name" [(ngModel)]="goodInfo.name" required>
+        <div class="row">
+          <div class="col-4">Name</div>
+          <div class="col-8">
+            <input type="text" class="form-control" name="name" id="name" [(ngModel)]="goodInfo.name" required>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-4">Price</div>
-        <div class="col-8">
-          <input type="number" class="form-control" name="price" id="price" min="0.01" [(ngModel)]="goodInfo.price" required>
+        <div class="row">
+          <div class="col-4">Price</div>
+          <div class="col-8">
+            <input type="number" class="form-control" name="price" id="price" min="0.01" [(ngModel)]="goodInfo.price"
+              required>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-4">Stock</div>
-        <div class="col-8">
-          <input type="number" class="form-control" name="stock" id="stock" [min]="!updateFlag?1:0"
-            [(ngModel)]="goodInfo.stock" required>
+        <div class="row">
+          <div class="col-4">Stock</div>
+          <div class="col-8">
+            <input type="number" class="form-control" name="stock" id="stock" [min]="!updateFlag?1:0"
+              [(ngModel)]="goodInfo.stock" required>
+          </div>
         </div>
-      </div>
-      <div class="row detail-button-group mt-5">
-        <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
-        <button type="submit" class="btn btn-primary" [disabled]="goodEditorForm.invalid">OK</button>
+        <div class="row detail-button-group mt-5">
+          <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="goodEditorForm.invalid">OK</button>
+        </div>
       </div>
     </div>
   </form>

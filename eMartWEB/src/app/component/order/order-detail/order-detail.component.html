@@ -1,7 +1,7 @@
 <div class="container-sm rounded border good-detail">
   <router-outlet></router-outlet>
   <button class="btn btn-outline-secondary mb-2" (click)="back()">Back</button>
-  <div *ngFor="let orderDetail of orderDetailList" class="detail-content">
+  <div *ngFor="let orderDetail of orderDetailList" class="detail-content two-panel">
     <div class="img-container">
       <img class="rounded img-preview" [src]='"../../../../assets/good/"+orderDetail.goodId+".jpg"'
         alt="img-{{orderDetail.goodId}}">
@@ -35,7 +35,7 @@
       </div>
       <div class="row" *ngIf="!purchaseFlag">
         <div class="col-3">Timstamp</div>
-        <div class="col-9">{{orderDetail.orderTime | date:'yyyy/M/d hh:mm:ss'}}</div>
+        <div class="col-9">{{orderDetail.timestamp | date:'yyyy/M/d HH:mm:ss'}}</div>
       </div>
       <div class="row" *ngIf="orderDetail.buyer!==accountId">
         <div class="col-3">Buyer</div>
