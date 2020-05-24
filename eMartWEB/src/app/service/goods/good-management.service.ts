@@ -112,7 +112,10 @@ export class GoodManagementService {
     if (Constants.debugMode) console.log("#load categorylist");
 
     this.connect.fetchData('martquery', "/category", "GET", null).then(data => {
-      data.forEach(element => this.categoryList.push(element));
+      if (data) {
+        this.categoryList.splice(0);
+        data.forEach(element => this.categoryList.push(element));
+      }
     });
   }
 
@@ -120,7 +123,10 @@ export class GoodManagementService {
     if (Constants.debugMode) console.log("#load manufacturerList");
 
     this.connect.fetchData('martquery', "/manufacturer", "GET", null).then(data => {
-      data.forEach(element => this.manufacturerList.push(element));
+      if (data) {
+        this.manufacturerList.splice(0);
+        data.forEach(element => this.manufacturerList.push(element));
+      }
     });
   }
 
