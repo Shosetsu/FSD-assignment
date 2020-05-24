@@ -17,6 +17,8 @@ export class ConnectService {
 
     let url = Constants.serverAddress + "/" + server + apiName;
 
+    if (Constants.debugMode) console.log("request: " + url);
+
     if (method === 'GET' && requestData) {
       let queryArray = [];
       Object.keys(requestData).forEach((key) => { if (requestData[key]) queryArray.push(key + '=' + encodeURIComponent(requestData[key])); });
@@ -38,7 +40,7 @@ export class ConnectService {
       if (Constants.debugMode) console.log(json);
 
       if (json['status'] === Constants.res_nothing) {
-        return json['data'] ? json['data']: true;
+        return json['data'] ? json['data'] : true;
       }
 
       switch (json['status']) {

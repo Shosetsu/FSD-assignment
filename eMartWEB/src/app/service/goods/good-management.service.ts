@@ -16,6 +16,7 @@ export class GoodManagementService {
   private cartList: GoodInfo[] = [];
   private categoryList: string[] = [];
   private manufacturerList: string[] = [];
+  public purchaseLock: boolean = false;
 
   constructor(private sessionService: SessionControllerService, private msgService: MessageService, private connect: ConnectService) {
     this.selectCategoryListFromServer();
@@ -35,6 +36,11 @@ export class GoodManagementService {
 
   getManufacturerList(): string[] {
     return this.manufacturerList;
+  }
+
+  clearCartList() {
+    this.cartList.splice(0);
+    this.updateCartListToServer();
   }
 
   updateCartList() {
@@ -108,7 +114,7 @@ export class GoodManagementService {
     this.connect.fetchData('cart', "", "PUT", putCartList);
   }
 
-  private async selectCategoryListFromServer() {
+  private selectCategoryListFromServer() {
     if (Constants.debugMode) console.log("#load categorylist");
 
     this.connect.fetchData('martquery', "/category", "GET", null).then(data => {
@@ -119,7 +125,7 @@ export class GoodManagementService {
     });
   }
 
-  private async selectManufacturerListFromServer() {
+  private selectManufacturerListFromServer() {
     if (Constants.debugMode) console.log("#load manufacturerList");
 
     this.connect.fetchData('martquery', "/manufacturer", "GET", null).then(data => {

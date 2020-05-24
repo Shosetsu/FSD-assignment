@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OrderDetail } from 'src/app/bean/OrderDetail';
 import { OrderManagementService } from 'src/app/service/order/order-management.service';
 import { SessionControllerService } from 'src/app/service/session/session-controller.service';
+import { GoodManagementService } from 'src/app/service/goods/good-management.service';
 
 @Component({
   selector: 'app-order-detail',
@@ -19,6 +20,7 @@ export class OrderDetailComponent implements OnDestroy {
 
 
   constructor(
+    private goodSerivce: GoodManagementService,
     private orderService: OrderManagementService,
     private location: Location,
     private session: SessionControllerService,
@@ -36,12 +38,12 @@ export class OrderDetailComponent implements OnDestroy {
 
     } else {
       route.params.subscribe(para => {
-        let orderDetail = orderService.getOrderDetail(para['oid']);
-        if (orderDetail) {
-          this.orderDetailList = [orderDetail];
-        } else {
-          router.navigate(['404']);
-        }
+        this.orderDetailList = [new OrderDetail()];
+        orderService.getOrderDetail(para['oid']).then(data => {
+          if (data) {
+            this.orderDetailList[0].init(data);
+          }
+        });
       });
     }
   }
@@ -56,6 +58,14 @@ export class OrderDetailComponent implements OnDestroy {
   }
 
   purchase() {
-    this.orderService.purchase();
+    this.orderService.purchase().then(data => {
+      if (data) {
+        if (this.goodSerivce.purchaseLock) {
+          this.goodSerivce.clearCartList();
+          this.goodSerivce.purchaseLock = false;
+        }
+        this.router.navigate(['order']);
+      }
+    });
   }
 }

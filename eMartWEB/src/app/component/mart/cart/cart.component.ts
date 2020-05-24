@@ -28,7 +28,7 @@ export class CartComponent implements OnInit {
 
   checkNumber(good: GoodInfo) {
     if (good.count > good.stock) { good.count--; return; }
-    
+
     if (good.count < 1) this.remove(good);
     this.goodSerivce.updateCartList();
   }
@@ -65,6 +65,7 @@ export class CartComponent implements OnInit {
 
     if (successFlag) {
       this.router.navigate(['purchase']);
+      this.goodSerivce.purchaseLock = true;
     } else {
       this.orderService.clearPurchaseList();
     }

@@ -35,7 +35,7 @@
       </div>
       <div class="row" *ngIf="!purchaseFlag">
         <div class="col-3">Timstamp</div>
-        <div class="col-9">{{orderDetail.timestamp | date:'yyyy/M/d hh:mm:ss'}}</div>
+        <div class="col-9">{{orderDetail.orderTime | date:'yyyy/M/d hh:mm:ss'}}</div>
       </div>
       <div class="row" *ngIf="orderDetail.buyer!==accountId">
         <div class="col-3">Buyer</div>
@@ -55,7 +55,7 @@
     <hr class="mt-5 mb-4">
     <div class="row">
       <div class="col-5"></div>
-      <button type="button" class="btn m-auto col-2 btn-purchase">Purchase</button>
+      <button type="button" class="btn m-auto col-2 btn-purchase" (click)="purchase()">Purchase</button>
       <div class="col-5"></div>
     </div>
   </div>

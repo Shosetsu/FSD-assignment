@@ -3,9 +3,11 @@ import { GoodInfo } from 'src/app/bean/GoodInfo';
 import { Message } from 'src/app/bean/message';
 import { OrderDetail } from 'src/app/bean/OrderDetail';
 import { OrderInfo } from 'src/app/bean/OrderInfo';
-import { MessageService } from '../message/message.service';
 import { Constants } from 'src/app/constans/constans';
+import { ConnectService } from '../connect/connect.service';
+import { MessageService } from '../message/message.service';
 import { SessionControllerService } from '../session/session-controller.service';
+import { PurchaseRequestData } from './PurchaseRequestData';
 
 @Injectable({
   providedIn: 'root'
@@ -16,24 +18,19 @@ export class OrderManagementService {
 
   constructor(
     private msgService: MessageService,
-    private session: SessionControllerService) { }
+    private session: SessionControllerService,
+    private connect: ConnectService) { }
 
-  getOrderList(): OrderInfo[] {
+  async getOrderList(startRow?: number): Promise<OrderInfo[]> {
     if (Constants.debugMode) console.log("#Get account Order list ");
-    //TODO connect server
 
-    return [
-      new OrderInfo("O-5332221", "Setsu", "Seller01", "TestBuy001", "No1(tm)", 10, 5000, new Date(2020, 4, 2, 12, 55, 32, 111), "100001"),
-      new OrderInfo("O-5332222", "Buyer01", "Setsu", "TestSell002", "Bbr", 7, 7700, new Date(2020, 4, 1, 12, 55, 32, 111), "100000")
-    ];
-
+    return await this.connect.fetchData('order', "/all", "GET", { 'sr': startRow });
   }
 
-  getOrderDetail(oid: string): OrderDetail {
+  async getOrderDetail(oid: string): Promise<OrderDetail> {
     if (Constants.debugMode) console.log("#Get Order Detail " + oid + " for");
-    //TODO connect server
 
-    return new OrderDetail("O-5332222", "Buyer01", "Setsu", "TestSell002", ["Category1", "Category2"], "Bbr", 1100, 7, 7700, new Date(2020, 4, 1, 12, 55, 32, 111), "100000")
+    return await this.connect.fetchData('order', "/detail", "GET", { 'oid': oid });
   }
 
   getPurchaseList() { return this.purchaseList };
@@ -65,12 +62,14 @@ export class OrderManagementService {
 
     return 1;
   }
-  
-  purchase() {
 
-    //TODO connect server
+  async purchase() {
+    let purchaseRequest = [];
+    this.purchaseList.forEach(element => {
+      purchaseRequest.push(new PurchaseRequestData(element.goodId, element.price, element.count));
+    })
 
-    this.clearPurchaseList();
+    return await this.connect.fetchData('purchase', "", "POST", purchaseRequest);
   }
 
   clearPurchaseList() {

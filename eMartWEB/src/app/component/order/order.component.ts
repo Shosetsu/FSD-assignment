@@ -10,7 +10,7 @@ import { SessionControllerService } from 'src/app/service/session/session-contro
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css']
 })
-export class OrderComponent  {
+export class OrderComponent {
 
   orderList: OrderInfo[];
   id: string;
@@ -20,8 +20,17 @@ export class OrderComponent  {
     private location: Location,
     private session: SessionControllerService,
     private router: Router) {
-    this.orderList = orderService.getOrderList();
+      
+    this.orderList = [];
     this.id = session.getAccountId();
+
+    orderService.getOrderList().then(data => {
+      if (data) {
+        data.forEach(element => {
+          this.orderList.push(element);
+        });
+      }
+    });
   }
 
   openDetail(od: OrderInfo) {

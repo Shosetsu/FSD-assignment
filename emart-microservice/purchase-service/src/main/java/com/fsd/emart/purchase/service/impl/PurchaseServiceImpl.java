@@ -55,6 +55,8 @@ public class PurchaseServiceImpl implements PurchaseService {
             order.setPrice(currentItem.get().getPrice());
             order.setAmount(currentItem.get().getPrice().multiply(BigDecimal.valueOf(info.getCount())));
 
+            orderList.add(order);
+
             // calc
             allAmount.add(order.getAmount());
         }

@@ -17,7 +17,7 @@ public class OrderQueryController {
 
     @GetMapping("/all")
     public JsonResponse getOrderList(@RequestHeader("hid") String accountId,
-        @RequestParam(defaultValue = "sr", required = false) Integer startRow) {
+        @RequestParam(name = "sr", required = false, defaultValue = "0") Integer startRow) {
 
         JsonResponse result = new JsonResponse();
         result.setData(orderService.queryOrder(accountId, startRow));
