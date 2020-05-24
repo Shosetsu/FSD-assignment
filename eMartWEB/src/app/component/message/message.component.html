@@ -4,16 +4,19 @@
   <div *ngIf="dmList.length==0" class="row text-center">No message.</div>
   <div *ngFor="let dm of dmList" class="mb-3 message-box">
     <p>
-      <span class="send">{{dm.sendby}}</span>
-      <button type="button" class="btn btn-link reply float-md-right"
+      <span class="send">{{dm.sendby}} ==>> {{dm.sendto}}</span>
+      <button type="button" class="btn btn-link reply float-md-right" *ngIf="accountId==dm.sendto"
         (click)="sendMessageTo(dm.sendby)">>>Reply</button>
+      <button type="button" class="btn btn-link reply float-md-right" *ngIf="accountId==dm.sendby"
+        (click)="sendMessageTo(dm.sendto)">>>New
+        Message</button>
     </p>
     <p>
       <span class="text pl-5">
         {{dm.text}}
       </span>
       <span class="date float-md-right">
-        {{dm.timestamp | date:'yyyy/M/d hh:mm' }}
+        {{dm.createTime | date:('yyyy/M/d HH:mm' )}}
       </span>
     </p>
   </div>

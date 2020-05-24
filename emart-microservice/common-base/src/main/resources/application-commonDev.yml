@@ -7,6 +7,9 @@ spring:
   jpa:
     database: MYSQL
     show-sql: true
+  jackson:
+    dateFormat: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+    time-zone: GMT-8:00
 eureka:
   client:
     registryFetchIntervalSeconds: 5

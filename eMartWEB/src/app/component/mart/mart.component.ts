@@ -42,7 +42,10 @@ export class MartComponent implements OnInit {
     private goodManagementService: GoodManagementService,
     private msgService: MessageService,
     private orderService: OrderManagementService) {
+
+    this.goodList = [];
     this.messageList = this.msgService.getMessageList();
+
     this.route.queryParams.subscribe(param => {
       this.searchKey = param['k'] ? param['k'] : "";
       this.filterCategory = param['c'] ? param['c'] : "";

@@ -42,6 +42,9 @@
     </div>
   </div>
   <div id="good-list">
+    <div *ngIf="goodList.length==0" class="row">
+      <span class="ml-5">No result.</span>
+    </div>
     <div *ngFor="let good of goodList" class="row">
       <div class="col-1 img"><a href="javascript:;" (click)="openDetail(good)">
           <img class="rounded" [src]='"../../../assets/good/"+good.id+".jpg"' alt="img-{{good.id}}" height="72"

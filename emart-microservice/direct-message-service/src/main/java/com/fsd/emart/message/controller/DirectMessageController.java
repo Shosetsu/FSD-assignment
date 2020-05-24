@@ -37,7 +37,8 @@ public class DirectMessageController {
     public JsonResponse postMessage(@RequestBody DirectMessageInfo newMessage, @RequestHeader("hid") String accountId) {
 
         // Check Send to id
-        if (StringUtil.isEmpty(newMessage.getSendto()) || !authUtil.isExistAccountId(newMessage.getSendto())) {
+        if (StringUtil.isEmpty(newMessage.getSendto()) || newMessage.getSendto().equals(accountId)
+            || !authUtil.isExistAccountId(newMessage.getSendto())) {
             throw new ApplicationException("Invalid User Name.");
         }
 

@@ -10,19 +10,15 @@ export class DirectMessageService {
 
   constructor(private connect: ConnectService) { }
 
-  getMessageList(): DirectMessage[] {
+  async getMessageList(): Promise<DirectMessage[]> {
     if (Constants.debugMode) console.log("#Get Direct Message list ");
-    //TODO connect server
 
-
-    return [new DirectMessage("test1", "Setsu", "dalkdlkfg\r\ndsadwsad\r\n", new Date(2020, 4, 1, 20, 54, 31)),
-    new DirectMessage("UserID1111", "Setsu", "Textaaaaaaaaa", new Date(2020, 3, 14, 22, 14, 31)),
-    new DirectMessage("System Message", "Setsu", "[Attentional] asdfghjkk", new Date(2020, 3, 14, 20, 19, 31))];
+    return await this.connect.fetchData('message', "", "GET", null);
   }
 
-  sendMessage(msg: DirectMessage): number {
+  async sendMessage(msg: DirectMessage) {
     if (Constants.debugMode) console.log("#Send DM to " + msg.sendto);
-    this.connect.fetchData('message', '', 'POST', JSON.stringify(msg));
-    return 1;
+
+    return await this.connect.fetchData('message', '', 'POST', msg);
   }
 }
