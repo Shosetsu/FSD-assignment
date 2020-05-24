@@ -21,14 +21,14 @@ export class GoodInfo {
     }
 
     init(other): GoodInfo {
-        for (let key in other) {
+        for (let key in this) {
             this[key] = other[key];
         }
         return this;
     }
 
-    equals(other: GoodInfo) {
-        for (let key in other) {
+    equals(other) {
+        for (let key in this) {
             if (this[key] !== other[key]) {
                 return false;
             }

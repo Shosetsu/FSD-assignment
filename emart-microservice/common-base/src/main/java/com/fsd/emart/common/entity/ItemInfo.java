@@ -33,7 +33,7 @@ public class ItemInfo implements Serializable {
     @Column(length = 45)
     private String manufacturer;
 
-    @Column(length = 45)
+    @Column(length = 300)
     private String category;
 
     @Column(length = 5000)

@@ -56,8 +56,8 @@ export class MartComponent implements OnInit {
       let filter = new FilterInfo(0, this.searchKey, this.filterCategory, this.filterManufacturer, this.filterPriceFrom, this.filterPriceTo);
       this.goodManagementService.queryGoods(filter).then(data => {
         if (data) {
+          this.goodList.splice(0);
           data.forEach(element => {
-            this.goodList.splice(0);
             this.goodList.push(element);
           });
         }

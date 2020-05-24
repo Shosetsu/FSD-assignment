@@ -24,7 +24,7 @@ public class SellerCenterController {
     @Resource
     private AuthUtil authUtil;
 
-    @GetMapping("/checkStatus")
+    @GetMapping("/checkstatus")
     public JsonResponse isSeller(@RequestParam("sid") String targetId, @RequestHeader("hid") String accountId,
         @RequestHeader("rt") String accountType) {
         // Authorization Check
@@ -35,7 +35,7 @@ public class SellerCenterController {
         return result;
     }
 
-    @GetMapping("/salesList")
+    @GetMapping("/saleslist")
     public JsonResponse getSalesList(@RequestParam("sid") String targetId, @RequestHeader("hid") String accountId,
         @RequestHeader("rt") String accountType) {
         // Authorization Check
@@ -48,7 +48,7 @@ public class SellerCenterController {
 
     @GetMapping("/overview")
     public JsonResponse getSalesOverviewByMonth(@RequestParam("sid") String targetId,
-        @RequestParam("date") String dateYm, @RequestHeader("hid") String accountId,
+        @RequestParam(name = "date", required = false) String dateYm, @RequestHeader("hid") String accountId,
         @RequestHeader("rt") String accountType) {
         // Authorization Check
         authUtil.authCheck(accountId, accountType, targetId);
@@ -70,7 +70,7 @@ public class SellerCenterController {
     public JsonResponse updateItemStatus(@RequestBody ChangeStatusInfo info, @RequestHeader("hid") String accountId,
         @RequestHeader("rt") String accountType) {
 
-        sellerService.changeSalesItemStatus(info.getItemId(), info.getStatus(), accountId, accountType);
+        sellerService.changeSalesItemStatus(info.getIid(), info.getStatus(), accountId, accountType);
 
         return new JsonResponse();
     }

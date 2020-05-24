@@ -9,6 +9,6 @@ public class ChangeStatusInfo implements Serializable {
     /** UID */
     private static final long serialVersionUID = -1068985572856264127L;
 
-    private String itemId;
+    private String iid;
     private Integer status;
 }

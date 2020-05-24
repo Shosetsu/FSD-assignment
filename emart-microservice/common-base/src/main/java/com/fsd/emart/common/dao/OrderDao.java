@@ -22,4 +22,7 @@ public interface OrderDao extends JpaRepository<OrderInfo, String>, JpaSpecifica
         value = "select sum(t.count), sum(t.amount) from OrderInfo t where t.sellerId=:sellerId and t.orderTime between :start and :end")
     public Object calcTermReport(@Param("sellerId") String sellerId, @Param("start") Timestamp start,
         @Param("end") Timestamp end);
+
+    @Query(value = "select sum(t.count), sum(t.amount) from OrderInfo t where t.sellerId=:sellerId")
+    public Object calcTermReport(@Param("sellerId") String sellerId);
 }

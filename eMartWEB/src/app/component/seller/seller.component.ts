@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GoodInfo } from 'src/app/bean/GoodInfo';
 import { AccountManagementService } from 'src/app/service/account/account-management.service';
@@ -11,7 +11,7 @@ import { SessionControllerService } from 'src/app/service/session/session-contro
   templateUrl: './seller.component.html',
   styleUrls: ['./seller.component.css']
 })
-export class SellerComponent {
+export class SellerComponent implements OnInit {
 
   salesList: GoodInfo[];
   id: string;
@@ -31,18 +31,20 @@ export class SellerComponent {
     private router: Router) {
 
     this.id = session.getAccountId();
+
     route.params.subscribe(para => {
       if (para['sid']) {
         this.id = para['sid'];
       }
     });
 
-    if (!sellerService.isSeller(this.id)) {
-      router.navigateByUrl('404');
-      return;
-    }
+    sellerService.isSeller(this.id).then(data => {
+      if (!data) {
+        router.navigateByUrl('404');
+      }
+    });
 
-    this.salesList = sellerService.getSalesList(this.id);
+    this.salesList = [];
 
     this.filterMonth = "";
     this.soldCount = 0;
@@ -61,10 +63,29 @@ export class SellerComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.refreshList();
+  }
+
+  refreshList() {
+    this.sellerService.getSalesList(this.id).then(data => {
+      if (data) {
+        data.forEach(element => {
+          this.salesList.push(element);
+        });
+      }
+    });
+  }
+
   refreshData() {
-    let result = this.sellerService.getSellerOverviewInDate(this.session.getAccountId(), this.filterMonth);
-    this.soldCount = result['count'];
-    this.salesAmount = result['amount'];
+    this.soldCount = 0;
+    this.salesAmount = 0;
+    this.sellerService.getSellerOverviewInDate(this.session.getAccountId(), this.filterMonth).then(data => {
+      if (data) {
+        this.soldCount = data['count'] ? data['count'] : 0;
+        this.salesAmount = data['amount'] ? data['amount'] : 0;
+      }
+    });
   }
 
   downloadSales() {

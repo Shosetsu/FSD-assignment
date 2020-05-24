@@ -23,8 +23,8 @@ import com.fsd.emart.common.entity.ItemInfo;
 import com.fsd.emart.common.entity.ManufacturerData;
 import com.fsd.emart.common.exception.ApplicationException;
 import com.fsd.emart.common.exception.AuthException;
-import com.fsd.emart.common.exception.SystemException;
 import com.fsd.emart.common.util.AuthUtil;
+import com.fsd.emart.common.util.StringUtil;
 import com.fsd.emart.seller.bean.SalesOverviewInfo;
 import com.fsd.emart.seller.service.SellerManagementService;
 
@@ -61,18 +61,25 @@ public class SellerManagementServiceImpl implements SellerManagementService {
 
     @Override
     public SalesOverviewInfo getSalesOverviewByMonth(String accountId, String dateYm) {
+        boolean filterFlag = true;
         Calendar start = Calendar.getInstance();
         try {
             start.setTime(new SimpleDateFormat("yyyyMM").parse(dateYm));
         } catch (ParseException e) {
-            throw new SystemException("Invalid Date.");
+            filterFlag = false;
         }
 
-        Calendar end = (Calendar)start.clone();
-        end.add(Calendar.MONTH, 1);
+        // query
+        Object[] queryResult = null;
+        if (filterFlag) {
+            Calendar end = (Calendar)start.clone();
+            end.add(Calendar.MONTH, 1);
+            queryResult = (Object[])orderDao.calcTermReport(accountId, new Timestamp(start.getTimeInMillis()),
+                new Timestamp(end.getTimeInMillis() - 1));
+        } else {
+            queryResult = (Object[])orderDao.calcTermReport(accountId);
+        }
 
-        Object[] queryResult = (Object[])orderDao.calcTermReport(accountId, new Timestamp(start.getTimeInMillis()),
-            new Timestamp(end.getTimeInMillis() - 1));
         SalesOverviewInfo result = new SalesOverviewInfo();
         result.setCount((BigInteger)queryResult[0]);
         result.setAmount((BigDecimal)queryResult[1]);
@@ -81,7 +88,12 @@ public class SellerManagementServiceImpl implements SellerManagementService {
 
     @Override
     public void saveSalesItem(GoodInfo info, String accountId) {
-        Optional<ItemInfo> item = itemDao.findById(info.getId());
+        Optional<ItemInfo> item = Optional.empty();
+
+        if (!StringUtil.isEmpty(info.getId())) {
+            item = itemDao.findById(info.getId());
+        }
+
         ItemInfo newInfo = new ItemInfo();
 
         if (item.isPresent()) {

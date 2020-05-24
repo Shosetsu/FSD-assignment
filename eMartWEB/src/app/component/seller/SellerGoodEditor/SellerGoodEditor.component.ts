@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { GoodInfo } from 'src/app/bean/GoodInfo';
 import { GoodManagementService } from 'src/app/service/goods/good-management.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
 import { SellerManagementService } from 'src/app/service/seller/seller-management.service';
 import { SessionControllerService } from 'src/app/service/session/session-controller.service';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-SellerGoodEditor',
@@ -30,22 +30,27 @@ export class SellerGoodEditorComponent {
     private session: SessionControllerService
   ) {
     this.categoryList = goodService.getCategoryList();
+    this.goodInfo = new GoodInfo();
+
     if (route.routeConfig.path === "edit/:gid") {
       route.params.subscribe(pram => {
         let gid = pram['gid'];
-        goodService.queryGood(gid).then(data => this.oldInfo = data);
-        this.goodInfo = this.oldInfo.clone();
-        this.updateFlag = true;
+        goodService.queryGood(gid).then(data => {
+          if (data) {
+            this.oldInfo = data;
+            this.goodInfo.init(this.oldInfo);
+            this.updateFlag = true;
+
+            //check owner
+            if (this.goodInfo.owner && this.goodInfo.owner !== session.getAccountId()) {
+              location.back();
+            }
+          } else {
+            location.back();
+          }
+        });
       });
-    } else {
-      this.goodInfo = new GoodInfo();
     }
-
-    //check owner
-    if (this.goodInfo.owner && this.goodInfo.owner !== session.getAccountId()) {
-      location.back();
-    }
-
   }
 
   loadImg(input: HTMLInputElement): SafeUrl {
@@ -54,14 +59,16 @@ export class SellerGoodEditorComponent {
 
 
   ok(goodEditorForm: NgForm) {
-    if (this.goodInfo.equals(this.oldInfo)) {
+    if (this.updateFlag && this.goodInfo.equals(this.oldInfo)) {
       this.close();
       return;
     }
 
-    if (this.sellerService.updateSalesItemInformation(this.goodInfo, this.updateFlag ? 0 : 1)) {
-      this.close();
-    }
+    this.sellerService.updateSalesItemInformation(this.goodInfo, this.updateFlag ? 0 : 1).then(data => {
+      if (data) {
+        this.close();
+      }
+    });
   }
 
   close() {
