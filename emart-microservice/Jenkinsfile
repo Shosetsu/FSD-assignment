@@ -1,0 +1,21 @@
+pipeline {
+   agent any
+   
+   stages {
+      stage('pull code') {
+         steps {
+            checkout([$class: 'GitSCM', branches: [[name: "*/${branch}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Shosetsu/FSD-assignment.git']]])
+         }
+      }
+      stage('build') {
+        steps {
+            sh "mvn -f emart-microservice/pom.xml clean package -Dmaven.test.skip=true"
+        }
+      }
+      stage('deploy') {
+        steps {
+            echo 'deploy todo'
+        }
+      }
+   }
+}
