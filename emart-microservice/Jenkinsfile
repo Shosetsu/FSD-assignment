@@ -1,5 +1,7 @@
 pipeline {
-   agent any
+   agent {
+        docker { image 'node:7-alpine' }
+    }
    
    stages {
       stage('pull code') {
@@ -12,9 +14,14 @@ pipeline {
             sh "mvn -f emart-microservice/pom.xml clean package -Dmaven.test.skip=true"
         }
       }
+      stage('create docker image') {
+        steps {
+            echo 'TODO create docker image'
+        }
+      }
       stage('deploy') {
         steps {
-            echo 'deploy todo'
+            echo 'TODO push to docker hub'
         }
       }
    }

@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:10047/emart_a?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://192.168.1.2:10047/emart_a?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
     password: Qwer1234
   jpa:
@@ -11,11 +11,11 @@ spring:
     dateFormat: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
     time-zone: GMT-8:00
 eureka:
+  instance:
+    hostname: 192.168.1.2
   client:
     registryFetchIntervalSeconds: 5
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:10060/eureka
-  instance:
-    hostname: localhost
+      defaultZone: http://${eureka.instance.hostname}/eureka

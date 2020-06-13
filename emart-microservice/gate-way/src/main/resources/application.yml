@@ -72,12 +72,12 @@ spring:
           - AuthGatewayFilter
           - StripPrefix=1
 eureka:
+  instance:
+    preferIpAddress: true
+    hostname: 192.168.1.2
   client:
     registryFetchIntervalSeconds: 5
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:10060/eureka
-  instance:
-    preferIpAddress: true
-    hostname: localhost
+      defaultZone: http://${eureka.instance.hostname}:10060/eureka
